@@ -1,0 +1,1311 @@
+openapi: 3.0.1
+info:
+  title: STUK.SettlementService.WebApi
+  version: v1
+  description: |
+    Settlement Service — owns the settlement lifecycle for trade-credit accounts.
+    A settlement represents what a customer intends to pay against their account:
+    a set of selected invoices, the total amount currently due, or a custom amount.
+    Credit notes may be applied to reduce the cash amount payable.
+
+security:
+  - XSessionId: []
+
+paths:
+  /v1/accounts/{accountId}/settlements:
+    get:
+        tags:
+          - Settlements
+        summary: Get settlements for an account
+        description: |
+          Returns a paged list of settlements belonging to the account.
+          Settlements are returned as summary representations and do not include
+          invoice or credit-note allocation details.
+        parameters:
+          - $ref: '#/components/parameters/AccountId'
+          - $ref: '#/components/parameters/View'
+          - $ref: '#/components/parameters/PageSize'
+          - $ref: '#/components/parameters/PageNum'
+        responses:
+          '200':
+            description: A page of settlements
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/SettlementListResponse'
+                example:
+                  _view: CDM
+                  items:
+                    - id: "00000000-0000-0000-0000-000000000aaa"
+                      status: PENDING
+                      totalAmount: 2400.00
+                      createdAt: "2026-05-19T13:30:00Z"
+                      updatedAt: "2026-05-19T13:30:00Z"
+
+                    - id: "00000000-0000-0000-0000-000000000ccc"
+                      status: PAID
+                      totalAmount: 999.00
+                      createdAt: "2026-05-20T10:00:00Z"
+                      updatedAt: "2026-05-20T10:00:00Z"
+
+                  pageNum: 1
+                  pageSize: 10
+                  hasMore: false
+
+          '401':
+            $ref: '#/components/responses/Unauthorized'
+
+          '404':
+            $ref: '#/components/responses/NotFound'
+        
+    post:
+      tags:
+        - Settlements
+      summary: Create a settlement
+      description: Creates a new settlement against the account.
+      parameters:
+        - $ref: '#/components/parameters/AccountId'
+        - $ref: '#/components/parameters/View'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SettlementCreate'
+            examples:
+              allocation:
+                summary: Allocation
+                value:
+                  type: ALLOCATION
+                  invoiceIds:
+                    - "00000000-0000-0000-0000-000000000001"
+                    - "00000000-0000-0000-0000-000000000002"
+                  creditNotesIds:
+                    - "00000000-0000-0000-0000-000000000005"
+              dueAmount:
+                summary: Due amount
+                value:
+                  type: DUE_AMOUNT
+              customAmount:
+                summary: Custom amount
+                value:
+                  type: CUSTOM_AMOUNT
+                  amount: 999.00
+                  customerReference: "Invoice# 4005/00265954"
+      responses:
+        '201':
+          description: Created (only the first page for both the selected invoices and credit notes is returned)
+          headers:
+            ETag:
+                $ref: '#/components/headers/ETag'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Settlement'
+              examples:
+                allocation:
+                    value:
+                        _view: CDM
+                        id: "00000000-0000-0000-0000-000000000aaa"
+                        accountId: "00000000-0000-0000-0000-000000000bbb"
+                        type: ALLOCATION
+                        status: DRAFT
+                        invoicesTotalAmount: 3600.00
+                        creditNotesTotalAmount: 1200.00
+                        totalAmount: 2400.00
+                        invoicesAllocation:
+                          _view: CDM
+                          items:
+                              - invoiceId: "00000000-0000-0000-0000-000000000001"
+                                reference: "INV-0042"
+                                amount: 1200.00
+                                dueDate: "2026-08-01"
+                              - invoiceId: "00000000-0000-0000-0000-000000000002"
+                                reference: "INV-0043"
+                                amount: 2400.00
+                                dueDate: "2026-08-15"
+                          pageNum: 1
+                          pageSize: 10
+                          hasMore: false
+                        creditNotesAllocation:
+                          items:
+                              - creditNoteId: "00000000-0000-0000-0000-000000000005"
+                                reference: "INV-0077"
+                                amount: 1200.00
+                                date: "2026-08-01"
+                          pageNum: 1
+                          pageSize: 10
+                          hasMore: false
+                        createdAt: "2026-05-19T13:30:00Z"
+                        updatedAt: "2026-05-19T13:30:00Z"
+                dueAmount:
+                    value:
+                        _view: CDM
+                        id: "00000000-0000-0000-0000-000000000aaa"
+                        accountId: "00000000-0000-0000-0000-000000000bbb"
+                        type: DUE_AMOUNT
+                        status: DRAFT
+                        invoicesTotalAmount: 3600.00
+                        creditNotesTotalAmount: 0.00
+                        totalAmount: 3600.00
+                        invoicesAllocation:
+                          _view: CDM
+                          items:
+                              - invoiceId: "00000000-0000-0000-0000-000000000001"
+                                reference: "INV-0042"
+                                amount: 1200.00
+                                dueDate: "2026-08-01"
+                              - invoiceId: "00000000-0000-0000-0000-000000000002"
+                                reference: "INV-0043"
+                                amount: 2400.00
+                                dueDate: "2026-08-15"
+                          pageNum: 1
+                          pageSize: 10
+                          hasMore: false
+                        creditNotesAllocation:
+                          _view: CDM
+                          items: []
+                          pageNum: 1
+                          pageSize: 10
+                          hasMore: false                        
+                        createdAt: "2026-05-19T13:30:00Z"
+                        updatedAt: "2026-05-19T13:30:00Z"
+                customAmount:
+                    value:
+                        _view: CDM
+                        id: "00000000-0000-0000-0000-000000000aaa"
+                        accountId: "00000000-0000-0000-0000-000000000bbb"
+                        type: CUSTOM_AMOUNT
+                        status: DRAFT
+                        totalAmount: 999.00
+                        customerReference: "Invoice# 4005/00265954"
+                        createdAt: "2026-05-19T13:30:00Z"
+                        updatedAt: "2026-05-19T13:30:00Z"                        
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /v1/accounts/{accountId}/settlements/{settlementId}:
+    get:
+      tags:
+        - Settlements
+      summary: Get a settlement
+      description: Returns the settlement identified by `{settlementId}`.
+      parameters:
+        - $ref: '#/components/parameters/AccountId'
+        - $ref: '#/components/parameters/SettlementId'
+        - $ref: '#/components/parameters/View'
+      responses:
+        '200':
+          description: OK (only the first page for both the selected invoices and credit notes is returned)
+          headers:
+            ETag:
+                $ref: '#/components/headers/ETag'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Settlement'
+              examples:
+                Allocation:
+                    value:
+                        _view: CDM
+                        id: "00000000-0000-0000-0000-000000000aaa"
+                        accountId: "00000000-0000-0000-0000-000000000bbb"
+                        type: ALLOCATION
+                        status: DRAFT
+                        invoicesTotalAmount: 3600.00
+                        creditNotesTotalAmount: 1200.00
+                        totalAmount: 2400.00
+                        invoicesAllocation:
+                          _view: CDM
+                          items:
+                              - invoiceId: "00000000-0000-0000-0000-000000000001"
+                                reference: "INV-0042"
+                                amount: 1200.00
+                                dueDate: "2026-08-01"
+                              - invoiceId: "00000000-0000-0000-0000-000000000002"
+                                reference: "INV-0043"
+                                amount: 2400.00
+                                dueDate: "2026-08-15"
+                          pageNum: 1
+                          pageSize: 10
+                          hasMore: false
+                        creditNotesAllocation:
+                          _view: CDM
+                          items:
+                              - creditNoteId: "00000000-0000-0000-0000-000000000005"
+                                reference: "INV-0077"
+                                amount: 1200.00
+                                date: "2026-08-01"
+                          pageNum: 1
+                          pageSize: 10
+                          hasMore: false
+                        createdAt: "2026-05-19T13:30:00Z"
+                        updatedAt: "2026-05-19T13:30:00Z"
+                DueAmount:
+                    value:
+                        _view: CDM
+                        id: "00000000-0000-0000-0000-000000000aaa"
+                        accountId: "00000000-0000-0000-0000-000000000bbb"
+                        type: DUE_AMOUNT
+                        status: DRAFT
+                        invoicesTotalAmount: 3600.00
+                        creditNotesTotalAmount: 0.00
+                        totalAmount: 3600.00
+                        invoicesAllocation:
+                          _view: CDM
+                          items:
+                              - invoiceId: "00000000-0000-0000-0000-000000000001"
+                                reference: "INV-0042"
+                                amount: 1200.00
+                                dueDate: "2026-08-01"
+                              - invoiceId: "00000000-0000-0000-0000-000000000002"
+                                reference: "INV-0043"
+                                amount: 2400.00
+                                dueDate: "2026-08-15"
+                          pageNum: 1
+                          pageSize: 10
+                          hasMore: false
+                        creditNotesAllocation:
+                          _view: CDM
+                          items: []
+                          pageNum: 1
+                          pageSize: 10
+                          hasMore: false
+                        createdAt: "2026-05-19T13:30:00Z"
+                        updatedAt: "2026-05-19T13:30:00Z"
+                CustomAmount:
+                    value:
+                        _view: CDM
+                        id: "00000000-0000-0000-0000-000000000aaa"
+                        accountId: "00000000-0000-0000-0000-000000000bbb"
+                        type: CUSTOM_AMOUNT
+                        status: DRAFT
+                        totalAmount: 999.00
+                        customerReference: "Invoice# 4005/00265954"
+                        createdAt: "2026-05-19T13:30:00Z"
+                        updatedAt: "2026-05-19T13:30:00Z"                        
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      tags:
+        - Settlements
+      summary: Update a custom-amount settlement
+      description: |
+            Updates the `amount` and/or `customerReference` of a `CUSTOM_AMOUNT`
+            settlement in `DRAFT` status.
+            The caller must supply the current settlement ETag using `If-Match`.
+            If the settlement has changed since that version was retrieved,
+            the operation returns `412 Precondition Failed`.
+            For `ALLOCATION` and `DUE_AMOUNT` settlements, the amount is
+            server-derived and cannot be patched.        
+      parameters:
+        - $ref: '#/components/parameters/AccountId'
+        - $ref: '#/components/parameters/SettlementId'
+        - $ref: '#/components/parameters/View'
+        - $ref: '#/components/parameters/IfMatch'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SettlementPatch'
+            example:
+              amount: 999.00
+              customerReference: "Invoice# 4005/00265954"
+      responses:
+        '200':
+          description: OK
+          headers:
+            ETag:
+              $ref: '#/components/headers/ETag'          
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Settlement'
+              example:
+                _view: CDM
+                id: "00000000-0000-0000-0000-000000000aaa"
+                accountId: "00000000-0000-0000-0000-000000000bbb"
+                type: CUSTOM_AMOUNT
+                status: DRAFT
+                customerReference: "Invoice# 4005/00265954"
+                totalAmount: 999.00
+                createdAt: "2026-05-19T13:30:00Z"
+                updatedAt: "2026-05-19T13:30:00Z"                        
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '412':
+          $ref: '#/components/responses/PreconditionFailed'          
+    delete:
+      tags:
+        - Settlements
+      summary: Delete a settlement
+      description: |
+        Cancels a `DRAFT` settlement.
+      parameters:
+        - $ref: '#/components/parameters/AccountId'
+        - $ref: '#/components/parameters/SettlementId'
+      responses:
+        '204':
+          description: No Content
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+
+  /v1/accounts/{accountId}/settlements/{settlementId}/allocations:
+    get:
+      tags:
+        - Settlements
+      summary: Return a paged list of selected invoice or credit notes
+      parameters:
+        - $ref: '#/components/parameters/AccountId'
+        - $ref: '#/components/parameters/SettlementId'
+        - $ref: '#/components/parameters/Type'
+        - $ref: '#/components/parameters/View'
+        - $ref: "#/components/parameters/PageSize"
+        - $ref: "#/components/parameters/PageNum"
+      responses:
+        '200':
+          description: The selected invoices or credit notes page
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AllocationListResponse"
+              example:
+                _view: CDM
+                items:
+                    - invoiceId: "00000000-0000-0000-0000-000000000001"
+                      reference: "INV-0042"
+                      amount: 1200.00
+                      dueDate: "2026-08-01"
+                    - invoiceId: "00000000-0000-0000-0000-000000000002"
+                      reference: "INV-0043"
+                      amount: 2400.00
+                      dueDate: "2026-08-15"
+                pageNum: 1
+                pageSize: 10
+                hasMore: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /v1/accounts/{accountId}/settlements/{settlementId}/credit-notes/{creditNoteId}:
+    put:
+      tags:
+        - Settlements
+      summary: Apply a credit note to a settlement
+      description: |
+          Applies a credit note in full against the settlement.
+          The settlement's total amount is recomputed.
+          The caller must supply the current settlement ETag using `If-Match`.
+          If the settlement has changed since that version was retrieved,
+          the operation returns `412 Precondition Failed`.
+          Rejected if the resulting amount would be less than zero,
+          if the credit note is unavailable, or if the settlement is not
+          in `DRAFT`.
+      parameters:
+        - $ref: '#/components/parameters/AccountId'
+        - $ref: '#/components/parameters/SettlementId'
+        - $ref: '#/components/parameters/CreditNoteId'
+        - $ref: '#/components/parameters/View'
+        - $ref: '#/components/parameters/IfMatch'
+      responses:
+        '200':
+          description: OK
+          headers:
+            ETag:
+                $ref: '#/components/headers/ETag'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SettlementSummaryCDM'
+              examples:
+                allocation:
+                    value:
+                        _view: CDM
+                        id: "00000000-0000-0000-0000-000000000aaa"
+                        accountId: "00000000-0000-0000-0000-000000000bbb"
+                        type: ALLOCATION
+                        status: DRAFT
+                        invoicesTotalAmount: 3600.00
+                        creditNotesTotalAmount: 1200.00
+                        totalAmount: 2400.00
+                        createdAt: "2026-05-19T13:30:00Z"
+                        updatedAt: "2026-05-19T13:30:00Z"                
+                dueAmount:
+                    value:
+                        _view: CDM
+                        id: "00000000-0000-0000-0000-000000000aaa"
+                        accountId: "00000000-0000-0000-0000-000000000bbb"
+                        type: DUE_AMOUNT
+                        status: DRAFT
+                        invoicesTotalAmount: 3600.00
+                        creditNotesTotalAmount: 1200.00
+                        totalAmount: 2400.00
+                        createdAt: "2026-05-19T13:30:00Z"
+                        updatedAt: "2026-05-19T13:30:00Z"                
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '412':
+          $ref: '#/components/responses/PreconditionFailed'          
+    delete:
+      tags:
+        - Settlements
+      summary: Remove a credit note from a settlement
+      description:  |
+        Removes a previously-applied credit note.
+        The caller must supply the current settlement ETag using `If-Match`.
+        If the settlement has changed since that version was retrieved,
+        the operation returns `412 Precondition Failed`.
+        Rejected if the settlement is not in `DRAFT`.
+      parameters:
+        - $ref: '#/components/parameters/AccountId'
+        - $ref: '#/components/parameters/SettlementId'
+        - $ref: '#/components/parameters/CreditNoteId'
+        - $ref: '#/components/parameters/View'
+        - $ref: '#/components/parameters/IfMatch'
+      responses:
+        '200':
+          description: OK
+          headers:
+            ETag:
+                $ref: '#/components/headers/ETag'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SettlementSummaryCDM'
+              examples:
+                allocation:
+                    value:
+                        _view: CDM
+                        id: "00000000-0000-0000-0000-000000000aaa"
+                        accountId: "00000000-0000-0000-0000-000000000bbb"
+                        type: ALLOCATION
+                        status: DRAFT
+                        invoicesTotalAmount: 3600.00
+                        creditNotesTotalAmount: 1200.00
+                        totalAmount: 2400.00
+                        createdAt: "2026-05-19T13:30:00Z"
+                        updatedAt: "2026-05-19T13:30:00Z"                
+                dueAmount:
+                    value:
+                        _view: CDM
+                        id: "00000000-0000-0000-0000-000000000aaa"
+                        accountId: "00000000-0000-0000-0000-000000000bbb"
+                        type: DUE_AMOUNT
+                        status: DRAFT
+                        invoicesTotalAmount: 3600.00
+                        creditNotesTotalAmount: 1200.00
+                        totalAmount: 2400.00
+                        createdAt: "2026-05-19T13:30:00Z"
+                        updatedAt: "2026-05-19T13:30:00Z"                
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '412':
+          $ref: '#/components/responses/PreconditionFailed'          
+
+  /v1/accounts/{accountId}/settlements/{settlementId}/submit:
+    post:
+      tags:
+        - Settlements
+      summary: Submit a settlement for payment
+      parameters:
+        - $ref: '#/components/parameters/AccountId'
+        - $ref: '#/components/parameters/SettlementId'
+        - $ref: '#/components/parameters/View'
+        - $ref: '#/components/parameters/IfMatch'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SettlementSubmit'
+            examples:
+              payment_with_existing_card:
+                summary: Payment with existing card
+                value:
+                  paymentMethod: CARD
+                  card: {
+                    "type": "STORED",
+                    "cardId": "00000000-0000-0000-0000-000000000001"
+                  }
+              payment_with_new_card_save:
+                summary: Payment with new card but not saving it
+                value:
+                  paymentMethod: CARD
+                  card: {
+                    "type": "NEW",
+                    "saveForFutureUse": false
+                  }
+              payment_with_new_card_no_save:
+                summary: Payment with new card and save it
+                value:
+                  paymentMethod: CARD
+                  card: {
+                    "type": "NEW",
+                    "saveForFutureUse": true
+                  }
+              apple_pay:
+                summary: Payment with apple_pay
+                value:
+                  paymentMethod: APPLEPAY
+                  token: {
+                      "paymentData": {
+                        "version": "EC_v1",
+                        "data": "Qm9ndXNFbmNyeXB0ZWRCeXRlc0hlcmU9PQ==",
+                        "signature": "MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFAD...",
+                        "header": {
+                          "ephemeralPublicKey": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE...",
+                          "publicKeyHash": "xYzAbCdEfGhIjKlMnOpQrStUvWxYz1234567890=",
+                          "transactionId": "7f3a4e0912ab34cd56ef789012345678"
+                        }
+                      },
+                      "paymentMethod": {
+                        "displayName": "Visa 1234",
+                        "network": "Visa",
+                        "type": "credit"
+                      },
+                      "transactionIdentifier": "ABCDEF1234567890"
+                    }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubmitSettlementResponse'
+              examples:
+                  payment_with_card:
+                    summary: Payment with card
+                    value:
+                      paymentId: "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+                      status: "REQUIRES_ACTION"
+                      nextAction: {
+                        "type": "REDIRECT",
+                        "url": "https://smartpay/..."
+                      }
+                  apple_pay:
+                    summary: Payment with apple_pay
+                    value:
+                      paymentId: "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+                      status: "PROCESSING"
+                      nextAction: null  
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '412':
+          $ref: '#/components/responses/PreconditionFailed'          
+
+components:
+  securitySchemes:
+    XSessionId:
+      type: apiKey
+      in: header
+      name: X-Session-Id
+      description: Session identifier issued after login.
+
+  headers:
+    ETag:
+      description: >
+        Entity tag representing the current version of the settlement.
+        Use this value in the If-Match header for subsequent mutations.
+      schema:
+        type: string
+      example: '"43"'
+
+  parameters:
+  
+    IfMatch:
+      name: If-Match
+      in: header
+      required: true
+      description: >
+        ETag of the settlement version being modified.
+        The operation fails with 412 if the settlement has changed
+        since this ETag was obtained.
+      schema:
+        type: string
+      example: '"42"'
+      
+    AccountId:
+      name: accountId
+      in: path
+      required: true
+      description: Trade-account identifier.
+      schema:
+        type: string
+        format: uuid
+
+    SettlementId:
+      name: settlementId
+      in: path
+      required: true
+      description: Settlement identifier.
+      schema:
+        type: string
+        format: uuid
+
+    CreditNoteId:
+      name: creditNoteId
+      in: path
+      required: true
+      description: Credit-note identifier.
+      schema:
+        type: string
+        format: uuid
+
+    Type:
+      name: type
+      in: query
+      required: true
+      description: invoice or credit note selector.
+      schema:
+        type: string
+        enum:
+            - Invoices
+            - CreditNotes
+
+    PageSize:
+      name: pageSize
+      in: query
+      description: Page size.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 50
+        default: 10
+
+    PageNum:
+      name: pageNum
+      in: query
+      description: Page number.
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+
+    View:
+      name: _view
+      in: query
+      description: Selects the response variant.
+      schema:
+        type: string
+        enum:
+          - CDM
+        default: CDM
+
+  responses:
+    BadRequest:
+      description: Bad Request — validation failure or business-rule violation. The `errors[]` array carries one or more `{ code, message }` entries.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiErrorResponse'
+
+    Unauthorized:
+      description: Unauthorized — `X-Session-Id` was supplied but is invalid or expired.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UnauthorizedResponse'
+
+    NotFound:
+      description: |
+        Not Found — the resource does not exist, or is not visible to the caller.
+        Also returned when `X-Session-Id` is missing (anti-enumeration).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiErrorResponse'
+
+    Conflict:
+      description: |
+        Conflict — the operation is not allowed in the resource's current state
+        (for example, a payment is in progress, blocking edits).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiErrorResponse'
+
+    PreconditionFailed:
+      description: >
+        Precondition Failed — the supplied If-Match value does not
+        represent the current version of the settlement. Retrieve the
+        latest settlement and retry the operation using its ETag.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiErrorResponse'
+
+  schemas:
+    ApiError:
+      type: object
+      properties:
+        code:
+          type: string
+          nullable: true
+          description: Machine-readable error code (e.g. `settlement.invoices.required`).
+        message:
+          type: string
+          nullable: true
+          description: Human-readable detail for support/debugging. Not for display to end users.
+      additionalProperties: false
+
+    ApiErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          default: false
+        trackingId:
+          type: string
+          nullable: true
+          description: Correlation identifier for diagnostics.
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiError'
+          nullable: true
+      additionalProperties: false
+
+    UnauthorizedResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          default: false
+        trackingId:
+          type: string
+          nullable: true
+        message:
+          type: string
+          default: Unauthorized access
+          nullable: true
+      additionalProperties: false
+
+    SettlementType:
+      type: string
+      description: Variant of the settlement. Fixed at creation.
+      enum:
+        - ALLOCATION
+        - DUE_AMOUNT
+        - CUSTOM_AMOUNT
+
+    SettlementStatus:
+      type: string
+      description: Lifecycle state of the settlement.
+      enum:
+        - DRAFT
+        - LOCKED
+        - SETTLED
+        - DELETED
+        
+    Settlement:
+      oneOf:
+        - $ref: '#/components/schemas/SettlementCDM'
+      discriminator:
+        propertyName: _view
+        mapping:
+          CDM: '#/components/schemas/SettlementCDM'
+
+    SettlementCDM:
+      oneOf:
+        - $ref: '#/components/schemas/AllocationSettlementCDM'
+        - $ref: '#/components/schemas/DueAmountSettlementCDM'
+        - $ref: '#/components/schemas/CustomAmountSettlementCDM'
+      discriminator:
+        propertyName: type
+        mapping:
+          ALLOCATION: '#/components/schemas/AllocationSettlementCDM'
+          DUE_AMOUNT: '#/components/schemas/DueAmountSettlementCDM'
+          CUSTOM_AMOUNT: '#/components/schemas/CustomAmountSettlementCDM'
+
+    SettlementBaseCDM:
+      type: object
+      required:
+        - _view
+        - id
+        - accountId
+        - type
+        - status
+        - createdAt
+        - updatedAt
+      properties:
+        _view:
+          type: string
+          enum: [CDM]
+        id:
+          type: string
+          format: uuid
+        accountId:
+          type: string
+          format: uuid
+        type:
+          $ref: '#/components/schemas/SettlementType'
+        status:
+          $ref: '#/components/schemas/SettlementStatus'
+        paymentId:
+          type: string
+          format: uuid
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    AllocationSettlementCDM:
+      allOf:
+        - $ref: '#/components/schemas/SettlementBaseCDM'
+        - type: object
+          required:
+            - invoicesAllocation
+            - creditNotesAllocation
+            - invoicesTotalAmount
+            - creditNotesTotalAmount
+            - totalAmount
+          properties:
+            type:
+              type: string
+              enum: [ALLOCATION]
+            invoicesAllocation:
+              $ref: '#/components/schemas/AllocationListResponse'
+            creditNotesAllocation:
+              $ref: '#/components/schemas/AllocationListResponse'
+            invoicesTotalAmount:
+              type: number
+            creditNotesTotalAmount:
+              type: number
+            totalAmount:
+              type: number
+
+    DueAmountSettlementCDM:
+      allOf:
+        - $ref: '#/components/schemas/SettlementBaseCDM'
+        - type: object
+          required:
+            - invoicesAllocation
+            - creditNotesAllocation
+            - invoicesTotalAmount
+            - creditNotesTotalAmount
+            - totalAmount
+          properties:
+            type:
+              type: string
+              enum: [DUE_AMOUNT]
+            invoicesAllocation:
+              $ref: '#/components/schemas/AllocationListResponse'
+            creditNotesAllocation:
+              $ref: '#/components/schemas/AllocationListResponse'
+            invoicesTotalAmount:
+              type: number
+            creditNotesTotalAmount:
+              type: number
+            totalAmount:
+              type: number
+
+    CustomAmountSettlementCDM:
+      allOf:
+        - $ref: '#/components/schemas/SettlementBaseCDM'
+        - type: object
+          required:
+            - totalAmount
+          properties:
+            type:
+              type: string
+              enum: [CUSTOM_AMOUNT]
+            totalAmount:
+              type: number
+            customerReference:
+              type: string
+            
+    SettlementSummaryCDM:
+      allOf:
+        - $ref: '#/components/schemas/SettlementBaseCDM'
+        - type: object
+          required:
+            - invoicesTotalAmount
+            - creditNotesTotalAmount
+            - totalAmount
+          properties:
+            type:
+              type: string
+              enum: [ALLOCATION]
+            invoicesTotalAmount:
+              type: number
+            creditNotesTotalAmount:
+              type: number
+            totalAmount:
+              type: number
+          additionalProperties: false
+
+    AllocationListResponse:
+      type: object
+      required:
+        - _view
+        - items
+        - pageSize
+        - pageNum
+        - hasMore
+      properties:
+        _view:
+          type: string
+          enum:
+            - CDM
+        items:
+          type: array
+          items:
+            oneOf:
+                - $ref: "#/components/schemas/InvoiceAllocation"
+                - $ref: "#/components/schemas/CreditNoteAllocation"
+        pageSize:
+          type: integer
+          description: Page size used for this response.
+        pageNum:
+          type: integer
+          description: Page number for this response.
+        hasMore:
+          type: boolean
+          description: True when more items remain after this page.
+      additionalProperties: false
+
+    InvoiceAllocation:
+      type: object
+      description: Snapshot of an invoice as it participates in a settlement.
+      required:
+        - invoiceId
+        - reference
+        - amount
+        - dueDate
+      properties:
+        invoiceId:
+          type: string
+          format: uuid
+          description: Identifier of the invoice.
+        reference:
+          type: string
+          description: Human-readable invoice reference (e.g. `INV-0042`).
+        amount:
+          type: number
+          format: double
+          description: Outstanding amount on the invoice at the moment it was added to the settlement.
+        dueDate:
+          type: string
+          format: date
+          description: Due date on the invoice.
+      additionalProperties: false
+
+    CreditNoteAllocation:
+      type: object
+      description: Snapshot of a credit note applied against a settlement.
+      required:
+        - creditNoteId
+        - reference
+        - amount
+        - date
+      properties:
+        creditNoteId:
+          type: string
+          format: uuid
+          description: Identifier of the credit note.
+        reference:
+          type: string
+          description: Human-readable credit-note reference (e.g. `CN-0007`).
+        amount:
+          type: number
+          format: double
+          description: Remaining value of the credit note at the moment it was applied.
+        date:
+          type: string
+          format: date
+          description: Issue date
+      additionalProperties: false
+
+    SettlementListResponse:
+      type: object
+      required:
+        - _view
+        - items
+        - pageSize
+        - pageNum
+        - hasMore
+      properties:
+        _view:
+          type: string
+          enum:
+            - CDM
+
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/SettlementListItem'
+
+        pageSize:
+          type: integer
+          description: Page size used for this response.
+
+        pageNum:
+          type: integer
+          description: Page number for this response.
+
+        hasMore:
+          type: boolean
+          description: True when more settlements remain after this page.
+
+      additionalProperties: false
+
+    SettlementListItem:
+      type: object
+      required:
+        - id
+        - status
+        - totalAmount
+        - createdAt
+        - updatedAt
+      properties:
+        id:
+          type: string
+          format: uuid
+
+        status:
+          enum: [PENDING, PAID]
+          
+        totalAmount:
+          type: number
+          format: decimal
+
+        createdAt:
+          type: string
+          format: date
+
+        updatedAt:
+          type: string
+          format: date
+
+      additionalProperties: false
+
+    AllocationSettlementCreate:
+      type: object
+      description: Create body for a settlement of customer-selected invoices.
+      required:
+        - type
+        - invoiceIds
+      properties:
+        type:
+          type: string
+          enum:
+            - ALLOCATION
+        invoiceIds:
+          type: array
+          minItems: 1
+          items:
+            type: string
+            format: uuid
+          description: Invoices the customer wants to settle. All must belong to the account and be in a payable status.
+        creditNotesIds:
+          type: array
+          minItems: 1
+          items:
+            type: string
+            format: uuid
+          description: Credit notes that the customer wants to use in the settlement. All must belong to the account and be in a unused status.
+      additionalProperties: false
+
+    DueAmountSettlementCreate:
+      type: object
+      description: Create body for a settlement of everything currently due. Server selects all eligible invoices for the account at creation time.
+      required:
+        - type
+      properties:
+        type:
+          type: string
+          enum:
+            - DUE_AMOUNT
+      additionalProperties: false
+
+    CustomAmountSettlementCreate:
+      type: object
+      description: Create body for a custom-amount settlement.
+      required:
+        - type
+        - amount
+      properties:
+        type:
+          type: string
+          enum:
+            - CUSTOM_AMOUNT
+        amount:
+          type: number
+          format: decimal
+          description: Decimal amount.
+        customerReference:
+          type: string
+          description: Customer-supplied free-text reference.
+      additionalProperties: false
+
+    SettlementCreate:
+      oneOf:
+        - $ref: '#/components/schemas/AllocationSettlementCreate'
+        - $ref: '#/components/schemas/DueAmountSettlementCreate'
+        - $ref: '#/components/schemas/CustomAmountSettlementCreate'
+      discriminator:
+        propertyName: type
+        mapping:
+          ALLOCATION: '#/components/schemas/AllocationSettlementCreate'
+          DUE_AMOUNT: '#/components/schemas/DueAmountSettlementCreate'
+          CUSTOM_AMOUNT: '#/components/schemas/CustomAmountSettlementCreate'
+
+    SettlementPatch:
+      type: object
+      description: |
+        Partial update for a `CUSTOM_AMOUNT` settlement.
+        At least one of `amount` or `customerReference` must be provided.
+        Omitted fields are unchanged.
+        Sending this body against a non-`CUSTOM_AMOUNT` settlement results in 400.
+      minProperties: 1
+      properties:
+        amount:
+          type: number
+          format: decimal
+          description: New custom amount.
+        customerReference:
+          type: string
+          description: New customer reference.
+      additionalProperties: false
+          
+    SettlementSubmit:
+      oneOf:
+        - $ref: '#/components/schemas/CardPaymentRequest'
+        - $ref: '#/components/schemas/ApplePayPaymentRequest'
+      discriminator:
+        propertyName: paymentMethod
+
+    CardPaymentRequest:
+      type: object
+      required:
+        - paymentMethod
+        - card
+      properties:
+        paymentMethod:
+          type: string
+          enum: 
+            - CARD
+        card:
+          oneOf:
+            - $ref: '#/components/schemas/StoredCard'
+            - $ref: '#/components/schemas/NewCard'
+          discriminator:
+            propertyName: type
+
+    StoredCard:
+      type: object
+      required:
+        - type
+        - cardId
+      properties:
+        type:
+          type: string
+          enum: 
+            - STORED
+        cardId:
+          type: string
+          format: uuid
+
+    NewCard:
+      type: object
+      required:
+        - type
+        - saveForFutureUse
+      properties:
+        type:
+          type: string
+          enum: 
+            - NEW
+        saveForFutureUse:
+          type: boolean
+
+    ApplePayPaymentRequest:
+      type: object
+      required:
+        - paymentMethod
+        - applePayToken
+      properties:
+        paymentMethod:
+          type: string
+          enum: 
+            - APPLEPAY
+        applePayToken:
+          type: object
+          additionalProperties: true
+
+    SubmitSettlementResponse:
+      type: object
+      required:
+        - paymentId
+        - status
+      properties:
+        paymentId:
+          type: string
+          format: uuid
+
+        status:
+          $ref: '#/components/schemas/PaymentStatus'
+
+        nextAction:
+          nullable: true
+          allOf:
+            - $ref: '#/components/schemas/RedirectPaymentAction'
+
+    PaymentStatus:
+      type: string
+      enum:
+        - REQUIRES_ACTION
+        - PROCESSING
+        - SUCCEEDED
+        - FAILED
+
+    RedirectPaymentAction:
+      type: object
+      required:
+        - type
+        - url
+      properties:
+        type:
+          type: string
+          enum: 
+            - REDIRECT
+
+        url:
+          type: string
+          format: uri
