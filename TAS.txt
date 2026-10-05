@@ -1,0 +1,4906 @@
+{
+  "openapi": "3.0.4",
+  "info": {
+    "title": "STUK.TradeAccountService.WebApi",
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "/trade-account"
+    }
+  ],
+  "paths": {
+    "/api/v1/capp/accounts/{accountCode}": {
+      "get": {
+        "tags": [
+          "Accounts"
+        ],
+        "description": "Authentication: Required - user session header `X-Session-Id`.",
+        "parameters": [
+          {
+            "name": "accountCode",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "maxLength": 25,
+              "minLength": 1,
+              "pattern": "^(?=.*[a-zA-Z0-9]).+$",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "XSessionId": []
+          }
+        ]
+      }
+    },
+    "/api/v1/capp/accounts": {
+      "get": {
+        "tags": [
+          "Accounts"
+        ],
+        "description": "Authentication: Required - user session header `X-Session-Id`.",
+        "parameters": [
+          {
+            "name": "X-Session-Id",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountSearchResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "XSessionId": []
+          }
+        ]
+      }
+    },
+    "/api/v1/capp/accounts/{accountCode}/creditlimit": {
+      "get": {
+        "tags": [
+          "Accounts"
+        ],
+        "description": "Authentication: Required - user session header `X-Session-Id`.",
+        "parameters": [
+          {
+            "name": "accountCode",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "maxLength": 25,
+              "minLength": 1,
+              "pattern": "^(?=.*[a-zA-Z0-9]).+$",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreditLimitResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "XSessionId": []
+          }
+        ]
+      }
+    },
+    "/api/v1/capp/accounts/{accountCode}/overview": {
+      "get": {
+        "tags": [
+          "Accounts"
+        ],
+        "description": "Authentication: Required - user session header `X-Session-Id`.",
+        "parameters": [
+          {
+            "name": "accountCode",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "maxLength": 25,
+              "minLength": 1,
+              "pattern": "^(?=.*[a-zA-Z0-9]).+$",
+              "type": "string"
+            }
+          },
+          {
+            "name": "recentInvoicesLimit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "recentCreditNotesLimit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "recentStatementsLimit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "XSessionId": []
+          }
+        ]
+      }
+    },
+    "/api/v1/accounts/{accountCode}": {
+      "get": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": " (Auth)",
+        "description": "Authentication: Required - Server JWT Bearer (scheme ``).",
+        "parameters": [
+          {
+            "name": "accountCode",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "maxLength": 25,
+              "minLength": 1,
+              "pattern": "^(?=.*[a-zA-Z0-9]).+$",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/accounts/validate": {
+      "get": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": " (Auth)",
+        "description": "Authentication: Required - Server JWT Bearer (scheme ``).",
+        "parameters": [
+          {
+            "name": "accountCode",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "postCode",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "brand",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountValidateResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/accounts/creditlimit/{accountCode}": {
+      "get": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": " (Auth)",
+        "description": "Authentication: Required - Server JWT Bearer (scheme ``).",
+        "parameters": [
+          {
+            "name": "accountCode",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "maxLength": 25,
+              "minLength": 1,
+              "pattern": "^(?=.*[a-zA-Z0-9]).+$",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreditLimitResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/capp/accounts/documents/{accountCode}/credit-notes/filter": {
+      "get": {
+        "tags": [
+          "CreditNotes"
+        ],
+        "description": "Authentication: Required - user session header `X-Session-Id`.",
+        "parameters": [
+          {
+            "name": "accountCode",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "maxLength": 25,
+              "minLength": 1,
+              "pattern": "^(?=.*[a-zA-Z0-9]).+$",
+              "type": "string"
+            }
+          },
+          {
+            "name": "branchCode",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "brand",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "invoiceDateFrom",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "invoiceDateTo",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "orderBranchCode",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "orderNo",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "orderCreatedDateFrom",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "orderCreatedDateTo",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "orderReference",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "itemCode",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvoiceSearchResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "XSessionId": []
+          }
+        ]
+      }
+    },
+    "/api/v1/capp/accounts/documents/{accountCode}/credit-notes": {
+      "get": {
+        "tags": [
+          "CreditNotes"
+        ],
+        "description": "Authentication: Required - user session header `X-Session-Id`.",
+        "parameters": [
+          {
+            "name": "accountCode",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "maxLength": 25,
+              "minLength": 1,
+              "pattern": "^(?=.*[a-zA-Z0-9]).+$",
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvoiceSearchResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "XSessionId": []
+          }
+        ]
+      }
+    },
+    "/api/v1/capp/accounts/documents/credit-notes/{branchCode}/{creditNoteId}/download-request": {
+      "post": {
+        "tags": [
+          "CreditNotes"
+        ],
+        "description": "Authentication: Required - user session header `X-Session-Id`.",
+        "parameters": [
+          {
+            "name": "creditNoteId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "maxLength": 50,
+              "minLength": 1,
+              "pattern": "^(?=.*[a-zA-Z0-9]).+$",
+              "type": "string"
+            }
+          },
+          {
+            "name": "branchCode",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "maxLength": 10,
+              "minLength": 1,
+              "pattern": "^(?=.*[a-zA-Z0-9]).+$",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DocumentDownloadRequestResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "XSessionId": []
+          }
+        ]
+      }
+    },
+    "/api/v1/capp/accounts/documents/credit-notes/download/{token}": {
+      "get": {
+        "tags": [
+          "CreditNotes"
+        ],
+        "description": "Authentication: Required - user session header `X-Session-Id`.",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "pattern": "^\\S+$",
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/DocumentDownloadResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DocumentDownloadResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DocumentDownloadResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "XSessionId": []
+          }
+        ]
+      }
+    },
+    "/api/v1/accounts/documents/invoices/{branchCode}/{invoiceId}": {
+      "get": {
+        "tags": [
+          "Invoices"
+        ],
+        "summary": " (Auth)",
+        "description": "Authentication: Required - Server JWT Bearer (scheme ``).",
+        "parameters": [
+          {
+            "name": "invoiceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "maxLength": 50,
+              "minLength": 1,
+              "pattern": "^(?=.*[a-zA-Z0-9]).+$",
+              "type": "string"
+            }
+          },
+          {
+            "name": "branchCode",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "maxLength": 10,
+              "minLength": 1,
+              "pattern": "^(?=.*[a-zA-Z0-9]).+$",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvoiceResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/accounts/documents/{accountCode}/invoices/filter": {
+      "get": {
+        "tags": [
+          "Invoices"
+        ],
+        "summary": " (Auth)",
+        "description": "Authentication: Required - Server JWT Bearer (scheme ``).",
+        "parameters": [
+          {
+            "name": "accountCode",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "maxLength": 25,
+              "minLength": 1,
+              "pattern": "^(?=.*[a-zA-Z0-9]).+$",
+              "type": "string"
+            }
+          },
+          {
+            "name": "branchCode",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "brand",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "invoiceDateFrom",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "invoiceDateTo",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "orderBranchCode",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "orderNo",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "orderCreatedDateFrom",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "orderCreatedDateTo",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "orderReference",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "itemCode",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvoiceSearchResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/accounts/documents/invoices/{branchCode}/{invoiceId}/download-request": {
+      "post": {
+        "tags": [
+          "Invoices"
+        ],
+        "summary": " (Auth)",
+        "description": "Authentication: Required - Server JWT Bearer (scheme ``).",
+        "parameters": [
+          {
+            "name": "invoiceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "maxLength": 50,
+              "minLength": 1,
+              "pattern": "^(?=.*[a-zA-Z0-9]).+$",
+              "type": "string"
+            }
+          },
+          {
+            "name": "branchCode",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "maxLength": 10,
+              "minLength": 1,
+              "pattern": "^(?=.*[a-zA-Z0-9]).+$",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DocumentDownloadRequestResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/accounts/documents/invoices/download/{token}": {
+      "get": {
+        "tags": [
+          "Invoices"
+        ],
+        "summary": " (Auth)",
+        "description": "Authentication: Required - Server JWT Bearer (scheme ``).",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "pattern": "^\\S+$",
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/DocumentDownloadResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DocumentDownloadResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DocumentDownloadResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/capp/accounts/documents/invoices/{branchCode}/{invoiceId}": {
+      "get": {
+        "tags": [
+          "Invoices"
+        ],
+        "description": "Authentication: Required - user session header `X-Session-Id`.",
+        "parameters": [
+          {
+            "name": "invoiceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "maxLength": 50,
+              "minLength": 1,
+              "pattern": "^(?=.*[a-zA-Z0-9]).+$",
+              "type": "string"
+            }
+          },
+          {
+            "name": "branchCode",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "maxLength": 10,
+              "minLength": 1,
+              "pattern": "^(?=.*[a-zA-Z0-9]).+$",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvoiceResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "XSessionId": []
+          }
+        ]
+      }
+    },
+    "/api/v1/capp/accounts/documents/{accountCode}/invoices/filter": {
+      "get": {
+        "tags": [
+          "Invoices"
+        ],
+        "description": "Authentication: Required - user session header `X-Session-Id`.",
+        "parameters": [
+          {
+            "name": "accountCode",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "maxLength": 25,
+              "minLength": 1,
+              "pattern": "^(?=.*[a-zA-Z0-9]).+$",
+              "type": "string"
+            }
+          },
+          {
+            "name": "branchCode",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "brand",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "invoiceDateFrom",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "invoiceDateTo",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "orderBranchCode",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "orderNo",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "orderCreatedDateFrom",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "orderCreatedDateTo",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "orderReference",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "itemCode",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvoiceSearchResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "XSessionId": []
+          }
+        ]
+      }
+    },
+    "/api/v1/capp/accounts/documents/{accountCode}/invoices": {
+      "get": {
+        "tags": [
+          "Invoices"
+        ],
+        "description": "Authentication: Required - user session header `X-Session-Id`.",
+        "parameters": [
+          {
+            "name": "accountCode",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "maxLength": 25,
+              "minLength": 1,
+              "pattern": "^(?=.*[a-zA-Z0-9]).+$",
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvoiceSearchResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "XSessionId": []
+          }
+        ]
+      }
+    },
+    "/api/v1/capp/accounts/documents/invoices/{branchCode}/{invoiceId}/download-request": {
+      "post": {
+        "tags": [
+          "Invoices"
+        ],
+        "description": "Authentication: Required - user session header `X-Session-Id`.",
+        "parameters": [
+          {
+            "name": "invoiceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "maxLength": 50,
+              "minLength": 1,
+              "pattern": "^(?=.*[a-zA-Z0-9]).+$",
+              "type": "string"
+            }
+          },
+          {
+            "name": "branchCode",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "maxLength": 10,
+              "minLength": 1,
+              "pattern": "^(?=.*[a-zA-Z0-9]).+$",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DocumentDownloadRequestResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "XSessionId": []
+          }
+        ]
+      }
+    },
+    "/api/v1/capp/accounts/documents/invoices/download/{token}": {
+      "get": {
+        "tags": [
+          "Invoices"
+        ],
+        "description": "Authentication: Required - user session header `X-Session-Id`.",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "pattern": "^\\S+$",
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/DocumentDownloadResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DocumentDownloadResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DocumentDownloadResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "XSessionId": []
+          }
+        ]
+      }
+    },
+    "/api/v1/capp/accounts/payments/{paymentReference}": {
+      "get": {
+        "tags": [
+          "Payments"
+        ],
+        "description": "Authentication: Required - user session header `X-Session-Id`.",
+        "parameters": [
+          {
+            "name": "paymentReference",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "pattern": "^\\S+$",
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "XSessionId": []
+          }
+        ]
+      }
+    },
+    "/api/v1/capp/accounts/payments": {
+      "post": {
+        "tags": [
+          "Payments"
+        ],
+        "description": "Authentication: Required - user session header `X-Session-Id`.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePaymentRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePaymentRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePaymentRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringApiResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "XSessionId": []
+          }
+        ]
+      }
+    },
+    "/api/v1/accounts/payments/{paymentReference}": {
+      "get": {
+        "tags": [
+          "Payments"
+        ],
+        "summary": " (Auth)",
+        "description": "Authentication: Required - Server JWT Bearer (scheme ``).",
+        "parameters": [
+          {
+            "name": "paymentReference",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "pattern": "^\\S+$",
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/accounts/payments": {
+      "post": {
+        "tags": [
+          "Payments"
+        ],
+        "summary": " (Auth)",
+        "description": "Authentication: Required - Server JWT Bearer (scheme ``).",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePaymentRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePaymentRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePaymentRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringApiResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/accounts-payments": {
+      "post": {
+        "tags": [
+          "Payments"
+        ],
+        "summary": " (Auth)",
+        "description": "Authentication: Required - Server JWT Bearer (scheme ``).",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePaymentRequestSAPCC"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePaymentRequestSAPCC"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePaymentRequestSAPCC"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringApiResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/capp/accounts/{accountCode}/preferred-branch": {
+      "get": {
+        "tags": [
+          "PreferredBranch"
+        ],
+        "description": "Authentication: Required - user session header `X-Session-Id`.",
+        "parameters": [
+          {
+            "name": "accountCode",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "maxLength": 25,
+              "minLength": 1,
+              "pattern": "^(?=.*[a-zA-Z0-9]).+$",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PreferredBranchResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "XSessionId": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "PreferredBranch"
+        ],
+        "description": "Authentication: Required - user session header `X-Session-Id`.",
+        "parameters": [
+          {
+            "name": "accountCode",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "maxLength": 25,
+              "minLength": 1,
+              "pattern": "^(?=.*[a-zA-Z0-9]).+$",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PreferredBranchRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PreferredBranchRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PreferredBranchRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "XSessionId": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "PreferredBranch"
+        ],
+        "description": "Authentication: Required - user session header `X-Session-Id`.",
+        "parameters": [
+          {
+            "name": "accountCode",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "maxLength": 25,
+              "minLength": 1,
+              "pattern": "^(?=.*[a-zA-Z0-9]).+$",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "XSessionId": []
+          }
+        ]
+      }
+    },
+    "/Legacy/trade-account/work-item-id": {
+      "post": {
+        "tags": [
+          "RedflagWebhook"
+        ],
+        "description": "Documentation: [https://bitbucket.org/sgbddigital/stuk.api-layer/src/master/src/specs/Trade%20Account%20Service/endpoints/work-item-id/](https://bitbucket.org/sgbddigital/stuk.api-layer/src/master/src/specs/Trade%20Account%20Service/endpoints/work-item-id/)",
+        "parameters": [
+          {
+            "name": "X-Signature",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/capp/accounts/documents/{accountCode}/statements": {
+      "get": {
+        "tags": [
+          "Statements"
+        ],
+        "description": "Authentication: Required - user session header `X-Session-Id`.",
+        "parameters": [
+          {
+            "name": "accountCode",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "maxLength": 25,
+              "minLength": 1,
+              "pattern": "^(?=.*[a-zA-Z0-9]).+$",
+              "type": "string"
+            }
+          },
+          {
+            "name": "statementDateFrom",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "statementDateTo",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatementSearchResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "XSessionId": []
+          }
+        ]
+      }
+    },
+    "/api/v1/capp/accounts/documents/statements/{statementId}/download-request": {
+      "post": {
+        "tags": [
+          "Statements"
+        ],
+        "description": "Authentication: Required - user session header `X-Session-Id`.",
+        "parameters": [
+          {
+            "name": "statementId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "maximum": 9.223372036854776e+18,
+              "minimum": 1,
+              "pattern": "^\\S+$",
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DocumentDownloadRequestResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "XSessionId": []
+          }
+        ]
+      }
+    },
+    "/api/v1/capp/accounts/documents/statements/download/{token}": {
+      "get": {
+        "tags": [
+          "Statements"
+        ],
+        "description": "Authentication: Required - user session header `X-Session-Id`.",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "pattern": "^\\S+$",
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/DocumentDownloadResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DocumentDownloadResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DocumentDownloadResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "XSessionId": []
+          }
+        ]
+      }
+    },
+    "/api/v1/accounts/documents/{accountCode}/statements": {
+      "get": {
+        "tags": [
+          "Statements"
+        ],
+        "summary": " (Auth)",
+        "description": "Authentication: Required - Server JWT Bearer (scheme ``).",
+        "parameters": [
+          {
+            "name": "accountCode",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "maxLength": 25,
+              "minLength": 1,
+              "pattern": "^(?=.*[a-zA-Z0-9]).+$",
+              "type": "string"
+            }
+          },
+          {
+            "name": "statementDateFrom",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "statementDateTo",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatementSearchResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/accounts/documents/statements/{statementId}/download-request": {
+      "post": {
+        "tags": [
+          "Statements"
+        ],
+        "summary": " (Auth)",
+        "description": "Authentication: Required - Server JWT Bearer (scheme ``).",
+        "parameters": [
+          {
+            "name": "statementId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "maximum": 9.223372036854776e+18,
+              "minimum": 1,
+              "pattern": "^\\S+$",
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DocumentDownloadRequestResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/accounts/documents/statements/download/{token}": {
+      "get": {
+        "tags": [
+          "Statements"
+        ],
+        "summary": " (Auth)",
+        "description": "Authentication: Required - Server JWT Bearer (scheme ``).",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "pattern": "^\\S+$",
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/DocumentDownloadResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DocumentDownloadResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DocumentDownloadResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AccountDetail": {
+        "required": [
+          "accountCode",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "accountCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "parentAccountCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountType": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountLevel": {
+            "type": "string",
+            "nullable": true
+          },
+          "owningBranch": {
+            "type": "string",
+            "nullable": true
+          },
+          "owningBrand": {
+            "type": "string",
+            "nullable": true
+          },
+          "contacts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Contact"
+            },
+            "nullable": true
+          },
+          "addresses": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Address"
+            },
+            "nullable": true
+          },
+          "paymentProfile": {
+            "$ref": "#/components/schemas/PaymentProfile"
+          },
+          "extensionAttributes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/JsonNode"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AccountResponse": {
+        "type": "object",
+        "properties": {
+          "account": {
+            "$ref": "#/components/schemas/AccountDetail"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AccountSearchResponse": {
+        "type": "object",
+        "properties": {
+          "pages": {
+            "$ref": "#/components/schemas/PaginationInfo"
+          },
+          "accounts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AccountDetail"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AccountValidateResponse": {
+        "required": [
+          "accountCode"
+        ],
+        "type": "object",
+        "properties": {
+          "accountCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "postcodeIsValid": {
+            "type": "boolean"
+          },
+          "brandIsValid": {
+            "type": "boolean"
+          },
+          "onStop": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Address": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "lines": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "town": {
+            "type": "string",
+            "nullable": true
+          },
+          "postCode": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ApiError": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ApiErrorResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "default": false
+          },
+          "trackingId": {
+            "type": "string",
+            "nullable": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ApiError"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Contact": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "phone": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreatePaymentRequest": {
+        "type": "object",
+        "properties": {
+          "accountCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "branchId": {
+            "type": "string",
+            "nullable": true
+          },
+          "source": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "paymentType": {
+            "type": "string"
+          },
+          "paymentAmount": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "userId": {
+            "type": "string",
+            "nullable": true
+          },
+          "orderReference": {
+            "type": "string",
+            "nullable": true
+          },
+          "orderNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "creditCardReference": {
+            "type": "string",
+            "nullable": true
+          },
+          "customerPaymentReference": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreatePaymentRequestSAPCC": {
+        "type": "object",
+        "properties": {
+          "account": {
+            "type": "string",
+            "nullable": true
+          },
+          "branch": {
+            "type": "string",
+            "nullable": true
+          },
+          "payments": {
+            "$ref": "#/components/schemas/PaymentsWrapper"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreditAttribute": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "code": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreditLimitResponse": {
+        "required": [
+          "account"
+        ],
+        "type": "object",
+        "properties": {
+          "account": {
+            "type": "string",
+            "nullable": true
+          },
+          "creditLimit": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "creditBalance": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "outstandingBalance": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "usedCredit": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "pendingOrders": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "balanceUpdatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "errorCode": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreditStatus": {
+        "required": [
+          "amount",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "amount": {
+            "type": "number",
+            "format": "double"
+          },
+          "lastUpdatedDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "DocumentDownloadRequestResponse": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "expiresAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "DocumentDownloadResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "fileName": {
+            "type": "string",
+            "nullable": true
+          },
+          "contentType": {
+            "type": "string",
+            "nullable": true
+          },
+          "fileContent": {
+            "type": "string",
+            "format": "binary",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "InternalServerErrorResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "default": false
+          },
+          "trackingId": {
+            "type": "string",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "default": "An unexpected error occurred.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "InvoiceAddress": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "recipientName": {
+            "type": "string",
+            "nullable": true
+          },
+          "line1": {
+            "type": "string",
+            "nullable": true
+          },
+          "line2": {
+            "type": "string",
+            "nullable": true
+          },
+          "line3": {
+            "type": "string",
+            "nullable": true
+          },
+          "line4": {
+            "type": "string",
+            "nullable": true
+          },
+          "postcode": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "InvoiceDocument": {
+        "type": "object",
+        "properties": {
+          "header": {
+            "$ref": "#/components/schemas/InvoiceHeader"
+          },
+          "orders": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Order"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "InvoiceHeader": {
+        "type": "object",
+        "properties": {
+          "metadata": {
+            "$ref": "#/components/schemas/InvoiceMetadata"
+          },
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "branchCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "customerAccount": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountType": {
+            "type": "string",
+            "nullable": true
+          },
+          "searchBrand": {
+            "type": "string",
+            "nullable": true
+          },
+          "invoiceBrand": {
+            "type": "string",
+            "nullable": true
+          },
+          "standardInvoiceNo": {
+            "type": "string",
+            "nullable": true
+          },
+          "consolidatedInvoiceNo": {
+            "type": "string",
+            "nullable": true
+          },
+          "consolidatedInvoiceDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "invoiceDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "dueDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "documentType": {
+            "type": "string",
+            "nullable": true
+          },
+          "netAmount": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "vatAmount": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "totalAmount": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "vatRate": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "address": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InvoiceAddress"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "InvoiceMetadata": {
+        "type": "object",
+        "properties": {
+          "originalFileName": {
+            "type": "string",
+            "nullable": true
+          },
+          "extension": {
+            "type": "string",
+            "nullable": true
+          },
+          "calculatedFileName": {
+            "type": "string",
+            "nullable": true
+          },
+          "contentMd5": {
+            "type": "string",
+            "nullable": true
+          },
+          "contentLength": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "blobUri": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdOn": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdBy": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastDownloaded": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "downloadedBy": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "InvoiceResponse": {
+        "type": "object",
+        "properties": {
+          "invoice": {
+            "$ref": "#/components/schemas/InvoiceDocument"
+          }
+        },
+        "additionalProperties": false
+      },
+      "InvoiceSearchResponse": {
+        "type": "object",
+        "properties": {
+          "pages": {
+            "$ref": "#/components/schemas/PaginationInfo"
+          },
+          "invoices": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InvoiceDocument"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "JsonNode": {
+        "type": "object",
+        "properties": {
+          "options": {
+            "$ref": "#/components/schemas/JsonNodeOptions"
+          },
+          "parent": {
+            "$ref": "#/components/schemas/JsonNode"
+          },
+          "root": {
+            "$ref": "#/components/schemas/JsonNode"
+          }
+        },
+        "additionalProperties": false
+      },
+      "JsonNodeOptions": {
+        "type": "object",
+        "properties": {
+          "propertyNameCaseInsensitive": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "NotFoundResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "default": false
+          },
+          "trackingId": {
+            "type": "string",
+            "nullable": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ApiError"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Order": {
+        "type": "object",
+        "properties": {
+          "header": {
+            "$ref": "#/components/schemas/OrderHeader"
+          },
+          "lines": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderLine"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "OrderAddress": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "recipientName": {
+            "type": "string",
+            "nullable": true
+          },
+          "line1": {
+            "type": "string",
+            "nullable": true
+          },
+          "line2": {
+            "type": "string",
+            "nullable": true
+          },
+          "line3": {
+            "type": "string",
+            "nullable": true
+          },
+          "line4": {
+            "type": "string",
+            "nullable": true
+          },
+          "postcode": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "OrderContact": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "id": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "phone": {
+            "type": "string",
+            "nullable": true
+          },
+          "mobile": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "OrderDataCapture": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "nullable": true
+          },
+          "value": {
+            "type": "string",
+            "nullable": true
+          },
+          "position": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "OrderExtensionAttribute": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "value": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "OrderHeader": {
+        "type": "object",
+        "properties": {
+          "orderId": {
+            "type": "string",
+            "nullable": true
+          },
+          "source": {
+            "type": "string",
+            "nullable": true
+          },
+          "branchCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "customerAccount": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountType": {
+            "type": "string",
+            "nullable": true
+          },
+          "orderNo": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orderCategory": {
+            "type": "string",
+            "nullable": true
+          },
+          "deliveryMethod": {
+            "type": "string",
+            "nullable": true
+          },
+          "orderType": {
+            "type": "string",
+            "nullable": true
+          },
+          "custOrderReference": {
+            "type": "string",
+            "nullable": true
+          },
+          "custOrderReference2": {
+            "type": "string",
+            "nullable": true
+          },
+          "erpReferenceSwapped": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "requiredByDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "requestedDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "createdDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "originalOrderDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "orderTotalValue": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "orderTotalVAT": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "instructions": {
+            "type": "string",
+            "nullable": true
+          },
+          "internalInstructions": {
+            "type": "string",
+            "nullable": true
+          },
+          "suspendOrder": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "suspendUser": {
+            "type": "string",
+            "nullable": true
+          },
+          "suspendMessage": {
+            "type": "string",
+            "nullable": true
+          },
+          "adviceMethod": {
+            "type": "string",
+            "nullable": true
+          },
+          "isWebOrder": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "contacts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderContact"
+            },
+            "nullable": true
+          },
+          "address": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderAddress"
+            },
+            "nullable": true
+          },
+          "payments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderPayment"
+            },
+            "nullable": true
+          },
+          "extensionAttributes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderExtensionAttribute"
+            },
+            "nullable": true
+          },
+          "datacapture": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderDataCapture"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "OrderLine": {
+        "type": "object",
+        "properties": {
+          "invoiceHeaderId": {
+            "type": "string",
+            "nullable": true
+          },
+          "orderNo": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "lineNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "itemCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "originalQuantity": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "manufacturer": {
+            "type": "string",
+            "nullable": true
+          },
+          "specialDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "orderCategory": {
+            "type": "string",
+            "nullable": true
+          },
+          "deliveryMethod": {
+            "type": "string",
+            "nullable": true
+          },
+          "returnReasonCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "alternateItemCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "goodsValue": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "pieces": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "supplierCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "defaultSupplier": {
+            "type": "string",
+            "nullable": true
+          },
+          "quoteBranch": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "quoteNumber": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "requiredByDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "expectedByDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "internalInstructions": {
+            "type": "string",
+            "nullable": true
+          },
+          "purchaseorder": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "pricing": {
+            "$ref": "#/components/schemas/OrderLinePricing"
+          },
+          "tally": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderLineTally"
+            },
+            "nullable": true
+          },
+          "extensionAttributes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderLineExtensionAttribute"
+            },
+            "nullable": true
+          },
+          "statusCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "statusDesc": {
+            "type": "string",
+            "nullable": true
+          },
+          "sqlCreatedDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "OrderLineExtensionAttribute": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "value": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "OrderLinePricing": {
+        "type": "object",
+        "properties": {
+          "unitForSale": {
+            "type": "string",
+            "nullable": true
+          },
+          "listPrice": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "vatCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "vatAmount": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "OrderLineTally": {
+        "type": "object",
+        "properties": {
+          "tallyQuantity": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "length": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "width": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "OrderPayment": {
+        "type": "object",
+        "properties": {
+          "paymentType": {
+            "type": "string",
+            "nullable": true
+          },
+          "value": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "reference": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PaginationInfo": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "lastPage": {
+            "type": "boolean"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Payment": {
+        "type": "object",
+        "properties": {
+          "accountCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "userId": {
+            "type": "string",
+            "nullable": true
+          },
+          "branchId": {
+            "type": "string",
+            "nullable": true
+          },
+          "source": {
+            "type": "string",
+            "nullable": true
+          },
+          "orderReference": {
+            "type": "string",
+            "nullable": true
+          },
+          "orderNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "customerPaymentReference": {
+            "type": "string",
+            "nullable": true
+          },
+          "creditCardReference": {
+            "type": "string",
+            "nullable": true
+          },
+          "paymentType": {
+            "type": "string",
+            "nullable": true
+          },
+          "paymentAmount": {
+            "type": "number",
+            "format": "double"
+          },
+          "apiPaymentReference": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "erpPaymentReference": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PaymentDetails": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "number",
+            "format": "double"
+          },
+          "reference": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PaymentProfile": {
+        "type": "object",
+        "properties": {
+          "paymentOnCredit": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "paymentOnCard": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "accountOnStop": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "creditAttributes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CreditAttribute"
+            },
+            "nullable": true
+          },
+          "creditStatus": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CreditStatus"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PaymentResponse": {
+        "type": "object",
+        "properties": {
+          "payment": {
+            "$ref": "#/components/schemas/Payment"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PaymentsWrapper": {
+        "type": "object",
+        "properties": {
+          "payment": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PaymentDetails"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PreferredBranchRequest": {
+        "required": [
+          "branchNumber"
+        ],
+        "type": "object",
+        "properties": {
+          "branchNumber": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PreferredBranchResponse": {
+        "type": "object",
+        "properties": {
+          "branchNumber": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProblemDetails": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "detail": {
+            "type": "string",
+            "nullable": true
+          },
+          "instance": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": {
+
+        }
+      },
+      "Statement": {
+        "required": [
+          "header"
+        ],
+        "type": "object",
+        "properties": {
+          "header": {
+            "$ref": "#/components/schemas/StatementHeader"
+          }
+        },
+        "additionalProperties": false
+      },
+      "StatementHeader": {
+        "required": [
+          "accountCode",
+          "currencyCode",
+          "statementDate"
+        ],
+        "type": "object",
+        "properties": {
+          "metadata": {
+            "$ref": "#/components/schemas/StatementMetadata"
+          },
+          "ID": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "accountCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "statementDate": {
+            "type": "string",
+            "nullable": true
+          },
+          "statementMonth": {
+            "type": "string",
+            "nullable": true
+          },
+          "endOfNextMonth": {
+            "type": "string",
+            "nullable": true
+          },
+          "currencyCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "lineCount": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "totalVAT": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "settDiscountTotal": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "statementTotal": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "statementDiscountTotal": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "queriedBalance": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "balanceAfterQueries": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "vatThisPeriod": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "StatementMetadata": {
+        "type": "object",
+        "properties": {
+          "originalFileName": {
+            "type": "string",
+            "nullable": true
+          },
+          "extension": {
+            "type": "string",
+            "nullable": true
+          },
+          "calculatedFileName": {
+            "type": "string",
+            "nullable": true
+          },
+          "contentMd5": {
+            "type": "string",
+            "nullable": true
+          },
+          "contentLength": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "blobUri": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdOn": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdBy": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastDownloaded": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "downloadedBy": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "StatementSearchResponse": {
+        "type": "object",
+        "properties": {
+          "pages": {
+            "$ref": "#/components/schemas/PaginationInfo"
+          },
+          "statements": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StatemetRoot"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "StatemetRoot": {
+        "type": "object",
+        "properties": {
+          "statement": {
+            "$ref": "#/components/schemas/Statement"
+          }
+        },
+        "additionalProperties": false
+      },
+      "StringApiResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "trackingId": {
+            "type": "string",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UnauthorizedResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "default": false
+          },
+          "trackingId": {
+            "type": "string",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "default": "Unauthorized access",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "description": "Server consumer JWT. Enter the token only — do NOT prefix with 'Bearer '.",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      },
+      "XSessionId": {
+        "type": "apiKey",
+        "description": "User consumer Okta session id validated via the session validator API.",
+        "name": "X-Session-Id",
+        "in": "header"
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Accounts"
+    },
+    {
+      "name": "CreditNotes"
+    },
+    {
+      "name": "Invoices"
+    },
+    {
+      "name": "Payments"
+    },
+    {
+      "name": "PreferredBranch"
+    },
+    {
+      "name": "RedflagWebhook"
+    },
+    {
+      "name": "Statements"
+    }
+  ]
+}
