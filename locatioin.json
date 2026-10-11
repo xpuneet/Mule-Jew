@@ -1,0 +1,1605 @@
+{
+  "openapi": "3.0.4",
+  "info": {
+    "title": "STUK.LocationService.WebApi",
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "/location"
+    }
+  ],
+  "paths": {
+    "/api/v1/capp/address/find": {
+      "get": {
+        "tags": [
+          "Address"
+        ],
+        "description": "Authentication: Required - user session header `X-Session-Id`.",
+        "parameters": [
+          {
+            "name": "TextSearch",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "MaxNoOfElements",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AddressSummary"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "XSessionId": [ ]
+          }
+        ]
+      }
+    },
+    "/api/v1/capp/address/get": {
+      "get": {
+        "tags": [
+          "Address"
+        ],
+        "description": "Authentication: Required - user session header `X-Session-Id`.",
+        "parameters": [
+          {
+            "name": "AddressGuid",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddressResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "XSessionId": [ ]
+          }
+        ]
+      }
+    },
+    "/api/v1/capp/address/geocode-ip": {
+      "get": {
+        "tags": [
+          "Address"
+        ],
+        "description": "Authentication: Required - user session header `X-Session-Id`.",
+        "parameters": [
+          {
+            "name": "IpAddress",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeolocationResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "XSessionId": [ ]
+          }
+        ]
+      }
+    },
+    "/api/v1/capp/branches/search/coordinates": {
+      "get": {
+        "tags": [
+          "Branch"
+        ],
+        "description": "Authentication: Required - user session header `X-Session-Id`.",
+        "parameters": [
+          {
+            "name": "Latitude",
+            "in": "query",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "name": "Longitude",
+            "in": "query",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "name": "Radius",
+            "in": "query",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "name": "MaxNoOfElements",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "_view",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/Viewtype"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BranchResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "XSessionId": [ ]
+          }
+        ]
+      }
+    },
+    "/api/v1/capp/branches/search/address": {
+      "get": {
+        "tags": [
+          "Branch"
+        ],
+        "description": "Authentication: Required - user session header `X-Session-Id`.",
+        "parameters": [
+          {
+            "name": "AddressGuid",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "Radius",
+            "in": "query",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "name": "MaxNoOfElements",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BranchResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "XSessionId": [ ]
+          }
+        ]
+      }
+    },
+    "/api/v1/capp/brands": {
+      "get": {
+        "tags": [
+          "Branch"
+        ],
+        "description": "Authentication: Required - user session header `X-Session-Id`.",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BrandResponse"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "XSessionId": [ ]
+          }
+        ]
+      }
+    },
+    "/api/v1/capp/v1/branches": {
+      "get": {
+        "tags": [
+          "Branch"
+        ],
+        "description": "Authentication: Required - user session header `X-Session-Id`.",
+        "parameters": [
+          {
+            "name": "LocationSearchText",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Location",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "PageNumber",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "_view",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/Viewtype"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BranchSearchResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "XSessionId": [ ]
+          }
+        ]
+      }
+    },
+    "/api/v1/capp/v1/branches/{branchId}": {
+      "get": {
+        "tags": [
+          "Branch"
+        ],
+        "description": "Authentication: Required - user session header `X-Session-Id`.",
+        "parameters": [
+          {
+            "name": "branchId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "Location",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "_view",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/Viewtype"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BranchDetailResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "XSessionId": [ ]
+          }
+        ]
+      }
+    },
+    "/api/v1/capp/v1/branches/{branchNumber}": {
+      "get": {
+        "tags": [
+          "Branch"
+        ],
+        "description": "Authentication: Required - user session header `X-Session-Id`.",
+        "parameters": [
+          {
+            "name": "branchNumber",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Location",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "_view",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/Viewtype"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BranchDetailResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "XSessionId": [ ]
+          }
+        ]
+      }
+    },
+    "/Legacy/location/find-branches/{Postcode}": {
+      "get": {
+        "tags": [
+          "Legacy Location"
+        ],
+        "summary": "Find branches near a postcode (legacy-compatible).",
+        "description": "Authentication: Required - Server JWT Bearer (scheme `LocationServiceAccount`, JWT aud `StoresServiceReader`).",
+        "parameters": [
+          {
+            "name": "Postcode",
+            "in": "path",
+            "description": "A valid UK postcode",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Radius",
+            "in": "query",
+            "description": "Distance from postcode in miles. Default is 10.",
+            "schema": {
+              "pattern": "^((?!(0))[0-9]+)$",
+              "type": "string"
+            }
+          },
+          {
+            "name": "ResultLimit",
+            "in": "query",
+            "description": "Maximum number of branches to return. Default is 25.",
+            "schema": {
+              "pattern": "^((?!(0))[0-9]+)$",
+              "type": "string"
+            }
+          },
+          {
+            "name": "Brand",
+            "in": "query",
+            "description": "Optional brand code(s) for filtering (comma-separated). When omitted, no brand filter is applied.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ApiRunMode",
+            "in": "header",
+            "description": "Selects which service implementation handles a request.",
+            "schema": {
+              "$ref": "#/components/schemas/ApiRunMode"
+            }
+          },
+          {
+            "name": "SessionCorrelationId",
+            "in": "query",
+            "description": "Session correlation ID used to link logged requests to a session for tracking errors",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "TransactionCorrelationId",
+            "in": "query",
+            "description": "Transaction correlation ID used to link logged requests to a transaction for tracking errors",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BranchSummary"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AddressResponse": {
+        "type": "object",
+        "properties": {
+          "addressGuid": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "postcode": {
+            "type": "string",
+            "nullable": true
+          },
+          "addressLines": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "town": {
+            "type": "string",
+            "nullable": true
+          },
+          "county": {
+            "type": "string",
+            "nullable": true
+          },
+          "country": {
+            "type": "string",
+            "nullable": true
+          },
+          "latitude": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "longitude": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AddressSummary": {
+        "type": "object",
+        "properties": {
+          "addressGuid": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "formattedAddress": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ApiError": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ApiErrorResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "default": false
+          },
+          "trackingId": {
+            "type": "string",
+            "nullable": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ApiError"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ApiRunMode": {
+        "enum": [
+          "Default",
+          "Stub",
+          "ErroringStub"
+        ],
+        "type": "string",
+        "description": "Selects which service implementation handles a request."
+      },
+      "BranchAddress": {
+        "type": "object",
+        "properties": {
+          "addressGuid": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "postcode": {
+            "type": "string",
+            "nullable": true
+          },
+          "addressLines": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "town": {
+            "type": "string",
+            "nullable": true
+          },
+          "county": {
+            "type": "string",
+            "nullable": true
+          },
+          "country": {
+            "type": "string",
+            "nullable": true
+          },
+          "latitude": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "longitude": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "BranchAddressDetail": {
+        "type": "object",
+        "properties": {
+          "line1": {
+            "type": "string",
+            "nullable": true
+          },
+          "line2": {
+            "type": "string",
+            "nullable": true
+          },
+          "town": {
+            "type": "string",
+            "nullable": true
+          },
+          "county": {
+            "type": "string",
+            "nullable": true
+          },
+          "postcode": {
+            "type": "string",
+            "nullable": true
+          },
+          "country": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "BranchContactDetails": {
+        "type": "object",
+        "properties": {
+          "addressGuid": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "phone1": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "BranchDetail": {
+        "type": "object",
+        "properties": {
+          "branchId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "branchNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "branchName": {
+            "type": "string",
+            "nullable": true
+          },
+          "organisation": {
+            "$ref": "#/components/schemas/BranchOrganisation"
+          },
+          "status": {
+            "$ref": "#/components/schemas/BranchStatusResponse"
+          },
+          "contactDetails": {
+            "$ref": "#/components/schemas/BranchContactDetails"
+          },
+          "address": {
+            "$ref": "#/components/schemas/BranchAddress"
+          },
+          "operatingHours": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OperatingHoursResponse"
+            },
+            "nullable": true
+          },
+          "people": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BranchPersonResponse"
+            },
+            "nullable": true
+          },
+          "specialisms": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SpecialismResponse"
+            },
+            "nullable": true
+          },
+          "distanceMiles": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "BranchDetailResponse": {
+        "type": "object",
+        "properties": {
+          "branchId": {
+            "type": "string",
+            "nullable": true
+          },
+          "branchNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "organisation": {
+            "$ref": "#/components/schemas/BranchOrganisationDetail"
+          },
+          "status": {
+            "$ref": "#/components/schemas/BranchStatusDetail"
+          },
+          "address": {
+            "$ref": "#/components/schemas/BranchAddressDetail"
+          },
+          "location": {
+            "$ref": "#/components/schemas/BranchLocationDetail"
+          },
+          "phones": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "operatingHours": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BranchOperatingHoursDetail"
+            },
+            "nullable": true
+          },
+          "specialisms": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BranchSpecialismDetail"
+            },
+            "nullable": true
+          },
+          "distanceMiles": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "BranchLocationDetail": {
+        "type": "object",
+        "properties": {
+          "latitude": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "longitude": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "BranchOperatingHoursDetail": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "weekday": {
+            "type": "string",
+            "nullable": true
+          },
+          "opensAt": {
+            "type": "string",
+            "nullable": true
+          },
+          "closesAt": {
+            "type": "string",
+            "nullable": true
+          },
+          "closed": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "BranchOrganisation": {
+        "type": "object",
+        "properties": {
+          "organisationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "organisationName": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "BranchOrganisationDetail": {
+        "type": "object",
+        "properties": {
+          "organisationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "organisationName": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "BranchPersonResponse": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "fullName": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "BranchResponse": {
+        "type": "object",
+        "properties": {
+          "branch": {
+            "$ref": "#/components/schemas/BranchDetail"
+          }
+        },
+        "additionalProperties": false
+      },
+      "BranchSearchResponse": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BranchSummaryItem"
+            },
+            "nullable": true
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hasMore": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "BranchSearchStatusItem": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "BranchSpecialismDetail": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "BranchStatusDetail": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "BranchStatusResponse": {
+        "type": "object",
+        "properties": {
+          "statusName": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "BranchSummary": {
+        "required": [
+          "BranchName",
+          "BranchPostcode",
+          "DistanceFromSearchSource",
+          "TradingBrand"
+        ],
+        "type": "object",
+        "properties": {
+          "BranchNumber": {
+            "$ref": "#/components/schemas/IntOrString"
+          },
+          "BranchName": {
+            "type": "string",
+            "description": "Branch display name.",
+            "nullable": true
+          },
+          "TradingBrand": {
+            "type": "string",
+            "description": "Trading brand associated with the branch.",
+            "nullable": true
+          },
+          "BranchPostcode": {
+            "type": "string",
+            "description": "Postcode of the branch location.",
+            "nullable": true
+          },
+          "DistanceFromSearchSource": {
+            "type": "string",
+            "description": "Distance from the search origin postcode.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Summary of a branch returned by the branch finder endpoint."
+      },
+      "BranchSummaryItem": {
+        "required": [
+          "branchId"
+        ],
+        "type": "object",
+        "properties": {
+          "branchId": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "branchNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "$ref": "#/components/schemas/BranchSearchStatusItem"
+          },
+          "organisationName": {
+            "type": "string",
+            "nullable": true
+          },
+          "addressLine1": {
+            "type": "string",
+            "nullable": true
+          },
+          "town": {
+            "type": "string",
+            "nullable": true
+          },
+          "county": {
+            "type": "string",
+            "nullable": true
+          },
+          "country": {
+            "type": "string",
+            "nullable": true
+          },
+          "phone1": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "postcode": {
+            "type": "string",
+            "nullable": true
+          },
+          "latitude": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "longitude": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "distanceMiles": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "operatingHours": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BranchOperatingHoursDetail"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "BrandDetail": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "brandCodeShort": {
+            "type": "string",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "BrandResponse": {
+        "type": "object",
+        "properties": {
+          "brands": {
+            "$ref": "#/components/schemas/BrandDetail"
+          }
+        },
+        "additionalProperties": false
+      },
+      "GeolocationResult": {
+        "type": "object",
+        "properties": {
+          "southLatitude": {
+            "type": "number",
+            "format": "double"
+          },
+          "westLongitude": {
+            "type": "number",
+            "format": "double"
+          },
+          "northLatitude": {
+            "type": "number",
+            "format": "double"
+          },
+          "eastLongitude": {
+            "type": "number",
+            "format": "double"
+          },
+          "countryCode": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "IntOrString": {
+        "type": "object",
+        "properties": {
+          "intValue": {
+            "type": "integer",
+            "description": "Integer value when present on the wire.",
+            "format": "int32",
+            "nullable": true,
+            "readOnly": true
+          },
+          "stringValue": {
+            "type": "string",
+            "description": "String value when present on the wire.",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "JSON value that may be serialized as an integer or string (Mule oneOf int|string)."
+      },
+      "InternalServerErrorResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "default": false
+          },
+          "trackingId": {
+            "type": "string",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "default": "An unexpected error occurred.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "OperatingHoursResponse": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "weekday": {
+            "type": "string",
+            "nullable": true
+          },
+          "weekendday": {
+            "type": "string",
+            "nullable": true
+          },
+          "openingTime": {
+            "type": "string",
+            "nullable": true
+          },
+          "closingTime": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "SpecialismResponse": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UnauthorizedResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "default": false
+          },
+          "trackingId": {
+            "type": "string",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "default": "Unauthorized access",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Viewtype": {
+        "enum": [
+          "CDM",
+          "JM"
+        ],
+        "type": "string"
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "description": "Server consumer JWT. Enter the token only — do NOT prefix with 'Bearer '.",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      },
+      "XSessionId": {
+        "type": "apiKey",
+        "description": "User consumer Okta session id validated via the session validator API.",
+        "name": "X-Session-Id",
+        "in": "header"
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Address"
+    },
+    {
+      "name": "Branch"
+    },
+    {
+      "name": "Legacy Location"
+    }
+  ]
+}
