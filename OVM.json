@@ -1,0 +1,2683 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Order Validation Middleware APIs",
+    "description": "",
+    "termsOfService": "https://stuk-apis.starkbuild.co.uk/terms",
+    "contact": {
+      "name": "STUK Core Applications and Services",
+      "email": "JewsonITDevelopment@jewson.co.uk"
+    },
+    "license": {
+      "name": "STUK Core Services License",
+      "url": "https://stuk-apis.starkbuild.co.uk/license"
+    },
+    "version": "v3"
+  },
+  "servers": [
+    {
+      "url": "/OVM"
+    }
+  ],
+  "paths": {
+    "/mgmt/Card/{accountCode}/{cardId}": {
+      "get": {
+        "tags": [
+          "Card"
+        ],
+        "summary": "retrieves the details of an operative card",
+        "parameters": [
+          {
+            "name": "accountCode",
+            "in": "path",
+            "description": "account code",
+            "required": true,
+            "schema": {
+              "maxLength": 8,
+              "minLength": 7,
+              "type": "string",
+              "description": "account code",
+              "nullable": true
+            }
+          },
+          {
+            "name": "cardId",
+            "in": "path",
+            "description": "the unsigned integer card unique identifier",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "description": "the unsigned integer card unique identifier",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "if the card is found"
+          },
+          "400": {
+            "description": "if the parameters are not valid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "if the card is not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "if unauthorized to use the API"
+          }
+        },
+        "security": [
+          {
+            "Bearer:OpCardMgt": [
+              "SwaggerDifferentAuthScheme"
+            ]
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Card"
+        ],
+        "summary": "changes the details of an existing operative card",
+        "parameters": [
+          {
+            "name": "accountCode",
+            "in": "path",
+            "description": "account code",
+            "required": true,
+            "schema": {
+              "maxLength": 8,
+              "minLength": 7,
+              "type": "string",
+              "description": "account code",
+              "nullable": true
+            }
+          },
+          {
+            "name": "cardId",
+            "in": "path",
+            "description": "the unsigned integer card unique identifier",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "description": "the unsigned integer card unique identifier",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "the operative card object",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OperativeCard"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OperativeCard"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/OperativeCard"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "if the card is updated"
+          },
+          "400": {
+            "description": "if the parameters are not valid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "if the card is not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "if unauthorized to use the API"
+          }
+        },
+        "security": [
+          {
+            "Bearer:OpCardMgt": [
+              "SwaggerDifferentAuthScheme"
+            ]
+          }
+        ]
+      }
+    },
+    "/mgmt/Cards/{accountCode}": {
+      "get": {
+        "tags": [
+          "Cards"
+        ],
+        "summary": "searches for and returns a list of operative cards for a given account",
+        "parameters": [
+          {
+            "name": "accountCode",
+            "in": "path",
+            "description": "account code",
+            "required": true,
+            "schema": {
+              "maxLength": 8,
+              "minLength": 7,
+              "type": "string",
+              "description": "account code",
+              "nullable": true
+            }
+          },
+          {
+            "name": "enabled",
+            "in": "query",
+            "description": "optional enabled status",
+            "schema": {
+              "type": "boolean",
+              "description": "optional enabled status",
+              "nullable": true
+            }
+          },
+          {
+            "name": "transactionLimitFrom",
+            "in": "query",
+            "description": "optional lower transaction limit",
+            "schema": {
+              "type": "number",
+              "description": "optional lower transaction limit",
+              "format": "double",
+              "nullable": true
+            }
+          },
+          {
+            "name": "transactionLimitTo",
+            "in": "query",
+            "description": "optional upper transaction limit",
+            "schema": {
+              "type": "number",
+              "description": "optional upper transaction limit",
+              "format": "double",
+              "nullable": true
+            }
+          },
+          {
+            "name": "operativeId",
+            "in": "query",
+            "description": "optional operative id match expression",
+            "schema": {
+              "type": "string",
+              "description": "optional operative id match expression",
+              "nullable": true
+            }
+          },
+          {
+            "name": "pin",
+            "in": "query",
+            "description": "optional pin match expression",
+            "schema": {
+              "type": "string",
+              "description": "optional pin match expression",
+              "nullable": true
+            }
+          },
+          {
+            "name": "orderBy",
+            "in": "query",
+            "description": "optional order by",
+            "schema": {
+              "$ref": "#/components/schemas/OperativeCardsOrderBy"
+            }
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "description": "page number (starts at 1)",
+            "required": true,
+            "schema": {
+              "maximum": 10000,
+              "minimum": 1,
+              "type": "integer",
+              "description": "page number (starts at 1)",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "page size (between 5 and 100)",
+            "required": true,
+            "schema": {
+              "maximum": 100,
+              "minimum": 5,
+              "type": "integer",
+              "description": "page size (between 5 and 100)",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "if the operative cards are retrieved"
+          },
+          "400": {
+            "description": "if the parameters are not valid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "if unauthorized to use the API"
+          }
+        },
+        "security": [
+          {
+            "Bearer:OpCardMgt": [
+              "SwaggerDifferentAuthScheme"
+            ]
+          }
+        ]
+      }
+    },
+    "/admin/Cov/GetCovValidators": {
+      "get": {
+        "tags": [
+          "Cov"
+        ],
+        "summary": "Get COV validators list",
+        "responses": {
+          "200": {
+            "description": "returns list COV validators"
+          },
+          "401": {
+            "description": "if unauthorized to use the API"
+          },
+          "500": {
+            "description": "if unexpected error occurs"
+          }
+        },
+        "security": [
+          {
+            "Bearer:OVMAdmin": [
+              "SwaggerDifferentAuthScheme"
+            ]
+          }
+        ]
+      }
+    },
+    "/mgmt/Ftp/ProcessImports": {
+      "post": {
+        "tags": [
+          "Ftp"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Bearer:OVMFTP": [
+              "SwaggerDifferentAuthScheme"
+            ]
+          }
+        ]
+      }
+    },
+    "/mgmt/Ftp/{accountCode}/TestConnection": {
+      "get": {
+        "tags": [
+          "Ftp"
+        ],
+        "parameters": [
+          {
+            "name": "accountCode",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FtpResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Bearer:OVMFTP": [
+              "SwaggerDifferentAuthScheme"
+            ]
+          }
+        ]
+      }
+    },
+    "/mgmt/Ftp/{accountCode}/DownloadFile": {
+      "get": {
+        "tags": [
+          "Ftp"
+        ],
+        "parameters": [
+          {
+            "name": "accountCode",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "filename",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Bearer:OVMFTP": [
+              "SwaggerDifferentAuthScheme"
+            ]
+          }
+        ]
+      }
+    },
+    "/mgmt/Ftp/{accountCode}/ImportFile": {
+      "post": {
+        "tags": [
+          "Ftp"
+        ],
+        "parameters": [
+          {
+            "name": "accountCode",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "filename",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/FtpResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FtpResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FtpResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Bearer:OVMFTP": [
+              "SwaggerDifferentAuthScheme"
+            ]
+          }
+        ]
+      }
+    },
+    "/admin/Icov/{accountCode}/UploadRulesAdmin": {
+      "post": {
+        "tags": [
+          "Icov"
+        ],
+        "summary": "uploads ICOV rules file",
+        "parameters": [
+          {
+            "name": "accountCode",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "icovFileContent": {
+                    "type": "string",
+                    "format": "binary",
+                    "nullable": true
+                  },
+                  "user": {
+                    "type": "string",
+                    "nullable": true
+                  },
+                  "removeOldItems": {
+                    "type": "boolean",
+                    "nullable": true
+                  }
+                }
+              },
+              "encoding": {
+                "icovFileContent": {
+                  "style": "form"
+                },
+                "user": {
+                  "style": "form"
+                },
+                "removeOldItems": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "if the ICOV rules are updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IcovRuleFileUploadResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "if the parameters and/or the file are not valid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IcovRuleFileUploadResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "if unexpected error occurs",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IcovRuleFileUploadResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "if unauthorized to use the API"
+          }
+        },
+        "security": [
+          {
+            "Bearer:OVMAdmin": [
+              "SwaggerDifferentAuthScheme"
+            ]
+          }
+        ]
+      }
+    },
+    "/mgmt/Icov/{accountCode}/UploadRules": {
+      "post": {
+        "tags": [
+          "Icov"
+        ],
+        "summary": "uploads ICOV rules file",
+        "parameters": [
+          {
+            "name": "accountCode",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "icovFileContent": {
+                    "type": "string",
+                    "format": "binary",
+                    "nullable": true
+                  }
+                }
+              },
+              "encoding": {
+                "icovFileContent": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "if the ICOV rules are updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IcovRuleFileUploadResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "if the parameters and/or the file are not valid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IcovRuleFileUploadResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "if unexpected error occurs",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IcovRuleFileUploadResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "if unauthorized to use the API"
+          }
+        },
+        "security": [
+          {
+            "Bearer:OVMMgt": [
+              "SwaggerDifferentAuthScheme"
+            ]
+          }
+        ]
+      }
+    },
+    "/mgmt/Icov/GetPendingDownloads": {
+      "get": {
+        "tags": [
+          "Icov"
+        ],
+        "summary": "Get pending download file list",
+        "responses": {
+          "200": {
+            "description": "returns pending download file list"
+          },
+          "401": {
+            "description": "if unauthorized to use the API"
+          },
+          "500": {
+            "description": "if unexpected error occurs"
+          }
+        },
+        "security": [
+          {
+            "Bearer:OVMMgt": [
+              "SwaggerDifferentAuthScheme"
+            ]
+          }
+        ]
+      }
+    },
+    "/mgmt/Icov/UpdateFileDownloadStatus": {
+      "patch": {
+        "tags": [
+          "Icov"
+        ],
+        "summary": "Update file download status",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FileDownloadStatusUpdateRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FileDownloadStatusUpdateRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/FileDownloadStatusUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "if file download status successfully updated"
+          },
+          "401": {
+            "description": "if unauthorized to use the API"
+          },
+          "400": {
+            "description": "if the parameters are not valid"
+          },
+          "500": {
+            "description": "if unexpected error occurs"
+          }
+        },
+        "security": [
+          {
+            "Bearer:OVMMgt": [
+              "SwaggerDifferentAuthScheme"
+            ]
+          }
+        ]
+      }
+    },
+    "/mgmt/Icov/ResetAllFilesDownloadStatus": {
+      "patch": {
+        "tags": [
+          "Icov"
+        ],
+        "summary": "Reset all files download status to Idle",
+        "responses": {
+          "200": {
+            "description": "if all files download status successfully updated"
+          },
+          "401": {
+            "description": "if unauthorized to use the API"
+          },
+          "500": {
+            "description": "if unexpected error occurs"
+          }
+        },
+        "security": [
+          {
+            "Bearer:OVMMgt": [
+              "SwaggerDifferentAuthScheme"
+            ]
+          }
+        ]
+      }
+    },
+    "/legacy/admin/Request": {
+      "post": {
+        "tags": [
+          "Legacy"
+        ],
+        "summary": "legacy endpoint for SAP CC - creates a new cards request",
+        "requestBody": {
+          "description": "the cards request object",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CardsRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CardsRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CardsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "returns the newly created cards request"
+          },
+          "400": {
+            "description": "if the cards request is invalid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "if unauthorized to use the API"
+          }
+        },
+        "security": [
+          {
+            "Bearer:OpCardAdmin": [
+              "SwaggerDifferentAuthScheme"
+            ]
+          }
+        ]
+      }
+    },
+    "/legacy/admin/Request/{requestId}": {
+      "get": {
+        "tags": [
+          "Legacy"
+        ],
+        "summary": "legacy endpoint for SAP CC - retrieve an existing card request",
+        "parameters": [
+          {
+            "name": "requestId",
+            "in": "path",
+            "description": "unique numeric identified of the request",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "description": "unique numeric identified of the request",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "if the request is found"
+          },
+          "400": {
+            "description": "if the parameters are not valid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "if the request is not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "if unauthorized to use the API"
+          }
+        },
+        "security": [
+          {
+            "Bearer:OpCardAdmin": [
+              "SwaggerDifferentAuthScheme"
+            ]
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Legacy"
+        ],
+        "summary": "legacy endpoint for SAP CC - authorises/rejets/exports the cards request",
+        "parameters": [
+          {
+            "name": "requestId",
+            "in": "path",
+            "description": "unique numeric identified of the request",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "description": "unique numeric identified of the request",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "update parameter (authorise/export/reject)",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CardsRequestUpdateParams"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CardsRequestUpdateParams"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CardsRequestUpdateParams"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "if the cards request is authorised/rejected/exported based on requested action"
+          },
+          "400": {
+            "description": "if the cards request is invalid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "if the cards request doesn't exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "if unauthorized to use the API"
+          }
+        },
+        "security": [
+          {
+            "Bearer:OpCardAdmin": [
+              "SwaggerDifferentAuthScheme"
+            ]
+          }
+        ]
+      }
+    },
+    "/legacy/mgmt/Card/{accountCode}": {
+      "get": {
+        "tags": [
+          "Legacy"
+        ],
+        "summary": "legacy endpoint for SAP CC - retrieves the details of an operative card",
+        "parameters": [
+          {
+            "name": "accountCode",
+            "in": "path",
+            "description": "account code",
+            "required": true,
+            "schema": {
+              "maxLength": 8,
+              "minLength": 7,
+              "type": "string",
+              "description": "account code",
+              "nullable": true
+            }
+          },
+          {
+            "name": "cardid",
+            "in": "query",
+            "description": "the unsigned integer card unique identifier",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "description": "the unsigned integer card unique identifier",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "if the card is found"
+          },
+          "400": {
+            "description": "if the parameters are not valid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "if the card is not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "if unauthorized to use the API"
+          }
+        },
+        "security": [
+          {
+            "Bearer:OpCardMgt": [
+              "SwaggerDifferentAuthScheme"
+            ]
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Legacy"
+        ],
+        "summary": "legacy endpoint for SAP CC - changes the details of an existing operative card",
+        "parameters": [
+          {
+            "name": "accountCode",
+            "in": "path",
+            "description": "account code",
+            "required": true,
+            "schema": {
+              "maxLength": 8,
+              "minLength": 7,
+              "type": "string",
+              "description": "account code",
+              "nullable": true
+            }
+          },
+          {
+            "name": "cardid",
+            "in": "query",
+            "description": "the unsigned integer card unique identifier",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "description": "the unsigned integer card unique identifier",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "the operative card object",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OperativeCard"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OperativeCard"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/OperativeCard"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "if the card is updated"
+          },
+          "400": {
+            "description": "if the parameters are not valid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "if the card is not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "if unauthorized to use the API"
+          }
+        },
+        "security": [
+          {
+            "Bearer:OpCardMgt": [
+              "SwaggerDifferentAuthScheme"
+            ]
+          }
+        ]
+      }
+    },
+    "/legacy/mgmt/Cards/{accountCode}": {
+      "get": {
+        "tags": [
+          "Legacy"
+        ],
+        "summary": "legacy endpoint for SAP CC - searches for and returns a list of operative cards for a given account",
+        "parameters": [
+          {
+            "name": "accountCode",
+            "in": "path",
+            "description": "account code",
+            "required": true,
+            "schema": {
+              "maxLength": 8,
+              "minLength": 7,
+              "type": "string",
+              "description": "account code",
+              "nullable": true
+            }
+          },
+          {
+            "name": "enabled",
+            "in": "query",
+            "description": "optional enabled status",
+            "schema": {
+              "type": "boolean",
+              "description": "optional enabled status",
+              "nullable": true
+            }
+          },
+          {
+            "name": "transactionlimitfrom",
+            "in": "query",
+            "description": "optional lower transaction limit",
+            "schema": {
+              "type": "number",
+              "description": "optional lower transaction limit",
+              "format": "double",
+              "nullable": true
+            }
+          },
+          {
+            "name": "transactionlimitto",
+            "in": "query",
+            "description": "optional upper transaction limit",
+            "schema": {
+              "type": "number",
+              "description": "optional upper transaction limit",
+              "format": "double",
+              "nullable": true
+            }
+          },
+          {
+            "name": "operativeid",
+            "in": "query",
+            "description": "optional operative id match expression",
+            "schema": {
+              "type": "string",
+              "description": "optional operative id match expression",
+              "nullable": true
+            }
+          },
+          {
+            "name": "pin",
+            "in": "query",
+            "description": "optional pin match expression",
+            "schema": {
+              "type": "string",
+              "description": "optional pin match expression",
+              "nullable": true
+            }
+          },
+          {
+            "name": "orderby",
+            "in": "query",
+            "description": "optional order by",
+            "schema": {
+              "$ref": "#/components/schemas/OperativeCardsOrderBy"
+            }
+          },
+          {
+            "name": "pagenumber",
+            "in": "query",
+            "description": "page number (starts at 1)",
+            "required": true,
+            "schema": {
+              "maximum": 10000,
+              "minimum": 1,
+              "type": "integer",
+              "description": "page number (starts at 1)",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pagesize",
+            "in": "query",
+            "description": "page size (between 5 and 100)",
+            "required": true,
+            "schema": {
+              "maximum": 100,
+              "minimum": 5,
+              "type": "integer",
+              "description": "page size (between 5 and 100)",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "if the operative cards are retrieved"
+          },
+          "400": {
+            "description": "if the parameters are not valid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "if unauthorized to use the API"
+          }
+        },
+        "security": [
+          {
+            "Bearer:OpCardMgt": [
+              "SwaggerDifferentAuthScheme"
+            ]
+          }
+        ]
+      }
+    },
+    "/legacy/mgmt/Request/{accountCode}": {
+      "post": {
+        "tags": [
+          "Legacy"
+        ],
+        "summary": "legacy endpoint for SAP CC - creates a new cards request",
+        "parameters": [
+          {
+            "name": "accountCode",
+            "in": "path",
+            "description": "account code",
+            "required": true,
+            "schema": {
+              "maxLength": 8,
+              "minLength": 7,
+              "type": "string",
+              "description": "account code",
+              "nullable": true
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "the cards request object",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CardsRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CardsRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CardsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "returns the newly created cards request"
+          },
+          "400": {
+            "description": "if the cards request is invalid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "if unauthorized to use the API"
+          }
+        },
+        "security": [
+          {
+            "Bearer:OpCardMgt": [
+              "SwaggerDifferentAuthScheme"
+            ]
+          }
+        ]
+      },
+      "get": {
+        "tags": [
+          "Legacy"
+        ],
+        "summary": "legacy endpoint for SAP CC - retrieve an existing card request",
+        "parameters": [
+          {
+            "name": "accountCode",
+            "in": "path",
+            "description": "account code",
+            "required": true,
+            "schema": {
+              "maxLength": 8,
+              "minLength": 7,
+              "type": "string",
+              "description": "account code",
+              "nullable": true
+            }
+          },
+          {
+            "name": "requestid",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "if the request is found"
+          },
+          "400": {
+            "description": "if the parameters are not valid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "if the request is not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "if unauthorized to use the API"
+          }
+        },
+        "security": [
+          {
+            "Bearer:OpCardMgt": [
+              "SwaggerDifferentAuthScheme"
+            ]
+          }
+        ]
+      }
+    },
+    "/admin/Request": {
+      "post": {
+        "tags": [
+          "Request"
+        ],
+        "summary": "creates a new cards request",
+        "requestBody": {
+          "description": "the cards request object",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CardsRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CardsRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CardsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "returns the newly created cards request"
+          },
+          "400": {
+            "description": "if the cards request is invalid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "if unauthorized to use the API"
+          }
+        },
+        "security": [
+          {
+            "Bearer:OpCardAdmin": [
+              "SwaggerDifferentAuthScheme"
+            ]
+          }
+        ]
+      },
+      "get": {
+        "tags": [
+          "Request"
+        ],
+        "summary": "searches for and returns a list of card requests by their date of request and status for a given account",
+        "parameters": [
+          {
+            "name": "accountCode",
+            "in": "query",
+            "description": "account code",
+            "schema": {
+              "type": "string",
+              "description": "account code",
+              "nullable": true
+            }
+          },
+          {
+            "name": "dateRequested",
+            "in": "query",
+            "description": "date on which card request is submitted",
+            "schema": {
+              "type": "string",
+              "description": "date on which card request is submitted",
+              "nullable": true
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "status of the card request",
+            "schema": {
+              "type": "string",
+              "description": "status of the card request",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "if the card requests with request status are retrieved"
+          },
+          "400": {
+            "description": "if the parameters are not valid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "if unauthorized to use the API"
+          }
+        },
+        "security": [
+          {
+            "Bearer:OpCardAdmin": [
+              "SwaggerDifferentAuthScheme"
+            ]
+          }
+        ]
+      }
+    },
+    "/admin/Request/{requestId}": {
+      "get": {
+        "tags": [
+          "Request"
+        ],
+        "summary": "retrieve an existing card request",
+        "parameters": [
+          {
+            "name": "requestId",
+            "in": "path",
+            "description": "unique numeric identified of the request",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "description": "unique numeric identified of the request",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "if the request is found"
+          },
+          "400": {
+            "description": "if the parameters are not valid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "if the request is not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "if unauthorized to use the API"
+          }
+        },
+        "security": [
+          {
+            "Bearer:OpCardAdmin": [
+              "SwaggerDifferentAuthScheme"
+            ]
+          }
+        ]
+      }
+    },
+    "/admin/Request/{requestId}/Authorise": {
+      "put": {
+        "tags": [
+          "Request"
+        ],
+        "summary": "authorises the cards request",
+        "parameters": [
+          {
+            "name": "requestId",
+            "in": "path",
+            "description": "unique numeric identified of the request",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "description": "unique numeric identified of the request",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "number of cards that have been authorised to purchase (min. 5, max. 500)",
+          "content": {
+            "application/json": {
+              "schema": {
+                "maximum": 500,
+                "minimum": 5,
+                "type": "integer",
+                "description": "number of cards that have been authorised to purchase (min. 5, max. 500)",
+                "format": "int32"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "maximum": 500,
+                "minimum": 5,
+                "type": "integer",
+                "description": "number of cards that have been authorised to purchase (min. 5, max. 500)",
+                "format": "int32"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "maximum": 500,
+                "minimum": 5,
+                "type": "integer",
+                "description": "number of cards that have been authorised to purchase (min. 5, max. 500)",
+                "format": "int32"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "if the cards request is authorised"
+          },
+          "400": {
+            "description": "if the cards request is invalid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "if the cards request doesn't exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "if unauthorized to use the API"
+          }
+        },
+        "security": [
+          {
+            "Bearer:OpCardAdmin": [
+              "SwaggerDifferentAuthScheme"
+            ]
+          }
+        ]
+      }
+    },
+    "/admin/Request/{requestId}/Reject": {
+      "put": {
+        "tags": [
+          "Request"
+        ],
+        "summary": "rejects the cards request",
+        "parameters": [
+          {
+            "name": "requestId",
+            "in": "path",
+            "description": "unique numeric identified of the request",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "description": "unique numeric identified of the request",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "reason for rejecting the request (max. 200 characters)",
+          "content": {
+            "application/json": {
+              "schema": {
+                "maxLength": 200,
+                "minLength": 0,
+                "type": "string",
+                "description": "reason for rejecting the request (max. 200 characters)"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "maxLength": 200,
+                "minLength": 0,
+                "type": "string",
+                "description": "reason for rejecting the request (max. 200 characters)"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "maxLength": 200,
+                "minLength": 0,
+                "type": "string",
+                "description": "reason for rejecting the request (max. 200 characters)"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "if the cards request is rejected"
+          },
+          "400": {
+            "description": "if the cards request is invalid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "if the cards request doesn't exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "if unauthorized to use the API"
+          }
+        },
+        "security": [
+          {
+            "Bearer:OpCardAdmin": [
+              "SwaggerDifferentAuthScheme"
+            ]
+          }
+        ]
+      }
+    },
+    "/admin/Request/{requestId}/Export": {
+      "put": {
+        "tags": [
+          "Request"
+        ],
+        "summary": "retrieve the cards request for export and set the ExportedDate",
+        "parameters": [
+          {
+            "name": "requestId",
+            "in": "path",
+            "description": "unique numeric identified of the request",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "description": "unique numeric identified of the request",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "if the cards request is exported"
+          },
+          "400": {
+            "description": "if the cards request is invalid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "if the cards request doesn't exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "if unauthorized to use the API"
+          }
+        },
+        "security": [
+          {
+            "Bearer:OpCardAdmin": [
+              "SwaggerDifferentAuthScheme"
+            ]
+          }
+        ]
+      }
+    },
+    "/mgmt/Request/{accountCode}": {
+      "post": {
+        "tags": [
+          "Request"
+        ],
+        "summary": "creates a new cards request",
+        "parameters": [
+          {
+            "name": "accountCode",
+            "in": "path",
+            "description": "account code",
+            "required": true,
+            "schema": {
+              "maxLength": 8,
+              "minLength": 7,
+              "type": "string",
+              "description": "account code",
+              "nullable": true
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "the cards request object",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CardsRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CardsRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CardsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "returns the newly created cards request"
+          },
+          "400": {
+            "description": "if the cards request is invalid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "if unauthorized to use the API"
+          }
+        },
+        "security": [
+          {
+            "Bearer:OpCardMgt": [
+              "SwaggerDifferentAuthScheme"
+            ]
+          }
+        ]
+      }
+    },
+    "/mgmt/Request/{accountCode}/{requestId}": {
+      "get": {
+        "tags": [
+          "Request"
+        ],
+        "summary": "retrieve an existing card request",
+        "parameters": [
+          {
+            "name": "accountCode",
+            "in": "path",
+            "description": "account code",
+            "required": true,
+            "schema": {
+              "maxLength": 8,
+              "minLength": 7,
+              "type": "string",
+              "description": "account code",
+              "nullable": true
+            }
+          },
+          {
+            "name": "requestId",
+            "in": "path",
+            "description": "unique numeric identified of the request",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "description": "unique numeric identified of the request",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "if the request is found"
+          },
+          "400": {
+            "description": "if the parameters are not valid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "if the request is not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "if unauthorized to use the API"
+          }
+        },
+        "security": [
+          {
+            "Bearer:OpCardMgt": [
+              "SwaggerDifferentAuthScheme"
+            ]
+          }
+        ]
+      }
+    },
+    "/order/Validation": {
+      "post": {
+        "tags": [
+          "Validation"
+        ],
+        "summary": "processes an order validation request",
+        "requestBody": {
+          "description": "the order validation request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrderValidationRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrderValidationRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrderValidationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "if the order validation request had been processed"
+          },
+          "400": {
+            "description": "if the order validation request is invalid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "if unauthorized to use the API"
+          }
+        },
+        "security": [
+          {
+            "Bearer:OVMValidation": [
+              "SwaggerDifferentAuthScheme"
+            ]
+          }
+        ]
+      }
+    },
+    "/order/Validation/PostTestHarness": {
+      "post": {
+        "tags": [
+          "Validation"
+        ],
+        "summary": "processes an order validation request without logging to allow test harness to compare old and new versions",
+        "requestBody": {
+          "description": "the order validation request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrderValidationRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrderValidationRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrderValidationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "if the order validation request had been processed"
+          },
+          "400": {
+            "description": "if the order validation request is invalid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "if unauthorized to use the API"
+          }
+        },
+        "security": [
+          {
+            "Bearer:OVMValidationTestHarness": [
+              "SwaggerDifferentAuthScheme"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ProblemDetails": {
+        "type": "object",
+        "additionalProperties": {
+          "type": "object",
+          "additionalProperties": false
+        }
+      },
+      "OperativeCard": {
+        "required": [
+          "activeStatus",
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "unique id of the card",
+            "format": "int32"
+          },
+          "cardRequestId": {
+            "type": "integer",
+            "description": "id of the card request",
+            "format": "int32"
+          },
+          "activeStatus": {
+            "type": "boolean",
+            "description": "card enabled or disabled"
+          },
+          "pin": {
+            "maxLength": 15,
+            "minLength": 0,
+            "type": "string",
+            "description": "pin assigned to the card",
+            "nullable": true
+          },
+          "transactionLimit": {
+            "type": "number",
+            "description": "transaction Limit assigned to the card",
+            "format": "double",
+            "nullable": true
+          },
+          "operativeId": {
+            "maxLength": 20,
+            "minLength": 0,
+            "type": "string",
+            "description": "operative id / card holder assigned to the card",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "operative card detail"
+      },
+      "OperativeCardsOrderBy": {
+        "enum": [
+          "IDAsc",
+          "IDDesc",
+          "LimitAsc",
+          "LimitDesc",
+          "OperativeAsc",
+          "OperativeDesc"
+        ],
+        "type": "string",
+        "description": "operative cards search result sorting"
+      },
+      "FtpErrorResponseType": {
+        "enum": [
+          "FtpError",
+          "IcovFileInvalid"
+        ],
+        "type": "string"
+      },
+      "FtpResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "errorMessage": {
+            "type": "string",
+            "nullable": true
+          },
+          "fileBytes": {
+            "type": "string",
+            "format": "byte",
+            "nullable": true
+          },
+          "hasFile": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "errorType": {
+            "$ref": "#/components/schemas/FtpErrorResponseType"
+          }
+        },
+        "additionalProperties": false
+      },
+      "IcovRuleFileUploadResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "errorMessage": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "FileDownloadStatus": {
+        "enum": [
+          "Idle",
+          "InProgress",
+          "Error"
+        ],
+        "type": "string"
+      },
+      "FileDownloadStatusUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "accountCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "filename": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "$ref": "#/components/schemas/FileDownloadStatus"
+          },
+          "statusUpdateReason": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CardsRequestStatus": {
+        "enum": [
+          "New",
+          "Authorised",
+          "Rejected"
+        ],
+        "type": "string",
+        "description": "status of the operative cards request"
+      },
+      "CardsRequest": {
+        "required": [
+          "accountCode",
+          "accountCodeOnCard",
+          "id",
+          "quantityRequested",
+          "status"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Database Id reference",
+            "format": "int32"
+          },
+          "accountCode": {
+            "maxLength": 8,
+            "minLength": 7,
+            "type": "string",
+            "description": "Trading Account Code"
+          },
+          "quantityRequested": {
+            "maximum": 500,
+            "minimum": 5,
+            "type": "integer",
+            "description": "Number of cards requested",
+            "format": "int32"
+          },
+          "quantityApproved": {
+            "maximum": 500,
+            "minimum": 5,
+            "type": "integer",
+            "description": "Number of cards approved",
+            "format": "int32",
+            "nullable": true
+          },
+          "dateRequested": {
+            "type": "string",
+            "description": "Date request was made",
+            "format": "date-time"
+          },
+          "status": {
+            "$ref": "#/components/schemas/CardsRequestStatus"
+          },
+          "dateProcessed": {
+            "type": "string",
+            "description": "Date when the request was processed",
+            "format": "date-time",
+            "nullable": true
+          },
+          "rejectReason": {
+            "maxLength": 200,
+            "minLength": 0,
+            "type": "string",
+            "description": "Reason of rejection",
+            "nullable": true
+          },
+          "exportedDate": {
+            "type": "string",
+            "description": "Last date a card request was exported",
+            "format": "date-time",
+            "nullable": true
+          },
+          "isArchived": {
+            "type": "boolean",
+            "description": "Last date a card request was exported"
+          },
+          "deliveryAddress1": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string",
+            "description": "Delivery address",
+            "nullable": true
+          },
+          "deliveryAddress2": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string",
+            "description": "Delivery address 2",
+            "nullable": true
+          },
+          "deliveryTown": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string",
+            "description": "Delivery town",
+            "nullable": true
+          },
+          "deliveryCounty": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string",
+            "description": "Delivery county",
+            "nullable": true
+          },
+          "deliveryPostcode": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string",
+            "description": "Delivery postcode",
+            "nullable": true
+          },
+          "deliveryName": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string",
+            "description": "Delivery name",
+            "nullable": true
+          },
+          "accountCodeOnCard": {
+            "type": "boolean",
+            "description": "Should account code be printed on each card of the request"
+          },
+          "operativeCards": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OperativeCard"
+            },
+            "description": "Cards Assigned to the request for when the request is exported",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "operative cards purchase request"
+      },
+      "CardsRequestUpdateParams": {
+        "type": "object",
+        "properties": {
+          "authorise": {
+            "maximum": 500,
+            "minimum": 5,
+            "type": "integer",
+            "description": "Authorise.",
+            "format": "int32",
+            "nullable": true
+          },
+          "export": {
+            "type": "integer",
+            "description": "Export.",
+            "format": "int32",
+            "nullable": true
+          },
+          "reject": {
+            "maxLength": 200,
+            "minLength": 0,
+            "type": "string",
+            "description": "Reject.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Update (authorise, export or reject) cards request."
+      },
+      "MessageInformation": {
+        "required": [
+          "endPoint",
+          "requestingServer",
+          "requestingTerminal",
+          "requestingUser"
+        ],
+        "type": "object",
+        "properties": {
+          "requestingServer": {
+            "type": "string"
+          },
+          "requestingTerminal": {
+            "type": "string"
+          },
+          "requestingUser": {
+            "type": "string"
+          },
+          "endPoint": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Branch": {
+        "required": [
+          "name",
+          "number"
+        ],
+        "type": "object",
+        "properties": {
+          "number": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Operator": {
+        "required": [
+          "code"
+        ],
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Address": {
+        "required": [
+          "addressLines"
+        ],
+        "type": "object",
+        "properties": {
+          "addressLines": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "postCode": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "SupplierDetail": {
+        "required": [
+          "address",
+          "branch",
+          "operator"
+        ],
+        "type": "object",
+        "properties": {
+          "branch": {
+            "$ref": "#/components/schemas/Branch"
+          },
+          "contact": {
+            "type": "string",
+            "nullable": true
+          },
+          "operator": {
+            "$ref": "#/components/schemas/Operator"
+          },
+          "address": {
+            "$ref": "#/components/schemas/Address"
+          },
+          "telephone": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "BuyerAccountDetail": {
+        "required": [
+          "address",
+          "code",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "address": {
+            "$ref": "#/components/schemas/Address"
+          }
+        },
+        "additionalProperties": false
+      },
+      "BuyerDetail": {
+        "required": [
+          "invoiceAccount"
+        ],
+        "type": "object",
+        "properties": {
+          "invoiceAccount": {
+            "$ref": "#/components/schemas/BuyerAccountDetail"
+          },
+          "orderPointAccount": {
+            "$ref": "#/components/schemas/BuyerAccountDetail"
+          }
+        },
+        "additionalProperties": false
+      },
+      "SupplierOrderNumber": {
+        "required": [
+          "branch",
+          "number"
+        ],
+        "type": "object",
+        "properties": {
+          "branch": {
+            "type": "string"
+          },
+          "number": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "OrderValidationFieldStatus": {
+        "enum": [
+          "amend",
+          "valid",
+          "invalid"
+        ],
+        "type": "string"
+      },
+      "OrderValidationField": {
+        "required": [
+          "name",
+          "required"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string",
+            "nullable": true
+          },
+          "required": {
+            "type": "boolean"
+          },
+          "status": {
+            "$ref": "#/components/schemas/OrderValidationFieldStatus"
+          },
+          "address": {
+            "$ref": "#/components/schemas/Address"
+          }
+        },
+        "additionalProperties": false
+      },
+      "OrderLimitValue": {
+        "required": [
+          "currency",
+          "value"
+        ],
+        "type": "object",
+        "properties": {
+          "currency": {
+            "type": "string"
+          },
+          "value": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "OrderLimits": {
+        "required": [
+          "additionalLinesAllowed",
+          "lineValue",
+          "orderExpires",
+          "orderValue"
+        ],
+        "type": "object",
+        "properties": {
+          "orderValue": {
+            "$ref": "#/components/schemas/OrderLimitValue"
+          },
+          "lineValue": {
+            "$ref": "#/components/schemas/OrderLimitValue"
+          },
+          "orderExpires": {
+            "type": "string"
+          },
+          "additionalLinesAllowed": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "OrderDetail": {
+        "required": [
+          "supplierOrderNumber"
+        ],
+        "type": "object",
+        "properties": {
+          "supplierOrderNumber": {
+            "$ref": "#/components/schemas/SupplierOrderNumber"
+          },
+          "validationFields": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderValidationField"
+            },
+            "nullable": true
+          },
+          "orderLimits": {
+            "$ref": "#/components/schemas/OrderLimits"
+          }
+        },
+        "additionalProperties": false
+      },
+      "OrderValidationRequest": {
+        "required": [
+          "buyerDetails",
+          "messageInformation",
+          "orderDetail",
+          "supplierDetails"
+        ],
+        "type": "object",
+        "properties": {
+          "messageInformation": {
+            "$ref": "#/components/schemas/MessageInformation"
+          },
+          "supplierDetails": {
+            "$ref": "#/components/schemas/SupplierDetail"
+          },
+          "buyerDetails": {
+            "$ref": "#/components/schemas/BuyerDetail"
+          },
+          "orderDetail": {
+            "$ref": "#/components/schemas/OrderDetail"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "securitySchemes": {
+      "Bearer:OpCardMgt": {
+        "type": "apiKey",
+        "description": "JWT Authorization header using the Bearer scheme.<br/>\r\n                                    Enter 'Bearer' [space] and then your token in the text input below.<br/>\r\n                                    Example: 'Bearer 12345abcdef'<br/>",
+        "name": "Authorization",
+        "in": "header"
+      },
+      "Bearer:OpCardAdmin": {
+        "type": "apiKey",
+        "description": "JWT Authorization header using the Bearer scheme.<br/>\r\n                                    Enter 'Bearer' [space] and then your token in the text input below.<br/>\r\n                                    Example: 'Bearer 12345abcdef'<br/>",
+        "name": "Authorization",
+        "in": "header"
+      },
+      "Bearer:OVMMgt": {
+        "type": "apiKey",
+        "description": "JWT Authorization header using the Bearer scheme.<br/>\r\n                                    Enter 'Bearer' [space] and then your token in the text input below.<br/>\r\n                                    Example: 'Bearer 12345abcdef'<br/>",
+        "name": "Authorization",
+        "in": "header"
+      },
+      "Bearer:OVMAdmin": {
+        "type": "apiKey",
+        "description": "JWT Authorization header using the Bearer scheme.<br/>\r\n                                    Enter 'Bearer' [space] and then your token in the text input below.<br/>\r\n                                    Example: 'Bearer 12345abcdef'<br/>",
+        "name": "Authorization",
+        "in": "header"
+      },
+      "Bearer:OVMFTP": {
+        "type": "apiKey",
+        "description": "JWT Authorization header using the Bearer scheme.<br/>\r\n                                    Enter 'Bearer' [space] and then your token in the text input below.<br/>\r\n                                    Example: 'Bearer 12345abcdef'<br/>",
+        "name": "Authorization",
+        "in": "header"
+      },
+      "Bearer:OVMValidation": {
+        "type": "apiKey",
+        "description": "JWT Authorization header using the Bearer scheme.<br/>\r\n                                    Enter 'Bearer' [space] and then your token in the text input below.<br/>\r\n                                    Example: 'Bearer 12345abcdef'<br/>",
+        "name": "Authorization",
+        "in": "header"
+      },
+      "Bearer:OVMValidationTestHarness": {
+        "type": "apiKey",
+        "description": "JWT Authorization header using the Bearer scheme.<br/>\r\n                                    Enter 'Bearer' [space] and then your token in the text input below.<br/>\r\n                                    Example: 'Bearer 12345abcdef'<br/>",
+        "name": "Authorization",
+        "in": "header"
+      }
+    }
+  }
+}
