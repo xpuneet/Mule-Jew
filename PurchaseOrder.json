@@ -1,0 +1,1036 @@
+{
+  "openapi": "3.0.4",
+  "info": {
+    "title": "STUK PurchaseOrderService API",
+    "description": "Canonical Purchase Order API for persisting purchase order candidates before asynchronous ICON synchronization.",
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "/purchase-order"
+    }
+  ],
+  "paths": {
+    "/PurchaseOrderService/PurchaseOrders/v1": {
+      "post": {
+        "tags": [
+          "PurchaseOrders"
+        ],
+        "summary": "Submit one canonical purchase order candidate for asynchronous processing.",
+        "description": "The request is persisted before a separate processor communicates asynchronously with ICON. The request must be one\r\nJSON object, include Content-Length, use a JSON media type, and be no larger than 10 KB. Arrays and bulk\r\nsubmissions are not supported. The service assigns the source and create user; acceptance does not mean\r\nthat ICON has created the purchase order.",
+        "requestBody": {
+          "description": "Canonical purchase order header and at least one line.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PurchaseOrder"
+              },
+              "example": {
+                "purchaseOrderHeader": {
+                  "account": "BRIT186",
+                  "branch": 385,
+                  "stockClass": 1,
+                  "reference": "20211108",
+                  "dateExpected": "2026-09-22",
+                  "contacts": [
+                    {
+                      "type": "supplier",
+                      "name": "John Smith",
+                      "contact": "1",
+                      "phone": "+44 1488 662000",
+                      "email": "supplier@example.com"
+                    }
+                  ],
+                  "addresses": [
+                    {
+                      "type": "supplier",
+                      "lines": [
+                        "Example Supplier",
+                        "10 High Street"
+                      ],
+                      "postCode": "RG17 0YU",
+                      "country": "GB"
+                    }
+                  ],
+                  "instructions": "Deliver during goods-in opening hours.",
+                  "narrative": "Example stock replenishment order.",
+                  "orderType": "stock",
+                  "deliveryMethod": "D",
+                  "suspendOrder": false,
+                  "extOrderRef": "REF01",
+                  "reasonPurchase": "STOCK",
+                  "extensionAttributes": [
+                    {
+                      "name": "packIgnore",
+                      "value": "true"
+                    }
+                  ]
+                },
+                "purchaseOrderLines": [
+                  {
+                    "productId": "A0000201",
+                    "manufacturer": "Example Manufacturer",
+                    "stockClass": 1,
+                    "productDescription": "Red Brick",
+                    "quantity": 5,
+                    "unit": "EA",
+                    "dateExpected": "2026-09-22",
+                    "specialInstructions": "Keep dry.",
+                    "internalInstructions": "Check packaging on receipt.",
+                    "pricing": {
+                      "unit": "EA",
+                      "price": 8.45
+                    },
+                    "tally": [
+                      {
+                        "quantity": 5,
+                        "length": 215,
+                        "width": 102
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The candidate was persisted for asynchronous processing.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubmitPurchaseOrderResponse"
+                },
+                "example": {
+                  "candidateId": "00000000-0000-0000-0000-000000000001",
+                  "status": "READY_FOR_SUBMISSION",
+                  "acceptedDateTime": "2026-09-15T10:30:00+00:00",
+                  "message": "Purchase order accepted for asynchronous processing."
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The JSON shape, content type, or canonical purchase order is invalid.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                },
+                "example": {
+                  "type": "https://tools.ietf.org/html/rfc9110#section-15.5.1",
+                  "title": "One or more validation errors occurred.",
+                  "status": 400,
+                  "errors": {
+                    "purchaseOrderLines[0].quantity": [
+                      "Quantity must be greater than zero."
+                    ]
+                  },
+                  "traceId": "00-example-trace-id-00",
+                  "errorType": "BadRequest",
+                  "errorDescription": "purchaseOrderLines[0].quantity: Quantity must be greater than zero."
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The bearer token is missing or invalid.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                },
+                "example": {
+                  "title": "Service Temporarily Unavailable",
+                  "status": 503,
+                  "detail": "PurchaseOrderService could not complete the request.",
+                  "instance": "/PurchaseOrderService/PurchaseOrders/v1",
+                  "traceId": "00-example-trace-id-00"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                },
+                "example": {
+                  "title": "Service Temporarily Unavailable",
+                  "status": 503,
+                  "detail": "PurchaseOrderService could not complete the request.",
+                  "instance": "/PurchaseOrderService/PurchaseOrders/v1",
+                  "traceId": "00-example-trace-id-00"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                },
+                "example": {
+                  "title": "Service Temporarily Unavailable",
+                  "status": 503,
+                  "detail": "PurchaseOrderService could not complete the request.",
+                  "instance": "/PurchaseOrderService/PurchaseOrders/v1",
+                  "traceId": "00-example-trace-id-00"
+                }
+              }
+            }
+          },
+          "411": {
+            "description": "The Content-Length header is missing.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                },
+                "example": {
+                  "title": "Purchase order request rejected.",
+                  "status": 411,
+                  "detail": "Content-Length is required.",
+                  "instance": "/PurchaseOrderService/PurchaseOrders/v1"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "The request body exceeds 10 KB.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                },
+                "example": {
+                  "title": "Purchase order request rejected.",
+                  "status": 413,
+                  "detail": "Request body exceeds the 10 KB limit.",
+                  "instance": "/PurchaseOrderService/PurchaseOrders/v1"
+                }
+              }
+            }
+          },
+          "418": {
+            "description": "The request contains an array or bulk payload.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                },
+                "example": {
+                  "title": "Purchase order request rejected.",
+                  "status": 418,
+                  "detail": "Bulk purchase-order requests are not supported.",
+                  "instance": "/PurchaseOrderService/PurchaseOrders/v1"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "The service could not complete the request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                },
+                "example": {
+                  "title": "Service Temporarily Unavailable",
+                  "status": 503,
+                  "detail": "PurchaseOrderService could not complete the request.",
+                  "instance": "/PurchaseOrderService/PurchaseOrders/v1",
+                  "traceId": "00-example-trace-id-00"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "PurchaseOrders"
+        ],
+        "summary": "Search persisted purchase order candidates.",
+        "description": "Source is required. Page number starts at 1. Page size starts at 1 and cannot exceed the configured maximum,\r\nwhich is capped at 50. Filters are combined and an empty result is returned as 404.",
+        "parameters": [
+          {
+            "name": "Source",
+            "in": "query",
+            "description": "Required ingestion source. The value must be present in the environment's configured allowed-source list.",
+            "schema": {
+              "type": "string",
+              "example": "API"
+            },
+            "example": "API"
+          },
+          {
+            "name": "Account",
+            "in": "query",
+            "description": "Supplier account identifier.",
+            "schema": {
+              "type": "string",
+              "example": "BRIT186"
+            },
+            "example": "BRIT186"
+          },
+          {
+            "name": "Branch",
+            "in": "query",
+            "description": "Branch or location identifier stored with the candidate.",
+            "schema": {
+              "type": "string",
+              "example": "385"
+            },
+            "example": "385"
+          },
+          {
+            "name": "Reference",
+            "in": "query",
+            "description": "External purchase order reference supplied in the canonical header.",
+            "schema": {
+              "type": "string",
+              "example": "20211108"
+            },
+            "example": "20211108"
+          },
+          {
+            "name": "IconPurchaseOrderNumber",
+            "in": "query",
+            "description": "Purchase order number returned by ICON after successful processing.",
+            "schema": {
+              "type": "string",
+              "example": "PO123456"
+            },
+            "example": "PO123456"
+          },
+          {
+            "name": "Status",
+            "in": "query",
+            "description": "Canonical candidate status: DRAFT, READY_FOR_SUBMISSION, SUBMISSION_IN_PROGRESS,\r\nRECOVERABLE_ERROR, NON_RECOVERABLE_ERROR, RETRY_REQUESTED, COMPLETED, or CANCELLED.",
+            "schema": {
+              "type": "string",
+              "example": "READY_FOR_SUBMISSION"
+            },
+            "example": "READY_FOR_SUBMISSION"
+          },
+          {
+            "name": "PageNumber",
+            "in": "query",
+            "description": "One-based page number. Values below 1 are rejected.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "example": 1
+            },
+            "example": 1
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "description": "Requested records per page. The value must be at least 1 and no greater than the configured maximum,\r\nwhich is capped at 50.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "example": 25
+            },
+            "example": 25
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One page of matching purchase order candidates.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PurchaseOrderSearchResponse"
+                },
+                "example": {
+                  "orders": [
+                    {
+                      "candidateId": "00000000-0000-0000-0000-000000000001",
+                      "source": "API",
+                      "account": "BRIT186",
+                      "branch": "385",
+                      "reference": "20211108",
+                      "iconPurchaseOrderNumber": "PO123456",
+                      "status": "READY_FOR_SUBMISSION",
+                      "acceptedDateTime": "2026-09-15T10:30:00+00:00"
+                    }
+                  ],
+                  "pageNumber": 1,
+                  "pageSize": 25
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "A source, status, or pagination value is invalid.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                },
+                "example": {
+                  "type": "https://tools.ietf.org/html/rfc9110#section-15.5.1",
+                  "title": "One or more validation errors occurred.",
+                  "status": 400,
+                  "errors": {
+                    "pageSize": [
+                      "PageSize must be between 1 and the configured maximum of 50."
+                    ]
+                  },
+                  "traceId": "00-example-trace-id-00",
+                  "errorType": "BadRequest",
+                  "errorDescription": "pageSize: PageSize must be between 1 and the configured maximum of 50."
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The bearer token is missing or invalid.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                },
+                "example": {
+                  "title": "Service Temporarily Unavailable",
+                  "status": 503,
+                  "detail": "PurchaseOrderService could not complete the request.",
+                  "instance": "/PurchaseOrderService/PurchaseOrders/v1",
+                  "traceId": "00-example-trace-id-00"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                },
+                "example": {
+                  "title": "Service Temporarily Unavailable",
+                  "status": 503,
+                  "detail": "PurchaseOrderService could not complete the request.",
+                  "instance": "/PurchaseOrderService/PurchaseOrders/v1",
+                  "traceId": "00-example-trace-id-00"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                },
+                "example": {
+                  "title": "Service Temporarily Unavailable",
+                  "status": 503,
+                  "detail": "PurchaseOrderService could not complete the request.",
+                  "instance": "/PurchaseOrderService/PurchaseOrders/v1",
+                  "traceId": "00-example-trace-id-00"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No candidates matched all supplied filters.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                },
+                "example": {
+                  "type": "https://tools.ietf.org/html/rfc9110#section-15.5.5",
+                  "title": "Purchase orders were not found.",
+                  "status": 404,
+                  "detail": "No purchase orders matched the supplied search criteria."
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "The service could not complete the request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                },
+                "example": {
+                  "title": "Service Temporarily Unavailable",
+                  "status": 503,
+                  "detail": "PurchaseOrderService could not complete the request.",
+                  "instance": "/PurchaseOrderService/PurchaseOrders/v1",
+                  "traceId": "00-example-trace-id-00"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ProblemDetails": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "detail": {
+            "type": "string",
+            "nullable": true
+          },
+          "instance": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": { }
+      },
+      "PurchaseOrder": {
+        "type": "object",
+        "properties": {
+          "purchaseOrderHeader": {
+            "$ref": "#/components/schemas/PurchaseOrderHeader"
+          },
+          "purchaseOrderLines": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PurchaseOrderLine"
+            },
+            "description": "Required product lines. At least one line must be supplied; bulk top-level arrays are not supported.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Canonical purchase order accepted by the public API."
+      },
+      "PurchaseOrderAddress": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/PurchaseOrderPartyType"
+          },
+          "lines": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Ordered postal-address lines.",
+            "nullable": true,
+            "example": [
+              "Example Supplier",
+              "10 High Street"
+            ]
+          },
+          "postCode": {
+            "type": "string",
+            "description": "Postal code.",
+            "nullable": true,
+            "example": "RG17 0YU"
+          },
+          "country": {
+            "type": "string",
+            "description": "ISO 3166-1 alpha-2 country code.",
+            "nullable": true,
+            "example": "GB"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Postal address associated with one purchase order party role."
+      },
+      "PurchaseOrderCandidateStatus": {
+        "enum": [
+          "DRAFT",
+          "READY_FOR_SUBMISSION",
+          "SUBMISSION_IN_PROGRESS",
+          "RECOVERABLE_ERROR",
+          "NON_RECOVERABLE_ERROR",
+          "RETRY_REQUESTED",
+          "COMPLETED",
+          "CANCELLED"
+        ],
+        "type": "string",
+        "description": "Durable lifecycle status for a purchase order candidate."
+      },
+      "PurchaseOrderContact": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/PurchaseOrderPartyType"
+          },
+          "name": {
+            "type": "string",
+            "description": "Contact person's display name.",
+            "nullable": true,
+            "example": "John Smith"
+          },
+          "contact": {
+            "type": "string",
+            "description": "Source-system contact identifier or code.",
+            "nullable": true,
+            "example": "1"
+          },
+          "phone": {
+            "type": "string",
+            "description": "Contact telephone number.",
+            "nullable": true,
+            "example": "+44 1488 662000"
+          },
+          "email": {
+            "type": "string",
+            "description": "Contact email address.",
+            "nullable": true,
+            "example": "supplier@example.com"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Contact associated with one purchase order party role."
+      },
+      "PurchaseOrderDeliveryMethod": {
+        "enum": [
+          "C",
+          "D"
+        ],
+        "type": "string",
+        "description": "Canonical collection or delivery method."
+      },
+      "PurchaseOrderExtensionAttribute": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Extension name. The current API requires packIgnore.",
+            "nullable": true,
+            "example": "packIgnore"
+          },
+          "value": {
+            "type": "string",
+            "description": "Extension value. packIgnore must be the string true or false.",
+            "nullable": true,
+            "example": "true"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Named extension value carried by the canonical order."
+      },
+      "PurchaseOrderHeader": {
+        "required": [
+          "branch"
+        ],
+        "type": "object",
+        "properties": {
+          "account": {
+            "type": "string",
+            "description": "Required supplier account identifier.",
+            "nullable": true,
+            "example": "BRIT186"
+          },
+          "branch": {
+            "type": "integer",
+            "description": "Required branch or location number.",
+            "format": "int32",
+            "example": 385
+          },
+          "stockClass": {
+            "type": "integer",
+            "description": "Required stock-class number used for the order header.",
+            "format": "int32",
+            "nullable": true,
+            "example": 1
+          },
+          "createUser": {
+            "type": "string",
+            "description": "Service-controlled creation user. Any caller-supplied value is replaced by configured server data.",
+            "nullable": true,
+            "example": "APIMIN_User"
+          },
+          "reference": {
+            "type": "string",
+            "description": "External purchase order reference used for tracking and search.",
+            "nullable": true,
+            "example": "20211108"
+          },
+          "dateExpected": {
+            "type": "string",
+            "description": "Expected delivery date in ISO 8601 calendar-date format.",
+            "format": "date",
+            "nullable": true,
+            "example": "2026-09-22"
+          },
+          "contacts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PurchaseOrderContact"
+            },
+            "description": "Supplier or invoice contacts associated with the order.",
+            "nullable": true
+          },
+          "addresses": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PurchaseOrderAddress"
+            },
+            "description": "Supplier or invoice postal addresses associated with the order.",
+            "nullable": true
+          },
+          "instructions": {
+            "type": "string",
+            "description": "Delivery or handling instructions intended for order processing.",
+            "nullable": true,
+            "example": "Deliver during goods-in opening hours."
+          },
+          "narrative": {
+            "type": "string",
+            "description": "Internal free-text narrative for the purchase order.",
+            "nullable": true,
+            "example": "Example stock replenishment order."
+          },
+          "orderType": {
+            "$ref": "#/components/schemas/PurchaseOrderType"
+          },
+          "deliveryMethod": {
+            "$ref": "#/components/schemas/PurchaseOrderDeliveryMethod"
+          },
+          "suspendOrder": {
+            "type": "boolean",
+            "description": "Required indicator controlling whether the resulting order starts suspended.",
+            "nullable": true,
+            "example": false
+          },
+          "extOrderRef": {
+            "type": "string",
+            "description": "Additional external order reference.",
+            "nullable": true,
+            "example": "REF01"
+          },
+          "reasonReturn": {
+            "type": "string",
+            "description": "Return reason code when applicable to the selected order type.",
+            "nullable": true,
+            "example": "AB"
+          },
+          "reasonPurchase": {
+            "type": "string",
+            "description": "Purchase reason code when applicable.",
+            "nullable": true,
+            "example": "STOCK"
+          },
+          "extensionAttributes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PurchaseOrderExtensionAttribute"
+            },
+            "description": "Named extension values. A packIgnore entry with a value of true or false is currently required.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Order-level canonical purchase order values."
+      },
+      "PurchaseOrderLine": {
+        "required": [
+          "quantity"
+        ],
+        "type": "object",
+        "properties": {
+          "productId": {
+            "type": "string",
+            "description": "Required product identifier.",
+            "nullable": true,
+            "example": "A0000201"
+          },
+          "manufacturer": {
+            "type": "string",
+            "description": "Product manufacturer name or identifier.",
+            "nullable": true,
+            "example": "Example Manufacturer"
+          },
+          "stockClass": {
+            "type": "integer",
+            "description": "Required stock-class number for this line.",
+            "format": "int32",
+            "nullable": true,
+            "example": 1
+          },
+          "productDescription": {
+            "type": "string",
+            "description": "Human-readable product description.",
+            "nullable": true,
+            "example": "Red Brick"
+          },
+          "quantity": {
+            "type": "integer",
+            "description": "Required ordered quantity. The value must be greater than zero.",
+            "format": "int32",
+            "example": 5
+          },
+          "unit": {
+            "type": "string",
+            "description": "Unit-of-measure code.",
+            "nullable": true,
+            "example": "EA"
+          },
+          "dateExpected": {
+            "type": "string",
+            "description": "Expected delivery date for this line in ISO 8601 calendar-date format.",
+            "format": "date",
+            "nullable": true,
+            "example": "2026-09-22"
+          },
+          "specialInstructions": {
+            "type": "string",
+            "description": "External handling instructions for the line.",
+            "nullable": true,
+            "example": "Keep dry."
+          },
+          "internalInstructions": {
+            "type": "string",
+            "description": "Internal handling instructions for the line.",
+            "nullable": true,
+            "example": "Check packaging on receipt."
+          },
+          "pricing": {
+            "$ref": "#/components/schemas/PurchaseOrderPricing"
+          },
+          "tally": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PurchaseOrderTallyItem"
+            },
+            "description": "Optional tally dimensions associated with the ordered quantity.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "One product line in the canonical purchase order."
+      },
+      "PurchaseOrderPartyType": {
+        "enum": [
+          "supplier",
+          "invoice"
+        ],
+        "type": "string",
+        "description": "Canonical purchase order party role."
+      },
+      "PurchaseOrderPricing": {
+        "type": "object",
+        "properties": {
+          "unit": {
+            "type": "string",
+            "description": "Pricing unit-of-measure code.",
+            "nullable": true,
+            "example": "EA"
+          },
+          "price": {
+            "type": "number",
+            "description": "Price per pricing unit.",
+            "format": "float",
+            "example": 8.45
+          }
+        },
+        "additionalProperties": false,
+        "description": "Unit pricing information for a purchase order line."
+      },
+      "PurchaseOrderSearchResponse": {
+        "type": "object",
+        "properties": {
+          "orders": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PurchaseOrderSummary"
+            },
+            "description": "Candidates matching every supplied filter.",
+            "nullable": true
+          },
+          "pageNumber": {
+            "type": "integer",
+            "description": "One-based page number returned by the search.",
+            "format": "int32",
+            "example": 1
+          },
+          "pageSize": {
+            "type": "integer",
+            "description": "Number of records requested for this page.",
+            "format": "int32",
+            "example": 25
+          }
+        },
+        "additionalProperties": false,
+        "description": "One bounded page of persisted purchase order candidates."
+      },
+      "PurchaseOrderSummary": {
+        "type": "object",
+        "properties": {
+          "candidateId": {
+            "type": "string",
+            "description": "Service-generated identifier used to track the candidate.",
+            "format": "uuid",
+            "example": "00000000-0000-0000-0000-000000000001"
+          },
+          "source": {
+            "type": "string",
+            "description": "Ingestion source recorded by the service.",
+            "nullable": true,
+            "example": "API"
+          },
+          "account": {
+            "type": "string",
+            "description": "Supplier account identifier.",
+            "nullable": true,
+            "example": "BRIT186"
+          },
+          "branch": {
+            "type": "string",
+            "description": "Branch or location identifier.",
+            "nullable": true,
+            "example": "385"
+          },
+          "reference": {
+            "type": "string",
+            "description": "External purchase order reference, when supplied.",
+            "nullable": true,
+            "example": "20211108"
+          },
+          "iconPurchaseOrderNumber": {
+            "type": "string",
+            "description": "Purchase order number returned by ICON, when processing has produced one.",
+            "nullable": true,
+            "example": "PO123456"
+          },
+          "status": {
+            "type": "string",
+            "description": "Current canonical candidate status.",
+            "nullable": true,
+            "example": "READY_FOR_SUBMISSION"
+          },
+          "acceptedDateTime": {
+            "type": "string",
+            "description": "UTC timestamp at which the service persisted the candidate.",
+            "format": "date-time",
+            "example": "2026-09-15T10:30:00Z"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Search projection for one persisted purchase order candidate."
+      },
+      "PurchaseOrderTallyItem": {
+        "type": "object",
+        "properties": {
+          "quantity": {
+            "type": "integer",
+            "description": "Quantity represented by this tally item.",
+            "format": "int32",
+            "example": 5
+          },
+          "length": {
+            "type": "integer",
+            "description": "Source-system length value for the tally item.",
+            "format": "int32",
+            "example": 215
+          },
+          "width": {
+            "type": "integer",
+            "description": "Source-system width value for the tally item.",
+            "format": "int32",
+            "example": 102
+          }
+        },
+        "additionalProperties": false,
+        "description": "Quantity and dimensions for one tally item."
+      },
+      "PurchaseOrderType": {
+        "enum": [
+          "stock",
+          "ibt",
+          "ict",
+          "emergency",
+          "direct",
+          "return",
+          "link"
+        ],
+        "type": "string",
+        "description": "Canonical purchase order types and their JSON values."
+      },
+      "SubmitPurchaseOrderResponse": {
+        "type": "object",
+        "properties": {
+          "candidateId": {
+            "type": "string",
+            "description": "Service-generated identifier used to track the candidate.",
+            "format": "uuid",
+            "example": "00000000-0000-0000-0000-000000000001"
+          },
+          "status": {
+            "$ref": "#/components/schemas/PurchaseOrderCandidateStatus"
+          },
+          "acceptedDateTime": {
+            "type": "string",
+            "description": "UTC timestamp at which the service persisted the candidate.",
+            "format": "date-time",
+            "example": "2026-09-15T10:30:00Z"
+          },
+          "message": {
+            "type": "string",
+            "description": "Human-readable acceptance message.",
+            "nullable": true,
+            "example": "Purchase order accepted for asynchronous processing."
+          }
+        },
+        "additionalProperties": false,
+        "description": "Acceptance details for a persisted purchase order candidate."
+      },
+      "ValidationProblemDetails": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "detail": {
+            "type": "string",
+            "nullable": true
+          },
+          "instance": {
+            "type": "string",
+            "nullable": true
+          },
+          "errors": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": { }
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "description": "JWT Authorization header using the Bearer scheme.",
+        "scheme": "bearer"
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "PurchaseOrders"
+    }
+  ]
+}
