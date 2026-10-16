@@ -1,0 +1,3389 @@
+{
+  "openapi": "3.0.4",
+  "info": {
+    "title": "STUK SaleOrdersService Api",
+    "description": "This API is used by digital platforms to place/query sale orders to icon",
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "/sale-orders"
+    }
+  ],
+  "paths": {
+    "/Legacy/sales-order/iconordernumber": {
+      "get": {
+        "tags": [
+          "Legacy Sale Orders"
+        ],
+        "summary": "Get ICON order number for a sales order (legacy-compatible).",
+        "description": "Documentation: [https://bitbucket.org/sgbddigital/stuk.api-layer/src/master/src/specs/Sale%20Orders%20Service/endpoints/iconordernumber/](https://bitbucket.org/sgbddigital/stuk.api-layer/src/master/src/specs/Sale%20Orders%20Service/endpoints/iconordernumber/)\n\nAuthentication: Required - Server JWT Bearer (scheme `SaleOrdersServiceAccount`, JWT aud `SaleOrdersServiceUser`).",
+        "parameters": [
+          {
+            "name": "source",
+            "in": "header",
+            "description": "Caller system identifier (source header).",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "account",
+            "in": "query",
+            "description": "Customer account code.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "branch",
+            "in": "query",
+            "description": "Branch code.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "orderref",
+            "in": "query",
+            "description": "Hybris order reference.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ApiRunMode",
+            "in": "header",
+            "description": "Selects which service implementation handles a request.",
+            "schema": {
+              "$ref": "#/components/schemas/ApiRunMode"
+            }
+          },
+          {
+            "name": "SessionCorrelationId",
+            "in": "query",
+            "description": "Session correlation ID used to link logged requests to a session for tracking errors",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "TransactionCorrelationId",
+            "in": "query",
+            "description": "Transaction correlation ID used to link logged requests to a transaction for tracking errors",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetIconOrderNumberResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    },
+    "/Legacy/sales-order/order/{orderId}/status": {
+      "get": {
+        "tags": [
+          "Legacy Sale Orders"
+        ],
+        "summary": "Get sales order status by order id, optionally scoped by account/branch (legacy-compatible).",
+        "description": "Documentation: [https://bitbucket.org/sgbddigital/stuk.api-layer/src/master/src/specs/Sale%20Orders%20Service/endpoints/order-number-status/](https://bitbucket.org/sgbddigital/stuk.api-layer/src/master/src/specs/Sale%20Orders%20Service/endpoints/order-number-status/)\n\nAuthentication: Required - Server JWT Bearer (scheme `SaleOrdersServiceAccount`, JWT aud `SaleOrdersServiceUser`).",
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "description": "Order identifier path parameter.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "source",
+            "in": "header",
+            "description": "Caller system identifier (source header).",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "accountCode",
+            "in": "query",
+            "description": "Customer account code.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "branchCode",
+            "in": "query",
+            "description": "Branch code.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "ApiRunMode",
+            "in": "header",
+            "description": "Selects which service implementation handles a request.",
+            "schema": {
+              "$ref": "#/components/schemas/ApiRunMode"
+            }
+          },
+          {
+            "name": "SessionCorrelationId",
+            "in": "query",
+            "description": "Session correlation ID used to link logged requests to a session for tracking errors",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "TransactionCorrelationId",
+            "in": "query",
+            "description": "Transaction correlation ID used to link logged requests to a transaction for tracking errors",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": { }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    },
+    "/Legacy/sales-order/order/{orderKey}": {
+      "get": {
+        "tags": [
+          "Legacy Sale Orders"
+        ],
+        "summary": "Get a sales order by order key, optionally scoped by account/branch (legacy-compatible).",
+        "description": "Documentation: [https://bitbucket.org/sgbddigital/stuk.api-layer/src/master/src/specs/Sale%20Orders%20Service/endpoints/order/](https://bitbucket.org/sgbddigital/stuk.api-layer/src/master/src/specs/Sale%20Orders%20Service/endpoints/order/)\n\nAuthentication: Required - Server JWT Bearer (scheme `SaleOrdersServiceAccount`, JWT aud `SaleOrdersServiceUser`).",
+        "parameters": [
+          {
+            "name": "orderKey",
+            "in": "path",
+            "description": "Order key path parameter.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "source",
+            "in": "header",
+            "description": "Caller system identifier (source header).",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "accountCode",
+            "in": "query",
+            "description": "Customer account code.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "branchCode",
+            "in": "query",
+            "description": "Branch code.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "ApiRunMode",
+            "in": "header",
+            "description": "Selects which service implementation handles a request.",
+            "schema": {
+              "$ref": "#/components/schemas/ApiRunMode"
+            }
+          },
+          {
+            "name": "SessionCorrelationId",
+            "in": "query",
+            "description": "Session correlation ID used to link logged requests to a session for tracking errors",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "TransactionCorrelationId",
+            "in": "query",
+            "description": "Transaction correlation ID used to link logged requests to a transaction for tracking errors",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": { }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    },
+    "/Legacy/sales-order/pub-order/order": {
+      "get": {
+        "tags": [
+          "Legacy Sale Orders"
+        ],
+        "summary": "Retrieve a previously submitted public collect order (legacy-compatible). Distinct from GET /order/{reference}.",
+        "description": "Documentation: [https://bitbucket.org/sgbddigital/stuk.api-layer/src/master/src/specs/Sale%20Orders%20Service/endpoints/get-pub-order/](https://bitbucket.org/sgbddigital/stuk.api-layer/src/master/src/specs/Sale%20Orders%20Service/endpoints/get-pub-order/)\n\nAuthentication: Required - Server JWT Bearer (scheme `SaleOrdersServiceAccount`, JWT aud `SaleOrdersServiceUser`).",
+        "operationId": "GetPubOrder",
+        "parameters": [
+          {
+            "name": "source",
+            "in": "header",
+            "description": "Caller system identifier (source header).",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "reference",
+            "in": "query",
+            "description": "Customer order reference (max 20).",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "account",
+            "in": "query",
+            "description": "Customer account (7–8 uppercase alphanumeric).",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "branch",
+            "in": "query",
+            "description": "Branch number (0–9999).",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "ApiRunMode",
+            "in": "header",
+            "description": "Selects which service implementation handles a request.",
+            "schema": {
+              "$ref": "#/components/schemas/ApiRunMode"
+            }
+          },
+          {
+            "name": "SessionCorrelationId",
+            "in": "query",
+            "description": "Session correlation ID used to link logged requests to a session for tracking errors",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "TransactionCorrelationId",
+            "in": "query",
+            "description": "Transaction correlation ID used to link logged requests to a transaction for tracking errors",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetPubOrderResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Bearer": [ ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Legacy Sale Orders"
+        ],
+        "summary": "Submit a public collect order (legacy-compatible). Distinct from POST /order (order-eapi).",
+        "description": "Documentation: [https://bitbucket.org/sgbddigital/stuk.api-layer/src/master/src/specs/Sale%20Orders%20Service/endpoints/pub-order/](https://bitbucket.org/sgbddigital/stuk.api-layer/src/master/src/specs/Sale%20Orders%20Service/endpoints/pub-order/)\n\nAuthentication: Required - Server JWT Bearer (scheme `SaleOrdersServiceAccount`, JWT aud `SaleOrdersServiceUser`).",
+        "operationId": "PostPubOrder",
+        "parameters": [
+          {
+            "name": "source",
+            "in": "header",
+            "description": "Caller system identifier (source header).",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ApiRunMode",
+            "in": "header",
+            "description": "Selects which service implementation handles a request.",
+            "schema": {
+              "$ref": "#/components/schemas/ApiRunMode"
+            }
+          },
+          {
+            "name": "SessionCorrelationId",
+            "in": "query",
+            "description": "Session correlation ID used to link logged requests to a session for tracking errors",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "TransactionCorrelationId",
+            "in": "query",
+            "description": "Transaction correlation ID used to link logged requests to a transaction for tracking errors",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PublicCollectOrder"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostPubOrderResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    },
+    "/Legacy/sales-order/quote": {
+      "get": {
+        "tags": [
+          "Legacy Sale Orders"
+        ],
+        "summary": "Get sales order quote details (legacy-compatible).",
+        "description": "Documentation: [https://bitbucket.org/sgbddigital/stuk.api-layer/src/master/src/specs/Sale%20Orders%20Service/endpoints/quote/](https://bitbucket.org/sgbddigital/stuk.api-layer/src/master/src/specs/Sale%20Orders%20Service/endpoints/quote/)\n\nAuthentication: Required - Server JWT Bearer (scheme `SaleOrdersServiceAccount`, JWT aud `SaleOrdersServiceUser`).",
+        "parameters": [
+          {
+            "name": "source",
+            "in": "header",
+            "description": "Caller system identifier (source header).",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "iconenv",
+            "in": "header",
+            "description": "ICON environment (iconenv header).",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "accountCode",
+            "in": "query",
+            "description": "Customer account code.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "fromDate",
+            "in": "query",
+            "description": "Inclusive start date filter.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "toDate",
+            "in": "query",
+            "description": "Inclusive end date filter.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "branchCode",
+            "in": "query",
+            "description": "Branch code.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "orderNumber",
+            "in": "query",
+            "description": "Order number filter.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "description": "Sort direction.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "description": "Field to sort by.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ApiRunMode",
+            "in": "header",
+            "description": "Selects which service implementation handles a request.",
+            "schema": {
+              "$ref": "#/components/schemas/ApiRunMode"
+            }
+          },
+          {
+            "name": "SessionCorrelationId",
+            "in": "query",
+            "description": "Session correlation ID used to link logged requests to a session for tracking errors",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "TransactionCorrelationId",
+            "in": "query",
+            "description": "Transaction correlation ID used to link logged requests to a transaction for tracking errors",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetQuoteResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Bearer": [ ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Legacy Sale Orders"
+        ],
+        "summary": "Create a sales order quote (legacy-compatible).",
+        "description": "Documentation: [https://bitbucket.org/sgbddigital/stuk.api-layer/src/master/src/specs/Sale%20Orders%20Service/endpoints/post-quote/](https://bitbucket.org/sgbddigital/stuk.api-layer/src/master/src/specs/Sale%20Orders%20Service/endpoints/post-quote/)\n\nAuthentication: Required - Server JWT Bearer (scheme `SaleOrdersServiceAccount`, JWT aud `SaleOrdersServiceUser`).",
+        "parameters": [
+          {
+            "name": "source",
+            "in": "header",
+            "description": "Caller system identifier (source header).",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ApiRunMode",
+            "in": "header",
+            "description": "Selects which service implementation handles a request.",
+            "schema": {
+              "$ref": "#/components/schemas/ApiRunMode"
+            }
+          },
+          {
+            "name": "SessionCorrelationId",
+            "in": "query",
+            "description": "Session correlation ID used to link logged requests to a session for tracking errors",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "TransactionCorrelationId",
+            "in": "query",
+            "description": "Transaction correlation ID used to link logged requests to a transaction for tracking errors",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/QuoteBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    },
+    "/Legacy/sales-order/sendorders": {
+      "get": {
+        "tags": [
+          "Legacy Sale Orders"
+        ],
+        "summary": "Get send-orders status (legacy-compatible).",
+        "description": "Documentation: [https://bitbucket.org/sgbddigital/stuk.api-layer/src/master/src/specs/Sale%20Orders%20Service/endpoints/sendorders/](https://bitbucket.org/sgbddigital/stuk.api-layer/src/master/src/specs/Sale%20Orders%20Service/endpoints/sendorders/)\n\nAuthentication: Required - Server JWT Bearer (scheme `SaleOrdersServiceAccount`, JWT aud `SaleOrdersServiceUser`).",
+        "parameters": [
+          {
+            "name": "source",
+            "in": "header",
+            "description": "Caller system identifier (source header).",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "iconordernumber",
+            "in": "query",
+            "description": "ICON order number.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "account",
+            "in": "query",
+            "description": "Customer account code.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "branch",
+            "in": "query",
+            "description": "Branch code.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "orderref",
+            "in": "query",
+            "description": "Hybris order reference.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-environment-id",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ApiRunMode",
+            "in": "header",
+            "description": "Selects which service implementation handles a request.",
+            "schema": {
+              "$ref": "#/components/schemas/ApiRunMode"
+            }
+          },
+          {
+            "name": "SessionCorrelationId",
+            "in": "query",
+            "description": "Session correlation ID used to link logged requests to a session for tracking errors",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "TransactionCorrelationId",
+            "in": "query",
+            "description": "Transaction correlation ID used to link logged requests to a transaction for tracking errors",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetSendOrdersResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Bearer": [ ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Legacy Sale Orders"
+        ],
+        "summary": "Send sales orders (legacy-compatible).",
+        "description": "Documentation: [https://bitbucket.org/sgbddigital/stuk.api-layer/src/master/src/specs/Sale%20Orders%20Service/endpoints/post-sendorders/](https://bitbucket.org/sgbddigital/stuk.api-layer/src/master/src/specs/Sale%20Orders%20Service/endpoints/post-sendorders/)\n\nAuthentication: Required - Server JWT Bearer (scheme `SaleOrdersServiceAccount`, JWT aud `SaleOrdersServiceUser`).",
+        "parameters": [
+          {
+            "name": "source",
+            "in": "header",
+            "description": "Caller system identifier (source header).",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-environment-id",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ApiRunMode",
+            "in": "header",
+            "description": "Selects which service implementation handles a request.",
+            "schema": {
+              "$ref": "#/components/schemas/ApiRunMode"
+            }
+          },
+          {
+            "name": "SessionCorrelationId",
+            "in": "query",
+            "description": "Session correlation ID used to link logged requests to a session for tracking errors",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "TransactionCorrelationId",
+            "in": "query",
+            "description": "Transaction correlation ID used to link logged requests to a transaction for tracking errors",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HybrisSendOrderRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "description": "Accepted"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    },
+    "/Legacy/sales-order/order": {
+      "post": {
+        "tags": [
+          "Legacy Sale Orders"
+        ],
+        "summary": "Create a sales order (legacy-compatible).",
+        "description": "Documentation: [https://bitbucket.org/sgbddigital/stuk.api-layer/src/master/src/specs/Sale%20Orders%20Service/endpoints/order/](https://bitbucket.org/sgbddigital/stuk.api-layer/src/master/src/specs/Sale%20Orders%20Service/endpoints/order/)\n\nAuthentication: Required - Server JWT Bearer (scheme `SaleOrdersServiceAccount`, JWT aud `SaleOrdersServiceUser`).",
+        "parameters": [
+          {
+            "name": "source",
+            "in": "header",
+            "description": "Caller system identifier (source header).",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ApiRunMode",
+            "in": "header",
+            "description": "Selects which service implementation handles a request.",
+            "schema": {
+              "$ref": "#/components/schemas/ApiRunMode"
+            }
+          },
+          {
+            "name": "SessionCorrelationId",
+            "in": "query",
+            "description": "Session correlation ID used to link logged requests to a session for tracking errors",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "TransactionCorrelationId",
+            "in": "query",
+            "description": "Transaction correlation ID used to link logged requests to a transaction for tracking errors",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrderBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    },
+    "/Legacy/sales-order/order/refund": {
+      "post": {
+        "tags": [
+          "Legacy Sale Orders"
+        ],
+        "summary": "Refund a sales order (legacy-compatible).",
+        "description": "Documentation: [https://bitbucket.org/sgbddigital/stuk.api-layer/src/master/src/specs/Sale%20Orders%20Service/endpoints/order-refund/](https://bitbucket.org/sgbddigital/stuk.api-layer/src/master/src/specs/Sale%20Orders%20Service/endpoints/order-refund/)\n\nAuthentication: Required - Server JWT Bearer (scheme `SaleOrdersServiceAccount`, JWT aud `SaleOrdersServiceUser`).",
+        "parameters": [
+          {
+            "name": "ApiRunMode",
+            "in": "header",
+            "description": "Selects which service implementation handles a request.",
+            "schema": {
+              "$ref": "#/components/schemas/ApiRunMode"
+            }
+          },
+          {
+            "name": "SessionCorrelationId",
+            "in": "query",
+            "description": "Session correlation ID used to link logged requests to a session for tracking errors",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "TransactionCorrelationId",
+            "in": "query",
+            "description": "Transaction correlation ID used to link logged requests to a transaction for tracking errors",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrderBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    },
+    "/Legacy/sales-order/salesOrder": {
+      "post": {
+        "tags": [
+          "Legacy Sale Orders"
+        ],
+        "summary": "Create a sales order (legacy-compatible).",
+        "description": "Documentation: [https://bitbucket.org/sgbddigital/stuk.api-layer/src/master/src/specs/Sale%20Orders%20Service/endpoints/salesOrder/](https://bitbucket.org/sgbddigital/stuk.api-layer/src/master/src/specs/Sale%20Orders%20Service/endpoints/salesOrder/)\n\nAuthentication: Required - Server JWT Bearer (scheme `SaleOrdersServiceAccount`, JWT aud `SaleOrdersServiceUser`).",
+        "parameters": [
+          {
+            "name": "fileName",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "source",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "iconenv",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "apiRunMode",
+            "in": "header",
+            "description": "Selects which service implementation handles a request.",
+            "schema": {
+              "$ref": "#/components/schemas/ApiRunMode"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "text/xml": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    },
+    "/v1/Orders": {
+      "post": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Submit a new sales order",
+        "description": "Authentication: Required - Server JWT Bearer (scheme ``).",
+        "parameters": [
+          {
+            "name": "source",
+            "in": "header",
+            "description": "source of the sales ordeer",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "details of what is being ordered",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubmitOrderRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubmitOrderRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubmitOrderRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "Bearer": [ ]
+          }
+        ]
+      },
+      "get": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Search for orders",
+        "description": "Authentication: Required - Server JWT Bearer (scheme ``).",
+        "parameters": [
+          {
+            "name": "Source",
+            "in": "header",
+            "description": "Consuming-application code (request header). Max 8 characters — ICON sourceofsale limit.\r\ne.g. hybris, avail",
+            "schema": {
+              "type": "string",
+              "ValidateLength": "The field Source must be a string with a maximum length of 8."
+            }
+          },
+          {
+            "name": "PageNumber",
+            "in": "query",
+            "description": "Page of results list",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "description": "Page size of result list",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Account",
+            "in": "query",
+            "description": "Account to search",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Reference",
+            "in": "query",
+            "description": "The customer's order reference to search",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Reference2",
+            "in": "query",
+            "description": "The customer's secondary order reference to search",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "MessageCodes",
+            "in": "query",
+            "description": "Comma (,) separated list of any current message codes to search by e.g OrderPending,OrderError,OrderProcessing",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "PreviousMessageCode",
+            "in": "query",
+            "description": "Comma (,) separated list of any current message codes to search by e.g OrderPending,OrderError,OrderProcessing",
+            "schema": {
+              "$ref": "#/components/schemas/MessageCodes"
+            }
+          },
+          {
+            "name": "CreationDateFromUtc",
+            "in": "query",
+            "description": "Order creation timestamp in Utc. e.g 2025-06-20T15:46:40",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "UpdateDateFromUtc",
+            "in": "query",
+            "description": "Order last update timestamp in Utc. e.g 2025-06-22T10:46:40",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "CreateUser",
+            "in": "query",
+            "description": "created by user to search orders by",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ContactName",
+            "in": "query",
+            "description": "contact name to search orders by",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Order"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ApiRunMode": {
+        "enum": [
+          "Default",
+          "Stub",
+          "ErroringStub"
+        ],
+        "type": "string",
+        "description": "Selects which service implementation handles a request."
+      },
+      "GetIconOrderNumberResponse": {
+        "type": "object",
+        "properties": {
+          "branch": {
+            "type": "string",
+            "description": "Branch code.",
+            "nullable": true
+          },
+          "account": {
+            "type": "string",
+            "description": "Customer account code.",
+            "nullable": true
+          },
+          "iconordernumber": {
+            "type": "integer",
+            "description": "ICON order number.",
+            "format": "int32"
+          },
+          "orderref": {
+            "type": "string",
+            "description": "Hybris order reference.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Response model for the get icon order number ACL operation."
+      },
+      "GetPubOrderResponse": {
+        "required": [
+          "order"
+        ],
+        "type": "object",
+        "properties": {
+          "order": {
+            "$ref": "#/components/schemas/PublicCollectOrderPayload"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Response model for the get public collect order ACL operation."
+      },
+      "GetQuoteResponse": {
+        "required": [
+          "quotes"
+        ],
+        "type": "object",
+        "properties": {
+          "quotes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/QuoteSummary"
+            },
+            "description": "Quote rows.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Response model for the get quote ACL operation (quote-eapi GET /quote)."
+      },
+      "GetSendOrdersResponse": {
+        "type": "object",
+        "properties": {
+          "orderstatus": {
+            "type": "string",
+            "description": "Orderstatus.",
+            "nullable": true
+          },
+          "linestatus": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/HybrisLineStatus"
+            },
+            "description": "Linestatus.",
+            "nullable": true
+          },
+          "iconordernumber": {
+            "type": "string",
+            "description": "ICON order number.",
+            "nullable": true
+          },
+          "orderref": {
+            "type": "string",
+            "description": "Hybris order reference.",
+            "nullable": true
+          },
+          "account": {
+            "type": "string",
+            "description": "Customer account code.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Response model for the get send orders ACL operation."
+      },
+      "HybrisAddress": {
+        "type": "object",
+        "properties": {
+          "line": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Address lines (wire: line).",
+            "nullable": true
+          },
+          "postcode": {
+            "type": "string",
+            "description": "Postcode (wire: postcode).",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Hybris address (`line` array + `postcode`)."
+      },
+      "HybrisLineStatus": {
+        "type": "object",
+        "properties": {
+          "line": {
+            "type": "integer",
+            "description": "Line.",
+            "format": "int32"
+          },
+          "status": {
+            "type": "string",
+            "description": "Status.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Model for the get send orders ACL operation."
+      },
+      "HybrisSendOrderHeader": {
+        "required": [
+          "account",
+          "branch",
+          "ordercategory",
+          "ordertype",
+          "reference2"
+        ],
+        "type": "object",
+        "properties": {
+          "account": {
+            "type": "string",
+            "description": "Account code.",
+            "nullable": true
+          },
+          "branch": {
+            "type": "integer",
+            "description": "Branch code.",
+            "format": "int32"
+          },
+          "reference2": {
+            "type": "string",
+            "description": "Secondary order reference.",
+            "nullable": true
+          },
+          "ordercategory": {
+            "type": "string",
+            "description": "Order category (wire: ordercategory).",
+            "nullable": true
+          },
+          "ordertype": {
+            "type": "string",
+            "description": "Order type (wire: ordertype).",
+            "nullable": true
+          },
+          "createuser": {
+            "type": "string",
+            "description": "Create user (wire: createuser).",
+            "nullable": true
+          },
+          "reference": {
+            "type": "string",
+            "description": "Customer order number (wire: reference).",
+            "nullable": true
+          },
+          "daterequired": {
+            "type": "string",
+            "description": "Required-by date (wire: daterequired).",
+            "nullable": true
+          },
+          "requestdate": {
+            "type": "string",
+            "description": "Requested date (wire: requestdate).",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "description": "Delivery recipient name (wire: name).",
+            "nullable": true
+          },
+          "deliveryaddress": {
+            "$ref": "#/components/schemas/HybrisAddress"
+          },
+          "deliverycountry": {
+            "type": "string",
+            "description": "Delivery country (wire: deliverycountry).",
+            "nullable": true
+          },
+          "invoicename": {
+            "type": "string",
+            "description": "Invoice recipient name (wire: invoicename).",
+            "nullable": true
+          },
+          "invoiceaddress": {
+            "$ref": "#/components/schemas/HybrisAddress"
+          },
+          "invoicecountry": {
+            "type": "string",
+            "description": "Invoice country (wire: invoicecountry).",
+            "nullable": true
+          },
+          "instructions": {
+            "type": "string",
+            "description": "External header text (wire: instructions).",
+            "nullable": true
+          },
+          "narrative": {
+            "type": "string",
+            "description": "Internal header text (wire: narrative).",
+            "nullable": true
+          },
+          "advicemethod": {
+            "type": "string",
+            "description": "Advice method (wire: advicemethod).",
+            "nullable": true
+          },
+          "calccarriage": {
+            "type": "string",
+            "description": "Calculate carriage (wire: calccarriage). JSON boolean, number, or string.",
+            "nullable": true
+          },
+          "carrier": {
+            "type": "string",
+            "description": "Carrier (wire: carrier).",
+            "nullable": true
+          },
+          "servicelevel": {
+            "type": "string",
+            "description": "Carrier service level (wire: servicelevel).",
+            "nullable": true
+          },
+          "webcontact": {
+            "type": "string",
+            "description": "Web contact name (wire: webcontact).",
+            "nullable": true
+          },
+          "contactemail": {
+            "type": "string",
+            "description": "Contact email (wire: contactemail).",
+            "nullable": true
+          },
+          "contactphone": {
+            "type": "string",
+            "description": "Contact phone (wire: contactphone).",
+            "nullable": true
+          },
+          "contactmobile": {
+            "type": "string",
+            "description": "Contact mobile (wire: contactmobile).",
+            "nullable": true
+          },
+          "contractref": {
+            "type": "string",
+            "description": "Contract reference (wire: contractref). Not mapped to CDM / ICON.",
+            "nullable": true
+          },
+          "suspendorder": {
+            "type": "boolean",
+            "description": "Suspend on creation (wire: suspendorder).",
+            "nullable": true
+          },
+          "suspendmsg": {
+            "type": "string",
+            "description": "Suspend message (wire: suspendmsg).",
+            "nullable": true
+          },
+          "extuser": {
+            "type": "string",
+            "description": "External user (wire: extuser).",
+            "nullable": true
+          },
+          "extsystem": {
+            "type": "string",
+            "description": "External system (wire: extsystem).",
+            "nullable": true
+          },
+          "extorderref": {
+            "type": "string",
+            "description": "External order reference (wire: extorderref).",
+            "nullable": true
+          },
+          "supplystatus": {
+            "type": "string",
+            "description": "Supply status (wire: supplystatus).",
+            "nullable": true
+          },
+          "supplieremail": {
+            "type": "string",
+            "description": "Supplier email (wire: supplieremail).",
+            "nullable": true
+          },
+          "payments": {
+            "$ref": "#/components/schemas/OrderPaymentsBlock"
+          },
+          "datacapture": {
+            "$ref": "#/components/schemas/OccursDataCaptureBlock"
+          },
+          "sitecontactname": {
+            "type": "string",
+            "description": "Site contact name (wire: sitecontactname).",
+            "nullable": true
+          },
+          "sitecontactid": {
+            "type": "integer",
+            "description": "Site contact id (wire: sitecontactid).",
+            "format": "int32",
+            "nullable": true
+          },
+          "sitetelephone": {
+            "type": "string",
+            "description": "Site telephone (wire: sitetelephone).",
+            "nullable": true
+          },
+          "sitemobile": {
+            "type": "string",
+            "description": "Site mobile (wire: sitemobile).",
+            "nullable": true
+          },
+          "sourceofsale": {
+            "type": "string",
+            "description": "ICON source of sale (wire: sourceofsale).",
+            "nullable": true
+          },
+          "weborder": {
+            "type": "boolean",
+            "description": "Web order flag (wire: weborder).",
+            "nullable": true
+          }
+        },
+        "additionalProperties": { },
+        "description": "sendorders header (lowercase wire names)."
+      },
+      "HybrisSendOrderLine": {
+        "required": [
+          "product",
+          "quantity"
+        ],
+        "type": "object",
+        "properties": {
+          "product": {
+            "type": "string",
+            "description": "Product code.",
+            "nullable": true
+          },
+          "quantity": {
+            "type": "number",
+            "description": "Quantity.",
+            "format": "double"
+          },
+          "unit": {
+            "type": "string",
+            "description": "Unit of sale (wire: unit).",
+            "nullable": true
+          },
+          "extendeddescription": {
+            "type": "string",
+            "description": "Extended description (wire: extendeddescription).",
+            "nullable": true
+          },
+          "daterequired": {
+            "type": "string",
+            "description": "Line required-by date (wire: daterequired).",
+            "nullable": true
+          },
+          "specialinstructions": {
+            "type": "string",
+            "description": "External line instructions (wire: specialinstructions).",
+            "nullable": true
+          },
+          "internalinstructions": {
+            "type": "string",
+            "description": "Internal line instructions (wire: internalinstructions).",
+            "nullable": true
+          },
+          "price": {
+            "type": "number",
+            "description": "Line price as a number (wire: price).",
+            "format": "double",
+            "nullable": true
+          },
+          "priceunit": {
+            "type": "string",
+            "description": "Unit of price (wire: priceunit).",
+            "nullable": true
+          },
+          "extline": {
+            "type": "integer",
+            "description": "External line number (wire: extline).",
+            "format": "int32",
+            "nullable": true
+          },
+          "special": {
+            "$ref": "#/components/schemas/NestedOrderLineSpecial"
+          },
+          "tally": {
+            "$ref": "#/components/schemas/HybrisTallyBlock"
+          }
+        },
+        "additionalProperties": { },
+        "description": "One Hybris sendorders line."
+      },
+      "HybrisSendOrderLines": {
+        "required": [
+          "line"
+        ],
+        "type": "object",
+        "properties": {
+          "line": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/HybrisSendOrderLine"
+            },
+            "description": "Line items (wire key: line).",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "sendorders lines object containing line array."
+      },
+      "HybrisSendOrderRequest": {
+        "required": [
+          "header",
+          "lines"
+        ],
+        "type": "object",
+        "properties": {
+          "header": {
+            "$ref": "#/components/schemas/HybrisSendOrderHeader"
+          },
+          "lines": {
+            "$ref": "#/components/schemas/HybrisSendOrderLines"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Hybris POST /sendorders request body (flat header + lines.line shape)."
+      },
+      "HybrisTallyBlock": {
+        "type": "object",
+        "properties": {
+          "tallyitem": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/HybrisTallyItem"
+            },
+            "description": "Tally items (wire: tallyitem).",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Hybris line tally wrapper (`tallyitem` array)."
+      },
+      "HybrisTallyItem": {
+        "type": "object",
+        "properties": {
+          "quantity": {
+            "type": "integer",
+            "description": "Quantity (wire: quantity).",
+            "format": "int32",
+            "nullable": true
+          },
+          "length": {
+            "type": "number",
+            "description": "Length (wire: length).",
+            "format": "double",
+            "nullable": true
+          },
+          "width": {
+            "type": "number",
+            "description": "Width (wire: width).",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "One Hybris tally row."
+      },
+      "MessageCodes": {
+        "enum": [
+          "NotKnown",
+          "OrderPending",
+          "OrderProcessing",
+          "OrderCompleted",
+          "OrderError"
+        ],
+        "type": "string",
+        "description": "Update message codes for the order"
+      },
+      "NamedDataCaptureBlock": {
+        "type": "object",
+        "properties": {
+          "capture": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/NamedDataCaptureItem"
+            },
+            "description": "Capture rows (wire key: capture).",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Named data capture used by pub-order v2 (`datacapture.capture[].key` + `value`).\r\nReads either `{\"capture\":[...]}` or a bare array. pub-order-eapi requires the array."
+      },
+      "NamedDataCaptureItem": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "description": "ICON data-capture field name.",
+            "nullable": true
+          },
+          "value": {
+            "type": "string",
+            "description": "Captured value.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "One named capture row."
+      },
+      "NestedOrderAddress": {
+        "type": "object",
+        "properties": {
+          "addressLine": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Address lines.",
+            "nullable": true
+          },
+          "postcode": {
+            "type": "string",
+            "description": "Postcode.",
+            "nullable": true
+          },
+          "country": {
+            "type": "string",
+            "description": "Country code.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Nested RAML / pub-order camelCase address (`addressLine`, `postcode`, `country`)."
+      },
+      "NestedOrderContact": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "description": "Contact id.",
+            "format": "double",
+            "nullable": true
+          },
+          "web": {
+            "type": "string",
+            "description": "Web contact name.",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "description": "Email address.",
+            "nullable": true
+          },
+          "phone": {
+            "type": "string",
+            "description": "Phone number.",
+            "nullable": true
+          },
+          "mobile": {
+            "type": "string",
+            "description": "Mobile number.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Nested RAML / pub-order contact object."
+      },
+      "NestedOrderExt": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "type": "string",
+            "description": "External user id.",
+            "nullable": true
+          },
+          "system": {
+            "type": "string",
+            "description": "External system identifier.",
+            "nullable": true
+          },
+          "orderRef": {
+            "type": "string",
+            "description": "External order reference.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Nested RAML `ext` block."
+      },
+      "NestedOrderLinePrice": {
+        "type": "object",
+        "properties": {
+          "priceValue": {
+            "type": "number",
+            "description": "Selling price of the line.",
+            "format": "double",
+            "nullable": true
+          },
+          "unit": {
+            "type": "string",
+            "description": "Unit of price (may differ from unit of sale).",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Nested RAML line `price` object."
+      },
+      "NestedOrderLineSpecial": {
+        "type": "object",
+        "properties": {
+          "supplier": {
+            "type": "string",
+            "description": "Supplier for direct orders.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Nested RAML line `special` object."
+      },
+      "NestedOrderSite": {
+        "type": "object",
+        "properties": {
+          "contactName": {
+            "type": "string",
+            "description": "Site contact name.",
+            "nullable": true
+          },
+          "contactId": {
+            "type": "integer",
+            "description": "Site contact id.",
+            "format": "int32",
+            "nullable": true
+          },
+          "telephone": {
+            "type": "string",
+            "description": "Site telephone.",
+            "nullable": true
+          },
+          "mobile": {
+            "type": "string",
+            "description": "Site mobile.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Nested RAML / pub-order site object."
+      },
+      "NestedOrderTally": {
+        "type": "object",
+        "properties": {
+          "tallyQuantity": {
+            "type": "integer",
+            "description": "Quantity of this tally.",
+            "format": "int32",
+            "nullable": true
+          },
+          "length": {
+            "type": "number",
+            "description": "Length.",
+            "format": "double",
+            "nullable": true
+          },
+          "width": {
+            "type": "number",
+            "description": "Width.",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Nested RAML tally row (array on the line, not a wrapper)."
+      },
+      "OccursDataCaptureBlock": {
+        "type": "object",
+        "properties": {
+          "capture": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OccursDataCaptureItem"
+            },
+            "description": "Capture rows (wire key: capture).",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Occurs-style data capture used by nested POST /order and Hybris sendorders\r\n(`datacapture.capture[].occurs` + `value`)."
+      },
+      "OccursDataCaptureItem": {
+        "type": "object",
+        "properties": {
+          "occurs": {
+            "type": "integer",
+            "description": "ICON occurrence slot (typically 1–14).",
+            "format": "int32",
+            "nullable": true
+          },
+          "value": {
+            "type": "string",
+            "description": "Captured value.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "One occurs-style capture row."
+      },
+      "Order": {
+        "required": [
+          "header",
+          "lines"
+        ],
+        "type": "object",
+        "properties": {
+          "header": {
+            "$ref": "#/components/schemas/V1OrderHeader"
+          },
+          "lines": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/V1OrderLine"
+            },
+            "description": "Order Lines - each specifying a quantity of a product being ordered",
+            "ValidateMinLength": "The field Lines must be an array type with a minimum length of 1.",
+            "ValidateMaxLength": "The field Lines must be an array type with a maximum length of 50."
+          }
+        },
+        "additionalProperties": false,
+        "description": "A Sales Order to be placed - or which has been placed"
+      },
+      "OrderBody": {
+        "required": [
+          "order"
+        ],
+        "type": "object",
+        "properties": {
+          "order": {
+            "$ref": "#/components/schemas/OrderPayload"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Root POST body for order-eapi POST /order and POST /order/refund."
+      },
+      "OrderCategories": {
+        "enum": [
+          "C",
+          "D",
+          "N"
+        ],
+        "type": "string",
+        "description": "Category for the order"
+      },
+      "OrderDataCapture": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "description": "Name of custom data field captured",
+            "nullable": true
+          },
+          "value": {
+            "type": "string",
+            "description": "value of custom data captured",
+            "nullable": true,
+            "ValidateLength": "The field Value must be a string with a maximum length of 35."
+          }
+        },
+        "additionalProperties": false,
+        "description": "Holder of custom data captured to process this order"
+      },
+      "OrderHeader": {
+        "required": [
+          "accountCode",
+          "branchCode",
+          "sourceOfSale"
+        ],
+        "type": "object",
+        "properties": {
+          "accountCode": {
+            "type": "string",
+            "description": "Customer account code.",
+            "nullable": true
+          },
+          "branchCode": {
+            "type": "integer",
+            "description": "Branch code.",
+            "format": "int32"
+          },
+          "sourceOfSale": {
+            "type": "string",
+            "description": "Source of sale.",
+            "nullable": true
+          },
+          "reference": {
+            "type": "string",
+            "description": "Order reference.",
+            "nullable": true
+          },
+          "reference2": {
+            "type": "string",
+            "description": "Secondary order reference.",
+            "nullable": true
+          },
+          "orderCategory": {
+            "type": "string",
+            "description": "Order category.",
+            "nullable": true
+          },
+          "orderType": {
+            "type": "string",
+            "description": "Order type.",
+            "nullable": true
+          },
+          "webOrder": {
+            "type": "boolean",
+            "description": "Web order flag.",
+            "nullable": true
+          },
+          "createdByUser": {
+            "type": "string",
+            "description": "Created-by user id.",
+            "nullable": true
+          },
+          "requiredByDate": {
+            "type": "string",
+            "description": "Required-by date (yyyy-MM-dd).",
+            "nullable": true
+          },
+          "requestedDate": {
+            "type": "string",
+            "description": "Requested date (yyyy-MM-dd).",
+            "nullable": true
+          },
+          "recipientName": {
+            "type": "string",
+            "description": "Delivery recipient name.",
+            "nullable": true
+          },
+          "deliveryAddress": {
+            "$ref": "#/components/schemas/NestedOrderAddress"
+          },
+          "invoiceRecipientName": {
+            "type": "string",
+            "description": "Invoice recipient name.",
+            "nullable": true
+          },
+          "invoiceAddress": {
+            "$ref": "#/components/schemas/NestedOrderAddress"
+          },
+          "instructions": {
+            "type": "string",
+            "description": "External text on the header.",
+            "nullable": true
+          },
+          "narrative": {
+            "type": "string",
+            "description": "Internal text on the header.",
+            "nullable": true
+          },
+          "adviceMethod": {
+            "type": "string",
+            "description": "Advice method.",
+            "nullable": true
+          },
+          "calcCarriage": {
+            "type": "string",
+            "description": "Calculate carriage charges. JSON boolean, number, or string.",
+            "nullable": true
+          },
+          "carrier": {
+            "type": "string",
+            "description": "Carrier service.",
+            "nullable": true
+          },
+          "serviceLevel": {
+            "type": "string",
+            "description": "Carrier service level.",
+            "nullable": true
+          },
+          "contact": {
+            "$ref": "#/components/schemas/NestedOrderContact"
+          },
+          "contractReference": {
+            "type": "string",
+            "description": "Contract reference (not mapped to CDM / ICON).",
+            "nullable": true
+          },
+          "suspendOrderOnCreation": {
+            "type": "boolean",
+            "description": "Suspend the sales order on creation.",
+            "nullable": true
+          },
+          "suspendMessage": {
+            "type": "string",
+            "description": "Suspend message.",
+            "nullable": true
+          },
+          "suspendByUserId": {
+            "type": "string",
+            "description": "User id to suspend against.",
+            "nullable": true
+          },
+          "ext": {
+            "$ref": "#/components/schemas/NestedOrderExt"
+          },
+          "supplyStatus": {
+            "type": "string",
+            "description": "Supply status.",
+            "nullable": true
+          },
+          "supplierEmail": {
+            "type": "string",
+            "description": "Supplier email for direct orders.",
+            "nullable": true
+          },
+          "acknowledgedPrices": {
+            "type": "string",
+            "description": "Acknowledgement price display.",
+            "nullable": true
+          },
+          "payments": {
+            "$ref": "#/components/schemas/OrderPaymentsBlock"
+          },
+          "datacapture": {
+            "$ref": "#/components/schemas/OccursDataCaptureBlock"
+          },
+          "site": {
+            "$ref": "#/components/schemas/NestedOrderSite"
+          }
+        },
+        "additionalProperties": { },
+        "description": "order.header."
+      },
+      "OrderLine": {
+        "required": [
+          "productCode",
+          "quantity"
+        ],
+        "type": "object",
+        "properties": {
+          "productCode": {
+            "type": "string",
+            "description": "Product code.",
+            "nullable": true
+          },
+          "quantity": {
+            "type": "number",
+            "description": "Quantity.",
+            "format": "double"
+          },
+          "unitOfSale": {
+            "type": "string",
+            "description": "Unit of sale.",
+            "nullable": true
+          },
+          "manufacturer": {
+            "type": "string",
+            "description": "Manufacturer code.",
+            "nullable": true
+          },
+          "extendedDescription": {
+            "type": "string",
+            "description": "Extended product description.",
+            "nullable": true
+          },
+          "requiredByDate": {
+            "type": "string",
+            "description": "Line required-by date (yyyy-MM-dd).",
+            "nullable": true
+          },
+          "specialInstructions": {
+            "type": "string",
+            "description": "External line instructions.",
+            "nullable": true
+          },
+          "internalInstructions": {
+            "type": "string",
+            "description": "Internal line instructions.",
+            "nullable": true
+          },
+          "price": {
+            "$ref": "#/components/schemas/NestedOrderLinePrice"
+          },
+          "extLine": {
+            "type": "integer",
+            "description": "External line number.",
+            "format": "int32",
+            "nullable": true
+          },
+          "special": {
+            "$ref": "#/components/schemas/NestedOrderLineSpecial"
+          },
+          "tally": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/NestedOrderTally"
+            },
+            "description": "Tally rows.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": { },
+        "description": "One order line."
+      },
+      "OrderPayload": {
+        "required": [
+          "header",
+          "lines"
+        ],
+        "type": "object",
+        "properties": {
+          "header": {
+            "$ref": "#/components/schemas/OrderHeader"
+          },
+          "lines": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderLine"
+            },
+            "description": "Order lines (minItems 1 on normative OpenAPI).",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "order object (header, lines)."
+      },
+      "OrderPayment": {
+        "type": "object",
+        "properties": {
+          "paymentType": {
+            "type": "string",
+            "description": "Cash type of the payment \r\n\r\nBCGBP = BACS/CHAPS GBP \r\n\r\nDiDe = Direct Debit \r\n\r\nQ = Checque \r\n\r\nA = Credit Card \r\n\r\nC = Cash \r\n\r\nV = Visa Debit \r\n\r\nF = Voucher/Coupon \r\n\r\nx = allocation only \r\n\r\nHCLEG = HX Legacy",
+            "nullable": true,
+            "ValidateLength": "The field PaymentType must be a string with a maximum length of 5."
+          },
+          "value": {
+            "type": "number",
+            "description": "The amount payment is for",
+            "format": "double",
+            "ValidateDoubleRange": "The field Value must be between -99999999999.99 and 99999999999.99."
+          },
+          "reference": {
+            "type": "string",
+            "description": "Reference for the payment",
+            "nullable": true,
+            "ValidateLength": "The field Reference must be a string with a maximum length of 50."
+          }
+        },
+        "additionalProperties": false,
+        "description": "Payment related to an order"
+      },
+      "OrderPaymentItem": {
+        "type": "object",
+        "properties": {
+          "reference": {
+            "type": "string",
+            "description": "Payment reference (e.g. card auth).",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "description": "Cash type on the wire (e.g. CreditCard, OnAccount).",
+            "nullable": true
+          },
+          "value": {
+            "type": "number",
+            "description": "Payment amount.",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "One payment row (`reference`, `type`, `value`)."
+      },
+      "OrderPaymentsBlock": {
+        "type": "object",
+        "properties": {
+          "payment": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderPaymentItem"
+            },
+            "description": "Payment rows (wire key: payment).",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Wire wrapper `payments` used by nested POST /order, Hybris sendorders, and pub-order v2.\r\nReads either `{\"payment\":[...]}` or a bare array. pub-order-eapi requires the array."
+      },
+      "OrderTally": {
+        "type": "object",
+        "properties": {
+          "tallyQuantity": {
+            "type": "integer",
+            "description": "number of pieces of this measurement",
+            "format": "int32",
+            "ValidateIntRange": "The field TallyQuantity must be between -99999 and 99999."
+          },
+          "length": {
+            "type": "number",
+            "description": "length to cut to",
+            "format": "double",
+            "ValidateDoubleRange": "The field Length must be between 0.001 and 99999.999."
+          },
+          "width": {
+            "type": "number",
+            "description": "width to cut to (if applicable)",
+            "format": "double",
+            "nullable": true,
+            "ValidateDoubleRange": "The field Width must be between 0.001 and 99999.999."
+          }
+        },
+        "additionalProperties": false,
+        "description": "a cut of some material to be supplied"
+      },
+      "OrderTypes": {
+        "enum": [
+          "sale",
+          "quote",
+          "cccredit",
+          "credit"
+        ],
+        "type": "string",
+        "description": "Types of Order"
+      },
+      "PostPubOrderResponse": {
+        "required": [
+          "order"
+        ],
+        "type": "object",
+        "properties": {
+          "order": {
+            "$ref": "#/components/schemas/PublicCollectOrderPayload"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Response model for the post public collect order ACL operation (200 + body)."
+      },
+      "ProblemDetails": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "detail": {
+            "type": "string",
+            "nullable": true
+          },
+          "instance": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": { }
+      },
+      "PublicCollectHeader": {
+        "required": [
+          "account",
+          "branch",
+          "reference"
+        ],
+        "type": "object",
+        "properties": {
+          "account": {
+            "type": "string",
+            "description": "Customer account (7–8 uppercase alphanumeric).",
+            "nullable": true
+          },
+          "branch": {
+            "type": "integer",
+            "description": "Branch number (0–9999).",
+            "format": "int32"
+          },
+          "reference": {
+            "type": "string",
+            "description": "Customer order reference (max 20).",
+            "nullable": true
+          },
+          "instructions": {
+            "type": "string",
+            "description": "Delivery / pick-up instructions (max 990).",
+            "nullable": true
+          },
+          "number": {
+            "type": "number",
+            "description": "ICON order number when assigned; null while pending.",
+            "format": "double",
+            "nullable": true
+          },
+          "messageCode": {
+            "type": "string",
+            "description": "Processing state code (e.g. OrderPending).",
+            "nullable": true
+          },
+          "messageDesc": {
+            "type": "string",
+            "description": "Processing state description (e.g. Order Pending).",
+            "nullable": true
+          },
+          "orderType": {
+            "type": "string",
+            "description": "Order type (v2 extra).",
+            "nullable": true
+          },
+          "isWebOrder": {
+            "type": "boolean",
+            "description": "Web order flag (v2 extra).",
+            "nullable": true
+          },
+          "recipientName": {
+            "type": "string",
+            "description": "Delivery recipient name (v2 extra).",
+            "nullable": true
+          },
+          "deliveryAddress": {
+            "$ref": "#/components/schemas/NestedOrderAddress"
+          },
+          "invoiceRecipientName": {
+            "type": "string",
+            "description": "Invoice recipient name (v2 extra).",
+            "nullable": true
+          },
+          "invoiceAddress": {
+            "$ref": "#/components/schemas/NestedOrderAddress"
+          },
+          "contact": {
+            "$ref": "#/components/schemas/NestedOrderContact"
+          },
+          "site": {
+            "$ref": "#/components/schemas/NestedOrderSite"
+          },
+          "payments": {
+            "$ref": "#/components/schemas/OrderPaymentsBlock"
+          },
+          "datacapture": {
+            "$ref": "#/components/schemas/NamedDataCaptureBlock"
+          }
+        },
+        "additionalProperties": { },
+        "description": "order.header for public collect."
+      },
+      "PublicCollectLine": {
+        "required": [
+          "productCode",
+          "quantity"
+        ],
+        "type": "object",
+        "properties": {
+          "productCode": {
+            "type": "string",
+            "description": "Product code (8 uppercase alphanumeric).",
+            "nullable": true
+          },
+          "quantity": {
+            "type": "number",
+            "description": "Quantity (must be greater than zero).",
+            "format": "double"
+          },
+          "instructions": {
+            "type": "string",
+            "description": "Line instructions.",
+            "nullable": true
+          },
+          "tally": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PublicCollectTally"
+            },
+            "description": "Optional tally rows.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": { },
+        "description": "One public collect order line."
+      },
+      "PublicCollectOrder": {
+        "required": [
+          "order"
+        ],
+        "type": "object",
+        "properties": {
+          "order": {
+            "$ref": "#/components/schemas/PublicCollectOrderPayload"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Public collect order envelope used by pub-order-eapi POST and GET /order.\r\nWire names are `account` / `branch` (not `accountCode` / `branchCode`)."
+      },
+      "PublicCollectOrderPayload": {
+        "required": [
+          "header",
+          "lines"
+        ],
+        "type": "object",
+        "properties": {
+          "header": {
+            "$ref": "#/components/schemas/PublicCollectHeader"
+          },
+          "lines": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PublicCollectLine"
+            },
+            "description": "Order lines (minItems 1, maxItems 50 on normative OpenAPI).",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "order object (header, lines)."
+      },
+      "PublicCollectTally": {
+        "required": [
+          "length",
+          "tallyQuantity"
+        ],
+        "type": "object",
+        "properties": {
+          "tallyQuantity": {
+            "type": "integer",
+            "description": "Tally quantity (minimum 1).",
+            "format": "int32"
+          },
+          "length": {
+            "type": "number",
+            "description": "Length (exclusive minimum 0).",
+            "format": "double"
+          },
+          "width": {
+            "type": "number",
+            "description": "Optional width (exclusive minimum 0).",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "One tally row on a public collect line."
+      },
+      "QuoteAddress": {
+        "type": "object",
+        "properties": {
+          "addressLine": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Address lines.",
+            "nullable": true
+          },
+          "postcode": {
+            "type": "string",
+            "description": "Postcode.",
+            "nullable": true
+          },
+          "country": {
+            "type": "string",
+            "description": "Country code.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "quote.header delivery or invoice address."
+      },
+      "QuoteBody": {
+        "required": [
+          "quote"
+        ],
+        "type": "object",
+        "properties": {
+          "quote": {
+            "$ref": "#/components/schemas/QuotePayload"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Root POST body for quote-eapi POST /quote."
+      },
+      "QuoteContact": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "description": "Contact id.",
+            "format": "double",
+            "nullable": true
+          },
+          "web": {
+            "type": "string",
+            "description": "Web contact name.",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "description": "Email address.",
+            "nullable": true
+          },
+          "phone": {
+            "type": "string",
+            "description": "Phone number.",
+            "nullable": true
+          },
+          "mobile": {
+            "type": "string",
+            "description": "Mobile number.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "quote.header.contact."
+      },
+      "QuoteHeader": {
+        "required": [
+          "accountCode",
+          "branchCode",
+          "sourceOfSale"
+        ],
+        "type": "object",
+        "properties": {
+          "accountCode": {
+            "type": "string",
+            "description": "Customer account code.",
+            "nullable": true
+          },
+          "branchCode": {
+            "type": "integer",
+            "description": "Branch code.",
+            "format": "int32"
+          },
+          "sourceOfSale": {
+            "type": "string",
+            "description": "Source of sale.",
+            "nullable": true
+          },
+          "createdByUser": {
+            "type": "string",
+            "description": "Created-by user id.",
+            "nullable": true
+          },
+          "reference": {
+            "type": "string",
+            "description": "Order reference.",
+            "nullable": true
+          },
+          "reference2": {
+            "type": "string",
+            "description": "Secondary order reference.",
+            "nullable": true
+          },
+          "requiredByDate": {
+            "type": "string",
+            "description": "Required-by date.",
+            "nullable": true
+          },
+          "requestedDate": {
+            "type": "string",
+            "description": "Requested date.",
+            "nullable": true
+          },
+          "recipientName": {
+            "type": "string",
+            "description": "Recipient name.",
+            "nullable": true
+          },
+          "deliveryAddress": {
+            "$ref": "#/components/schemas/QuoteAddress"
+          },
+          "contact": {
+            "$ref": "#/components/schemas/QuoteContact"
+          },
+          "orderCategory": {
+            "type": "string",
+            "description": "Order category.",
+            "nullable": true
+          },
+          "orderType": {
+            "type": "string",
+            "description": "Order type.",
+            "nullable": true
+          },
+          "webOrder": {
+            "type": "boolean",
+            "description": "Web order flag.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": { },
+        "description": "quote.header."
+      },
+      "QuoteLine": {
+        "required": [
+          "productCode",
+          "quantity"
+        ],
+        "type": "object",
+        "properties": {
+          "productCode": {
+            "type": "string",
+            "description": "Product code.",
+            "nullable": true
+          },
+          "quantity": {
+            "type": "number",
+            "description": "Quantity.",
+            "format": "double"
+          },
+          "unitOfSale": {
+            "type": "string",
+            "description": "Unit of sale.",
+            "nullable": true
+          },
+          "manufacturer": {
+            "type": "string",
+            "description": "Manufacturer code.",
+            "nullable": true
+          },
+          "extendedDescription": {
+            "type": "string",
+            "description": "Extended description.",
+            "nullable": true
+          },
+          "requiredByDate": {
+            "type": "string",
+            "description": "Required-by date.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": { },
+        "description": "One quote line."
+      },
+      "QuotePayload": {
+        "required": [
+          "header",
+          "lines"
+        ],
+        "type": "object",
+        "properties": {
+          "header": {
+            "$ref": "#/components/schemas/QuoteHeader"
+          },
+          "lines": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/QuoteLine"
+            },
+            "description": "Quote lines (minItems 1 on normative OpenAPI).",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "quote object (header, lines)."
+      },
+      "QuoteSummary": {
+        "type": "object",
+        "properties": {
+          "accountCode": {
+            "type": "string",
+            "description": "Customer account code.",
+            "nullable": true
+          },
+          "branchCode": {
+            "type": "integer",
+            "description": "Branch code.",
+            "format": "int32"
+          },
+          "branchName": {
+            "type": "string",
+            "description": "Branch name.",
+            "nullable": true
+          },
+          "orderNumber": {
+            "type": "integer",
+            "description": "Order number.",
+            "format": "int32"
+          },
+          "quoteValue": {
+            "type": "number",
+            "description": "Quote value.",
+            "format": "double"
+          },
+          "quoteVat": {
+            "type": "number",
+            "description": "Quote VAT.",
+            "format": "double"
+          },
+          "dateIn": {
+            "type": "string",
+            "description": "Date in.",
+            "nullable": true
+          },
+          "timeIn": {
+            "type": "string",
+            "description": "Time in.",
+            "nullable": true
+          },
+          "reason": {
+            "type": "string",
+            "description": "Reason.",
+            "nullable": true
+          },
+          "customerOrder": {
+            "type": "string",
+            "description": "Customer order reference.",
+            "nullable": true
+          },
+          "partNumber": {
+            "type": "string",
+            "description": "Part number.",
+            "nullable": true
+          },
+          "fullDescription": {
+            "type": "string",
+            "description": "Full description.",
+            "nullable": true
+          },
+          "orderQuantity": {
+            "type": "number",
+            "description": "Order quantity.",
+            "format": "double"
+          },
+          "unitOfSale": {
+            "type": "string",
+            "description": "Unit of sale.",
+            "nullable": true
+          },
+          "price": {
+            "type": "number",
+            "description": "Price.",
+            "format": "double"
+          },
+          "expiDate": {
+            "type": "string",
+            "description": "Expiry date.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": { },
+        "description": "One quote row (QuoteSummary in Planned OpenAPI)."
+      },
+      "SubmitOrderRequest": {
+        "required": [
+          "order"
+        ],
+        "type": "object",
+        "properties": {
+          "order": {
+            "$ref": "#/components/schemas/Order"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Order submission request"
+      },
+      "V1OrderHeader": {
+        "type": "object",
+        "properties": {
+          "source": {
+            "type": "string",
+            "description": "Consuming-application code (request header). Max 8 characters — ICON sourceofsale limit.\r\ne.g. hybris, avail",
+            "nullable": true,
+            "ValidateLength": "The field Source must be a string with a maximum length of 8."
+          },
+          "account": {
+            "type": "string",
+            "description": "Account to create the sales order against",
+            "nullable": true,
+            "ValidateRequired": "The Account field is required.",
+            "ValidateFormat": "The field Account must match the regular expression '^[A-Z0-9]{7,8}$'."
+          },
+          "branch": {
+            "type": "integer",
+            "description": "Branch to create the sales order at",
+            "format": "int32",
+            "ValidateIntRange": "The field Branch must be between 1 and 9999."
+          },
+          "createUser": {
+            "type": "string",
+            "description": "User to create the sales order",
+            "nullable": true,
+            "ValidateLength": "The field CreateUser must be a string with a maximum length of 20."
+          },
+          "reference": {
+            "type": "string",
+            "description": "The customer's order reference - must be unique per source and account",
+            "nullable": true,
+            "ValidateRequired": "The Reference field is required.",
+            "ValidateLength": "The field Reference must be a string with a maximum length of 20.",
+            "ValidateFormat": "The field Reference must match the regular expression '^[A-Z0-9][A-Z0-9\\/\\-_ \\.]{1,19}$'."
+          },
+          "reference2": {
+            "type": "string",
+            "description": "The second customers order number",
+            "nullable": true,
+            "ValidateLength": "The field Reference2 must be a string with a maximum length of 20."
+          },
+          "requiredByDate": {
+            "type": "string",
+            "description": "Date of the sales order is required by",
+            "format": "date-time"
+          },
+          "requestedDate": {
+            "type": "string",
+            "description": "Customer requested date, defaults to date requried if not specified",
+            "format": "date-time",
+            "nullable": true
+          },
+          "deliveryRecipientName": {
+            "type": "string",
+            "description": "Name of the delivery recipient",
+            "nullable": true,
+            "ValidateLength": "The field DeliveryRecipientName must be a string with a maximum length of 45."
+          },
+          "deliveryAddressLine": {
+            "type": "string",
+            "description": "First Address line for the delivery address",
+            "nullable": true,
+            "ValidateLength": "The field DeliveryAddressLine must be a string with a maximum length of 35."
+          },
+          "deliveryAddressStreet": {
+            "type": "string",
+            "description": "Second Address line for the delivery address",
+            "nullable": true,
+            "ValidateLength": "The field DeliveryAddressStreet must be a string with a maximum length of 35."
+          },
+          "deliveryCity": {
+            "type": "string",
+            "description": "Third Address line for the delivery address",
+            "nullable": true,
+            "ValidateLength": "The field DeliveryCity must be a string with a maximum length of 35."
+          },
+          "deliveryPostCode": {
+            "type": "string",
+            "description": "Postal code for the delivery address",
+            "nullable": true,
+            "ValidateLength": "The field DeliveryPostCode must be a string with a maximum length of 9."
+          },
+          "deliveryCountry": {
+            "type": "string",
+            "description": "Country 2 letter Iso code for the delivery address",
+            "nullable": true,
+            "ValidateLength": "The field DeliveryCountry must be a string with a maximum length of 2."
+          },
+          "invoiceRecipientName": {
+            "type": "string",
+            "description": "Name of the invoice recipient",
+            "nullable": true,
+            "ValidateLength": "The field InvoiceRecipientName must be a string with a maximum length of 45."
+          },
+          "invoiceAddressLine": {
+            "type": "string",
+            "description": "First Address line for the invoice recipient",
+            "nullable": true,
+            "ValidateLength": "The field InvoiceAddressLine must be a string with a maximum length of 35."
+          },
+          "invoiceAddressStreet": {
+            "type": "string",
+            "description": "Second Address line for the invoice recipient",
+            "nullable": true,
+            "ValidateLength": "The field InvoiceAddressStreet must be a string with a maximum length of 35."
+          },
+          "invoiceAddressCity": {
+            "type": "string",
+            "description": "Third Address line for the invoice recipient",
+            "nullable": true,
+            "ValidateLength": "The field InvoiceAddressCity must be a string with a maximum length of 35."
+          },
+          "invoicePostCode": {
+            "type": "string",
+            "description": "Postal code for the invoice recipient",
+            "nullable": true,
+            "ValidateLength": "The field InvoicePostCode must be a string with a maximum length of 9."
+          },
+          "invoiceCountry": {
+            "type": "string",
+            "description": "Country 2 letter Iso code for the invoice recipient",
+            "nullable": true,
+            "ValidateLength": "The field InvoiceCountry must be a string with a maximum length of 2."
+          },
+          "instructions": {
+            "type": "string",
+            "description": "External text to appear on the order's header for invoicing",
+            "nullable": true,
+            "ValidateMultiLine": "The multi-line field Instructions must be a string with a maximum length of 990 with length of each line not exceeding 97."
+          },
+          "deliveryInstructions": {
+            "type": "string",
+            "description": "Internal text to appear on the header for delivery",
+            "nullable": true
+          },
+          "orderType": {
+            "$ref": "#/components/schemas/OrderTypes"
+          },
+          "carrierSerForOrder": {
+            "type": "string",
+            "description": "Carrier service to be used on the sales order",
+            "nullable": true,
+            "ValidateLength": "The field CarrierSerForOrder must be a string with a maximum length of 8."
+          },
+          "carrierSerLevForOrder": {
+            "type": "string",
+            "description": "Carrier service level to be used on the sales order",
+            "nullable": true,
+            "ValidateLength": "The field CarrierSerLevForOrder must be a string with a maximum length of 8."
+          },
+          "calcCarrierCharges": {
+            "type": "boolean",
+            "description": "flag to ask for calculation of carriage charges"
+          },
+          "suspendOrder": {
+            "type": "boolean",
+            "description": "Suspend the sales order upon creation"
+          },
+          "suspendUser": {
+            "type": "string",
+            "description": "User ID to suspend the sales order against",
+            "nullable": true,
+            "ValidateLength": "The field SuspendUser must be a string with a maximum length of 20."
+          },
+          "suspendMessage": {
+            "type": "string",
+            "description": "Message to suspend the sales order",
+            "nullable": true,
+            "ValidateLength": "The field SuspendMessage must be a string with a maximum length of 256."
+          },
+          "orderCategory": {
+            "$ref": "#/components/schemas/OrderCategories"
+          },
+          "deliveryMethod": {
+            "type": "string",
+            "description": "Delivery method for the sales order  \r\n\r\nD is Delivery and applies when OrderCategory is Delivery  \r\n\r\nL means collect later and applies when order category is C for collection",
+            "nullable": true,
+            "ValidateLength": "The field DeliveryMethod must be a string with a maximum length of 1."
+          },
+          "sourceOfSale": {
+            "type": "string",
+            "description": "ICON source of sale (`sourceofsale`). Max 8 characters.",
+            "nullable": true,
+            "ValidateLength": "The field SourceOfSale must be a string with a maximum length of 8."
+          },
+          "externalUser": {
+            "type": "string",
+            "description": "User ID for the external user",
+            "nullable": true,
+            "ValidateLength": "The field ExternalUser must be a string with a maximum length of 20."
+          },
+          "externalSystem": {
+            "type": "string",
+            "description": "External system identifier",
+            "nullable": true,
+            "ValidateLength": "The field ExternalSystem must be a string with a maximum length of 10."
+          },
+          "externalOrderRef": {
+            "type": "string",
+            "description": "Reference number relevant to the external system",
+            "nullable": true,
+            "ValidateLength": "The field ExternalOrderRef must be a string with a maximum length of 35."
+          },
+          "contactName": {
+            "type": "string",
+            "description": "Contact name",
+            "nullable": true,
+            "ValidateLength": "The field ContactName must be a string with a maximum length of 100."
+          },
+          "contactEmail": {
+            "type": "string",
+            "description": "Email address for the contact",
+            "nullable": true,
+            "ValidateLength": "The field ContactEmail must be a string with a maximum length of 100."
+          },
+          "contactPhone": {
+            "type": "string",
+            "description": "Telephone number for the contact",
+            "nullable": true,
+            "ValidateLength": "The field ContactPhone must be a string with a maximum length of 30."
+          },
+          "contactMobile": {
+            "type": "string",
+            "description": "Mobile number for the contact",
+            "nullable": true,
+            "ValidateLength": "The field ContactMobile must be a string with a maximum length of 30."
+          },
+          "siteContactName": {
+            "type": "string",
+            "description": "Site contact name, overrides the site contact number",
+            "nullable": true,
+            "ValidateLength": "The field SiteContactName must be a string with a maximum length of 100."
+          },
+          "siteContactId": {
+            "type": "integer",
+            "description": "Site contact number",
+            "format": "int32",
+            "nullable": true,
+            "ValidateUIntRange": "The field SiteContactId must be between 1 and 4294967295."
+          },
+          "siteTelephone": {
+            "type": "string",
+            "description": "Phone number of the site",
+            "nullable": true,
+            "ValidateLength": "The field SiteTelephone must be a string with a maximum length of 30."
+          },
+          "siteMobile": {
+            "type": "string",
+            "description": "Mobile number of the site",
+            "nullable": true,
+            "ValidateLength": "The field SiteMobile must be a string with a maximum length of 30."
+          },
+          "adviceMethod": {
+            "type": "string",
+            "description": "Advice method for the sales order \r\n\r\nDetermines how Prices are displayed in advice notes \r\n\r\nL - List price \r\n\r\nP - Priced \r\n\r\nU - Unpriced",
+            "nullable": true,
+            "ValidateLength": "The field AdviceMethod must be a string with a maximum length of 1."
+          },
+          "acknowledgePrice": {
+            "type": "string",
+            "description": "Acknowledgement prices for the sales order  \r\n\r\nDescribes how prices are displayed on acknowledgements \r\n\r\nP = Priced \r\n\r\nU = Unpriced \r\n\r\nL = List price \r\n\r\nE = Electronic priced only",
+            "nullable": true,
+            "ValidateLength": "The field AcknowledgePrice must be a string with a maximum length of 1."
+          },
+          "isWebOrder": {
+            "type": "boolean",
+            "description": "Sales order is a web order"
+          },
+          "supplyStatus": {
+            "type": "string",
+            "description": "Supply status for the sales order \r\n\r\nCould be  \r\n\r\nC - Complete - all orderlines must be completed \r\n\r\nP - Partial supply - some orderlines can be supplied \r\n\r\nM - Manual - partial order supply is allowed but up to User \r\n\r\nU - User when complete - supply only after User changes Supply status to another value",
+            "nullable": true,
+            "ValidateLength": "The field SupplyStatus must be a string with a maximum length of 1."
+          },
+          "supplyEmail": {
+            "type": "string",
+            "description": "Supplier email address to use for direct orders",
+            "nullable": true,
+            "ValidateLength": "The field SupplyEmail must be a string with a maximum length of 100."
+          },
+          "payments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderPayment"
+            },
+            "description": "Payment infomation related to this order",
+            "nullable": true
+          },
+          "datacapture": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderDataCapture"
+            },
+            "description": "Custom specific data needed for this customer, may include may things like vehicle registration, job number etc.",
+            "nullable": true,
+            "ValidateMaxLength": "The field Datacapture must be an array type with a maximum length of 14.",
+            "ValidateDataCaptureEntry": "The entry jobNumber in field Datacapture must be a string with a maximum length of 20."
+          },
+          "messageCode": {
+            "$ref": "#/components/schemas/MessageCodes"
+          },
+          "messageDesc": {
+            "type": "string",
+            "description": "Updated Message Code Description \r\n\r\n(Read only cannnot be set through the api)",
+            "nullable": true
+          },
+          "number": {
+            "type": "integer",
+            "description": "Order Number a unique number assigned for this order when placed \r\n\r\n(Read only cannnot be set through the api)",
+            "format": "int64",
+            "nullable": true
+          },
+          "pendingRetriesCount": {
+            "type": "integer",
+            "description": "A count of tries to place the order which have had recoverable errors (e.g. timeouts)  \r\n\r\n(Read only cannnot be set through the api)",
+            "format": "int32"
+          },
+          "processingRetriesCount": {
+            "type": "integer",
+            "description": "A count of consecutive tries to get updates for the order which have had recoverable errors (e.g. timeouts)  \r\n\r\n(Read only cannnot be set through the api)",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Contains information common to all Order Lines"
+      },
+      "V1OrderLine": {
+        "type": "object",
+        "properties": {
+          "productCode": {
+            "type": "string",
+            "description": "unique product code",
+            "nullable": true,
+            "ValidateRequired": "The ProductCode field is required.",
+            "ValidateFormat": "The field ProductCode must match the regular expression '[A-Z0-9]{8}$'."
+          },
+          "manufacturer": {
+            "type": "string",
+            "description": "the product's manufacturer",
+            "nullable": true,
+            "ValidateLength": "The field Manufacturer must be a string with a maximum length of 8."
+          },
+          "quantity": {
+            "type": "number",
+            "description": "the quantity of the product to be supplied in terms of the unit of sale",
+            "format": "double",
+            "ValidateDoubleRange": "The field Quantity must be between -999999999.9999 and 999999999.9999."
+          },
+          "unitOfSale": {
+            "type": "string",
+            "description": "the unit of sale of the quantity",
+            "nullable": true,
+            "ValidateLength": "The field UnitOfSale must be a string with a maximum length of 2."
+          },
+          "requiredByDate": {
+            "type": "string",
+            "description": "supply is required by this date",
+            "format": "date-time",
+            "nullable": true
+          },
+          "instructions": {
+            "type": "string",
+            "description": "special instructions for this order line",
+            "nullable": true,
+            "ValidateMultiLine": "The multi-line field Instructions must be a string with a maximum length of 990 with length of each line not exceeding 97."
+          },
+          "lineInternalText": {
+            "type": "string",
+            "description": "internal use only instructions",
+            "nullable": true
+          },
+          "sellingPrice": {
+            "type": "number",
+            "description": "The price of this order line\r\n(leave empty to apply default pricing)",
+            "format": "double",
+            "nullable": true,
+            "ValidateDoubleRange": "The field SellingPrice must be between -99999999999.99 and 99999999999.99."
+          },
+          "unitPrice": {
+            "type": "string",
+            "description": "price per unit",
+            "nullable": true,
+            "ValidateLength": "The field UnitPrice must be a string with a maximum length of 2."
+          },
+          "supplier": {
+            "type": "string",
+            "description": "supplier for direct orders",
+            "nullable": true,
+            "ValidateLength": "The field Supplier must be a string with a maximum length of 8."
+          },
+          "tally": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderTally"
+            },
+            "description": "cuts needed to the order line",
+            "nullable": true
+          },
+          "statusCode": {
+            "type": "string",
+            "description": "the status code for this order \r\n\r\nADI\tPre-Invoice \r\n\r\nADV Waiting advice note \r\n\r\nALS Original for Alternative \r\n\r\nALT Alternate {Product} \r\n\r\nASC Associated { Product } \r\n\r\nBRK Break order line \r\n\r\nCOM Completed line \r\n\r\nCRC Converted to Credit \r\n\r\nCRS In-Line Return Stock Credit \r\n\r\nCRT Converted to Credit(In-Line) \r\n\r\nCRV In-Line Value Only Credit \r\n\r\nCUS Call customer back \r\n\r\nDEL Deleted line \r\n\r\nEST Estimates \r\n\r\nGEN Generate schedule \r\n\r\nGRP Line Group Header \r\n\r\nHAL Alternate Haulier(Directs) \r\n\r\nHLD Stock Reservation \r\n\r\nIBT Inter-branch transfer \r\n\r\nIBX IBT exception \r\n\r\nKIT Process kit list \r\n\r\nLOP Lost sale(Price) \r\n\r\nLOS Lost sale(Stock) \r\n\r\nLOV Lost sale(Value) \r\n\r\nMEM Memo line \r\n\r\nNDX Operation Not Complete \r\n\r\nOFF Call off later(Directs) \r\n\r\nPIK Pick note printed \r\n\r\nPIQ Batch pick awaiting print \r\n\r\nPRO Process document \r\n\r\nPUR Purchase order \r\n\r\nREC Goods received \r\n\r\nRGD Regrade product \r\n\r\nRTS { Return to supplier } \r\n\r\nSBO Stock backorder \r\n\r\nTFR Transfer to Branch \r\n\r\nUTS Unable to Supply \r\n\r\nVOR Emergency Purchase \r\n\r\nWDL Waiting delivery \r\n\r\nWDX Operation Complete \r\n\r\nWOS Work outstanding \r\n\r\nWRK Create works order \r\n\r\nWXO External work to be done \r\n\r\nWXS External work at supplier \r\n\r\nXCL Cancelled by Customer \r\n",
+            "nullable": true
+          },
+          "statusDesc": {
+            "type": "string",
+            "description": "description of the status or this order line",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Part of an order that specifies a product and quantity to be supplied"
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "description": "Server consumer JWT. Enter the token only — do NOT prefix with 'Bearer '.",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      },
+      "XSessionId": {
+        "type": "apiKey",
+        "description": "User consumer Okta session id validated via the session validator API.",
+        "name": "X-Session-Id",
+        "in": "header"
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Legacy Sale Orders"
+    },
+    {
+      "name": "Orders"
+    }
+  ]
+}
