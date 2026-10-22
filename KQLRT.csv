@@ -1,0 +1,4 @@
+﻿zone,rg,subscriptionId
+"privatelink.azurewebsites.net","rg-stuk-sog-uks-t","f1564270-44e8-4cb2-80f8-2dbc2cdd942d"
+"privatelink.database.windows.net","rg-stuk-cov-tst-uks","f1564270-44e8-4cb2-80f8-2dbc2cdd942d"
+"privatelink.redis.cache.windows.net","rg-stuk-cov-tst-uks","f1564270-44e8-4cb2-80f8-2dbc2cdd942d"
