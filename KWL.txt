@@ -1,0 +1,47 @@
+// 1. VNet address space + subnet prefixes, NSG/route-table/delegation per subnet
+resources
+| where type == "microsoft.network/virtualnetworks"
+| where subscriptionId == "b2ef7b6e-a7a8-4909-a91b-c3c3b6fe2752"
+| mv-expand subnet = properties.subnets
+| project vnet=name,
+          addressSpace = tostring(properties.addressSpace.addressPrefixes),
+          subnet = tostring(subnet.name),
+          prefix = tostring(subnet.properties.addressPrefix),
+          nsg = tostring(subnet.properties.networkSecurityGroup.id),
+          routeTable = tostring(subnet.properties.routeTable.id),
+          delegation = tostring(subnet.properties.delegations)
+
+// 2. Private endpoints -> which PaaS service + which subnet
+resources
+| where type == "microsoft.network/privateendpoints"
+| where subscriptionId == "b2ef7b6e-a7a8-4909-a91b-c3c3b6fe2752"
+| mv-expand conn = properties.privateLinkServiceConnections
+| project pe=name, subnet=tostring(properties.subnet.id),
+          target=tostring(conn.properties.privateLinkServiceId),
+          groupIds=tostring(conn.properties.groupIds)
+
+// 3. NSG rules (if you want them on the diagram)
+resources
+| where type == "microsoft.network/networksecuritygroups"
+| where subscriptionId == "b2ef7b6e-a7a8-4909-a91b-c3c3b6fe2752"
+| mv-expand rule = properties.securityRules
+| project nsg=name, rule=tostring(rule.name),
+          dir=tostring(rule.properties.direction),
+          access=tostring(rule.properties.access),
+          proto=tostring(rule.properties.protocol),
+          src=tostring(rule.properties.sourceAddressPrefix),
+          dst=tostring(rule.properties.destinationAddressPrefix),
+          dport=tostring(rule.properties.destinationPortRange)
+
+// 4. Peerings (hub/spoke)
+resources
+| where type == "microsoft.network/virtualnetworks"
+| where subscriptionId == "b2ef7b6e-a7a8-4909-a91b-c3c3b6fe2752"
+| mv-expand peer = properties.virtualNetworkPeerings
+| project vnet=name, remote=tostring(peer.properties.remoteVirtualNetwork.id),
+          state=tostring(peer.properties.peeringState)
+
+// 5. Private DNS zones + VNet links
+resources
+| where type == "microsoft.network/privatednszones"
+| project zone=name, rg=resourceGroup, subscriptionId
