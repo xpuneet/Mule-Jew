@@ -1,0 +1,470 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" agent="claude" pages="3">
+  <diagram name="Page-2" id="6Y0YMxz9LP8RzJBzm0al">
+    <mxGraphModel dx="2150" dy="1098" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="i5ljmg9dI6bBn7e4KHkD-1" parent="1" style="rounded=1;arcSize=6;html=1;fillColor=#0B2447;strokeColor=#0B2447;fontColor=#FFFFFF;fontSize=17;fontStyle=1;align=left;verticalAlign=middle;spacingLeft=16;whiteSpace=wrap;" value="Integration Services — PRODUCTION Landing Zone" vertex="1">
+          <mxGeometry height="54" width="1420" x="40" y="28" as="geometry" />
+        </mxCell>
+        <mxCell id="i5ljmg9dI6bBn7e4KHkD-2" parent="1" style="text;html=1;fontSize=11;fontColor=#CBD5E1;align=right;verticalAlign=middle;" value="sub-starkuk-integration-services-prod (b2ef7b6e)   •   UK South   •   vnet-stuk-ais-prd-uks" vertex="1">
+          <mxGeometry height="30" width="884" x="600" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="i5ljmg9dI6bBn7e4KHkD-3" parent="1" style="rounded=1;arcSize=3;html=1;fillColor=#EEF1F5;strokeColor=#334155;strokeWidth=1.5;verticalAlign=top;align=left;fontStyle=1;fontSize=11;fontColor=#334155;spacingLeft=10;spacingTop=5;" value="Platform &amp; Governance plane  (consumed by the landing zone)" vertex="1">
+          <mxGeometry height="74" width="1420" x="40" y="98" as="geometry" />
+        </mxCell>
+        <mxCell id="i5ljmg9dI6bBn7e4KHkD-4" parent="1" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#F6EDFE;strokeColor=#9333EA;fontColor=#111827;fontSize=9;fontStyle=1;spacing=2;" value="Microsoft Entra ID identity / RBAC" vertex="1">
+          <mxGeometry height="36" width="267" x="54" y="126" as="geometry" />
+        </mxCell>
+        <mxCell id="i5ljmg9dI6bBn7e4KHkD-5" parent="1" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#F1F3F6;strokeColor=#64748B;fontColor=#111827;fontSize=9;fontStyle=1;spacing=2;" value="Azure Monitor platform" vertex="1">
+          <mxGeometry height="36" width="267" x="335" y="126" as="geometry" />
+        </mxCell>
+        <mxCell id="i5ljmg9dI6bBn7e4KHkD-6" parent="1" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#E6F7F1;strokeColor=#059669;fontColor=#111827;fontSize=9;fontStyle=1;spacing=2;" value="Defender for Cloud posture" vertex="1">
+          <mxGeometry height="36" width="267" x="616" y="126" as="geometry" />
+        </mxCell>
+        <mxCell id="i5ljmg9dI6bBn7e4KHkD-7" parent="1" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#F1F3F6;strokeColor=#64748B;fontColor=#111827;fontSize=9;fontStyle=1;spacing=2;" value="Azure Policy / Mgmt Groups" vertex="1">
+          <mxGeometry height="36" width="267" x="897" y="126" as="geometry" />
+        </mxCell>
+        <mxCell id="i5ljmg9dI6bBn7e4KHkD-8" parent="1" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#EEF1F5;strokeColor=#334155;fontColor=#111827;fontSize=9;fontStyle=1;spacing=2;" value="Azure DevOps CI/CD" vertex="1">
+          <mxGeometry height="36" width="267" x="1178" y="126" as="geometry" />
+        </mxCell>
+        <mxCell id="i5ljmg9dI6bBn7e4KHkD-9" parent="1" style="rounded=1;arcSize=2;html=1;fillColor=#FFFFFF;strokeColor=#1E3A8A;strokeWidth=2.5;verticalAlign=top;" value="" vertex="1">
+          <mxGeometry height="616" width="1190" x="270" y="196" as="geometry" />
+        </mxCell>
+        <mxCell id="i5ljmg9dI6bBn7e4KHkD-10" parent="1" style="rounded=1;arcSize=6;html=1;fillColor=#1E3A8A;strokeColor=#1E3A8A;fontColor=#FFFFFF;fontStyle=1;fontSize=11;align=left;verticalAlign=middle;spacingLeft=12;" value="PRODUCTION subscription&amp;nbsp;" vertex="1">
+          <mxGeometry height="38" width="1190" x="270" y="196" as="geometry" />
+        </mxCell>
+        <mxCell id="i5ljmg9dI6bBn7e4KHkD-11" parent="1" style="rounded=1;arcSize=3;html=1;fillColor=#F3F8FF;strokeColor=#2563EB;strokeWidth=2;verticalAlign=top;" value="" vertex="1">
+          <mxGeometry height="560" width="740" x="286" y="246" as="geometry" />
+        </mxCell>
+        <mxCell id="i5ljmg9dI6bBn7e4KHkD-12" parent="1" style="rounded=1;arcSize=6;html=1;fillColor=#2563EB;strokeColor=#2563EB;fontColor=#FFFFFF;fontStyle=1;fontSize=10;align=left;verticalAlign=middle;spacingLeft=10;" value="Virtual Network   vnet-stuk-ais-prd-uks" vertex="1">
+          <mxGeometry height="26" width="740" x="286" y="246" as="geometry" />
+        </mxCell>
+        <mxCell id="i5ljmg9dI6bBn7e4KHkD-13" parent="1" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#EFF4FE;strokeColor=#2563EB;fontColor=#111827;fontSize=9;fontStyle=1;spacing=2;" value="NAT Gateway ng-stuk-ais-prd-uks" vertex="1">
+          <mxGeometry height="30" width="150" x="726" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="i5ljmg9dI6bBn7e4KHkD-14" parent="1" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#EFF4FE;strokeColor=#2563EB;fontColor=#111827;fontSize=9;spacing=2;" value="Public IP pip-ng-…" vertex="1">
+          <mxGeometry height="30" width="128" x="884" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="i5ljmg9dI6bBn7e4KHkD-15" parent="1" style="rounded=1;arcSize=4;html=1;fillColor=#EAF2FE;strokeColor=#3B82F6;strokeWidth=1.5;dashed=1;verticalAlign=top;align=left;fontSize=9;fontColor=#1E40AF;spacingLeft=8;spacingTop=4;whiteSpace=wrap;" value="Subnet  snet-stuk-ais-prd-appsvc-integration   (Regional VNet integration)" vertex="1">
+          <mxGeometry height="158" width="712" x="300" y="324" as="geometry" />
+        </mxCell>
+        <mxCell id="i5ljmg9dI6bBn7e4KHkD-16" parent="1" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#E6F6FA;strokeColor=#0891B2;fontColor=#111827;fontSize=9;fontStyle=1;spacing=2;" value="API Gateway app-stuk-ais-gw-prd-uks" vertex="1">
+          <mxGeometry height="116" width="148" x="312" y="354" as="geometry" />
+        </mxCell>
+        <mxCell id="i5ljmg9dI6bBn7e4KHkD-17" parent="1" style="rounded=1;arcSize=4;html=1;fillColor=#E6F6FA;strokeColor=#0891B2;strokeWidth=1.5;verticalAlign=top;align=left;fontStyle=1;fontSize=10;fontColor=#0F172A;spacingLeft=8;spacingTop=5;whiteSpace=wrap;" value="Backend APIs &amp; Web Apps  (asp-stuk-ais-prd-uks)" vertex="1">
+          <mxGeometry height="124" width="524" x="474" y="350" as="geometry" />
+        </mxCell>
+        <mxCell id="i5ljmg9dI6bBn7e4KHkD-18" parent="1" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#E6F6FA;strokeColor=#0891B2;fontColor=#111827;fontSize=8;spacing=2;" value="API-01" vertex="1">
+          <mxGeometry height="36" width="116" x="486" y="378" as="geometry" />
+        </mxCell>
+        <mxCell id="i5ljmg9dI6bBn7e4KHkD-19" parent="1" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#E6F6FA;strokeColor=#0891B2;fontColor=#111827;fontSize=8;spacing=2;" value="API-02" vertex="1">
+          <mxGeometry height="36" width="116" x="610" y="378" as="geometry" />
+        </mxCell>
+        <mxCell id="i5ljmg9dI6bBn7e4KHkD-20" parent="1" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#E6F6FA;strokeColor=#0891B2;fontColor=#111827;fontSize=8;spacing=2;" value="API-03" vertex="1">
+          <mxGeometry height="36" width="116" x="734" y="378" as="geometry" />
+        </mxCell>
+        <mxCell id="i5ljmg9dI6bBn7e4KHkD-21" parent="1" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#E6F6FA;strokeColor=#0891B2;fontColor=#111827;fontSize=8;spacing=2;" value="API-04" vertex="1">
+          <mxGeometry height="36" width="116" x="858" y="378" as="geometry" />
+        </mxCell>
+        <mxCell id="i5ljmg9dI6bBn7e4KHkD-22" parent="1" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#E6F6FA;strokeColor=#0891B2;fontColor=#111827;fontSize=8;spacing=2;" value="Frontend app" vertex="1">
+          <mxGeometry height="36" width="116" x="486" y="420" as="geometry" />
+        </mxCell>
+        <mxCell id="i5ljmg9dI6bBn7e4KHkD-23" parent="1" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#E6F6FA;strokeColor=#0891B2;fontColor=#111827;fontSize=8;spacing=2;" value="IdentityServer app" vertex="1">
+          <mxGeometry height="36" width="116" x="610" y="420" as="geometry" />
+        </mxCell>
+        <mxCell id="i5ljmg9dI6bBn7e4KHkD-24" parent="1" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#E6F6FA;strokeColor=#0891B2;fontColor=#111827;fontSize=8;spacing=2;" value="Search/Solr&amp;nbsp;" vertex="1">
+          <mxGeometry height="36" width="116" x="734" y="420" as="geometry" />
+        </mxCell>
+        <mxCell id="i5ljmg9dI6bBn7e4KHkD-25" parent="1" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#E6F6FA;strokeColor=#0891B2;fontColor=#111827;fontSize=8;spacing=2;" value="Private API" vertex="1">
+          <mxGeometry height="36" width="116" x="858" y="420" as="geometry" />
+        </mxCell>
+        <mxCell id="i5ljmg9dI6bBn7e4KHkD-26" parent="1" style="rounded=1;arcSize=4;html=1;fillColor=#EAF2FE;strokeColor=#3B82F6;strokeWidth=1.5;dashed=1;verticalAlign=top;align=left;fontSize=9;fontColor=#1E40AF;spacingLeft=8;spacingTop=4;whiteSpace=wrap;" value="Subnet  snet-stuk-ais-prd-SelfhostedIR-VM  +  VNet-integrated Functions" vertex="1">
+          <mxGeometry height="158" width="712" x="300" y="498" as="geometry" />
+        </mxCell>
+        <mxCell id="i5ljmg9dI6bBn7e4KHkD-27" parent="1" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#F4EFFE;strokeColor=#7C3AED;fontColor=#111827;fontSize=9;fontStyle=1;spacing=2;" value="SHIR VM vm-stuk-shir-prd-uks-001 Self-hosted IR" vertex="1">
+          <mxGeometry height="116" width="148" x="312" y="528" as="geometry" />
+        </mxCell>
+        <mxCell id="i5ljmg9dI6bBn7e4KHkD-28" parent="1" style="rounded=1;arcSize=4;html=1;fillColor=#F4EFFE;strokeColor=#7C3AED;strokeWidth=1.5;verticalAlign=top;align=left;fontStyle=1;fontSize=10;fontColor=#0F172A;spacingLeft=8;spacingTop=5;whiteSpace=wrap;" value="Integration workloads — Function Apps ×21" vertex="1">
+          <mxGeometry height="124" width="524" x="474" y="524" as="geometry" />
+        </mxCell>
+        <mxCell id="i5ljmg9dI6bBn7e4KHkD-29" parent="1" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#F4EFFE;strokeColor=#7C3AED;fontColor=#111827;fontSize=9;spacing=2;" value="ERP &amp; Finance ×7" vertex="1">
+          <mxGeometry height="36" width="120" x="486" y="552" as="geometry" />
+        </mxCell>
+        <mxCell id="i5ljmg9dI6bBn7e4KHkD-30" parent="1" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#F4EFFE;strokeColor=#7C3AED;fontColor=#111827;fontSize=9;spacing=2;" value="Orders &amp; Products ×6" vertex="1">
+          <mxGeometry height="36" width="120" x="614" y="552" as="geometry" />
+        </mxCell>
+        <mxCell id="i5ljmg9dI6bBn7e4KHkD-31" parent="1" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#F4EFFE;strokeColor=#7C3AED;fontColor=#111827;fontSize=9;spacing=2;" value="Logistics &amp; EDI ×6" vertex="1">
+          <mxGeometry height="36" width="120" x="742" y="552" as="geometry" />
+        </mxCell>
+        <mxCell id="i5ljmg9dI6bBn7e4KHkD-32" parent="1" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#F4EFFE;strokeColor=#7C3AED;fontColor=#111827;fontSize=9;spacing=2;" value="Data Lake ×1" vertex="1">
+          <mxGeometry height="36" width="120" x="486" y="594" as="geometry" />
+        </mxCell>
+        <mxCell id="i5ljmg9dI6bBn7e4KHkD-33" parent="1" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#F4EFFE;strokeColor=#7C3AED;fontColor=#111827;fontSize=9;spacing=2;" value="SFTP adapter" vertex="1">
+          <mxGeometry height="36" width="120" x="614" y="594" as="geometry" />
+        </mxCell>
+        <mxCell id="i5ljmg9dI6bBn7e4KHkD-34" parent="1" style="rounded=1;arcSize=4;html=1;fillColor=#FDECEC;strokeColor=#DC2626;strokeWidth=1.5;verticalAlign=top;align=left;fontStyle=1;fontSize=10;fontColor=#7F1D1D;spacingLeft=8;spacingTop=5;" value="Data services (PaaS)" vertex="1">
+          <mxGeometry height="118" width="740" x="286" y="822" as="geometry" />
+        </mxCell>
+        <mxCell id="i5ljmg9dI6bBn7e4KHkD-35" parent="1" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#FDECEC;strokeColor=#DC2626;fontColor=#111827;fontSize=9;fontStyle=1;spacing=2;" value="Azure SQL sql-stuk-ais-prd-uks sqldb-stuk-ais-prd sqldb-stuk-ais-apis-prd" vertex="1">
+          <mxGeometry height="74" width="226" x="300" y="852" as="geometry" />
+        </mxCell>
+        <mxCell id="i5ljmg9dI6bBn7e4KHkD-36" parent="1" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#FDECEC;strokeColor=#DC2626;fontColor=#111827;fontSize=9;spacing=2;" value="Synapse Analytics synw-stuk-ais-prd-uks-001" vertex="1">
+          <mxGeometry height="74" width="226" x="546" y="852" as="geometry" />
+        </mxCell>
+        <mxCell id="i5ljmg9dI6bBn7e4KHkD-37" parent="1" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#FEF3E2;strokeColor=#D97706;fontColor=#111827;fontSize=9;fontStyle=1;spacing=2;" value="Storage ×4 (ADLS/blob) stapstukais001-004" vertex="1">
+          <mxGeometry height="74" width="226" x="793" y="852" as="geometry" />
+        </mxCell>
+        <mxCell id="i5ljmg9dI6bBn7e4KHkD-38" parent="1" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#E6F7F1;strokeColor=#059669;fontColor=#111827;fontSize=9;fontStyle=1;spacing=2;" value="Key Vault kv-stuk-ais-prd-uks secrets · certificates" vertex="1">
+          <mxGeometry height="60" width="396" x="1048" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="i5ljmg9dI6bBn7e4KHkD-39" parent="1" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#F6EDFE;strokeColor=#9333EA;fontColor=#111827;fontSize=9;spacing=2;" value="Workload identity Managed Identities mi-ais-prd · mi-devops-prd · mi-kite-prd" vertex="1">
+          <mxGeometry height="64" width="396" x="1048" y="400" as="geometry" />
+        </mxCell>
+        <mxCell id="i5ljmg9dI6bBn7e4KHkD-40" parent="1" style="rounded=1;arcSize=4;html=1;fillColor=#F1F3F6;strokeColor=#64748B;strokeWidth=1.5;verticalAlign=top;align=left;fontStyle=1;fontSize=10;fontColor=#334155;spacingLeft=8;spacingTop=5;" value="Observability" vertex="1">
+          <mxGeometry height="110" width="396" x="1048" y="504" as="geometry" />
+        </mxCell>
+        <mxCell id="i5ljmg9dI6bBn7e4KHkD-41" parent="1" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#F1F3F6;strokeColor=#64748B;fontColor=#111827;fontSize=9;fontStyle=1;spacing=2;" value="Log Analytics  log-stuk-ais-prd-uks" vertex="1">
+          <mxGeometry height="28" width="376" x="1058" y="528" as="geometry" />
+        </mxCell>
+        <mxCell id="i5ljmg9dI6bBn7e4KHkD-42" parent="1" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#F1F3F6;strokeColor=#64748B;fontColor=#111827;fontSize=9;spacing=2;" value="App Insights  app" vertex="1">
+          <mxGeometry height="26" width="376" x="1058" y="560" as="geometry" />
+        </mxCell>
+        <mxCell id="i5ljmg9dI6bBn7e4KHkD-43" parent="1" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#F1F3F6;strokeColor=#64748B;fontColor=#111827;fontSize=8;spacing=2;" value="DCR / DCE" vertex="1">
+          <mxGeometry height="20" width="376" x="1058" y="590" as="geometry" />
+        </mxCell>
+        <mxCell id="i5ljmg9dI6bBn7e4KHkD-44" parent="1" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#F1F3F6;strokeColor=#64748B;fontColor=#111827;fontSize=9;fontStyle=1;spacing=2;" value="Recovery Services Vault STUK-integration-Services- Prod-Vault01   (VM backup: SHIR/SFTP)" vertex="1">
+          <mxGeometry height="70" width="396" x="1048" y="830" as="geometry" />
+        </mxCell>
+        <mxCell id="i5ljmg9dI6bBn7e4KHkD-45" parent="1" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#E6F6FA;strokeColor=#0891B2;fontColor=#111827;fontSize=10;fontStyle=1;spacing=2;" value="API consumers &amp; partners (Internet · HTTPS)" vertex="1">
+          <mxGeometry height="90" width="208" x="40" y="344" as="geometry" />
+        </mxCell>
+        <mxCell id="i5ljmg9dI6bBn7e4KHkD-46" parent="1" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#F3F4F6;strokeColor=#6B7280;fontColor=#111827;fontSize=10;fontStyle=1;spacing=2;" value="On-prem / SaaS SAP · Columbus · TrueCommerce EDI · BACS · SwissPost · Phocas" vertex="1">
+          <mxGeometry height="108" width="208" x="40" y="512" as="geometry" />
+        </mxCell>
+        <mxCell id="i5ljmg9dI6bBn7e4KHkD-47" edge="1" parent="1" source="i5ljmg9dI6bBn7e4KHkD-45" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;endArrow=block;endFill=1;strokeColor=#059669;fontSize=9;fontColor=#1F2937;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="i5ljmg9dI6bBn7e4KHkD-16" value="HTTPS 443">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="i5ljmg9dI6bBn7e4KHkD-48" edge="1" parent="1" source="i5ljmg9dI6bBn7e4KHkD-16" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;endArrow=block;endFill=1;strokeColor=#059669;fontSize=9;fontColor=#1F2937;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="i5ljmg9dI6bBn7e4KHkD-17" value="route">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="i5ljmg9dI6bBn7e4KHkD-49" edge="1" parent="1" source="i5ljmg9dI6bBn7e4KHkD-17" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;endArrow=block;endFill=1;strokeColor=#475569;fontSize=9;fontColor=#1F2937;labelBackgroundColor=#FFFFFF;exitX=0.3;exitY=1;entryX=0.2;entryY=0;" target="i5ljmg9dI6bBn7e4KHkD-34" value="query">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="i5ljmg9dI6bBn7e4KHkD-50" edge="1" parent="1" source="i5ljmg9dI6bBn7e4KHkD-46" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;endArrow=block;endFill=1;strokeColor=#059669;fontSize=9;fontColor=#1F2937;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;entryX=0;entryY=0.5;dashed=1;" target="i5ljmg9dI6bBn7e4KHkD-27" value="private / SFTP">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="i5ljmg9dI6bBn7e4KHkD-51" edge="1" parent="1" source="i5ljmg9dI6bBn7e4KHkD-27" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;endArrow=block;endFill=1;strokeColor=#475569;fontSize=9;fontColor=#1F2937;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="i5ljmg9dI6bBn7e4KHkD-28" value="Self-hosted IR">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="i5ljmg9dI6bBn7e4KHkD-52" edge="1" parent="1" source="i5ljmg9dI6bBn7e4KHkD-28" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;endArrow=block;endFill=1;strokeColor=#475569;fontSize=9;fontColor=#1F2937;labelBackgroundColor=#FFFFFF;exitX=0.6;exitY=1;entryX=0.7;entryY=0;" target="i5ljmg9dI6bBn7e4KHkD-34" value="ETL / load">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="i5ljmg9dI6bBn7e4KHkD-53" edge="1" parent="1" source="i5ljmg9dI6bBn7e4KHkD-17" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;endArrow=block;endFill=1;strokeColor=#94A3B8;fontSize=9;fontColor=#1F2937;labelBackgroundColor=#FFFFFF;exitX=0.8;exitY=0;entryX=0.5;entryY=1;dashed=1;endArrow=open;" target="i5ljmg9dI6bBn7e4KHkD-13" value="egress">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="i5ljmg9dI6bBn7e4KHkD-54" edge="1" parent="1" source="i5ljmg9dI6bBn7e4KHkD-17" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;endArrow=block;endFill=1;strokeColor=#059669;fontSize=9;fontColor=#1F2937;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.3;entryX=0;entryY=0.5;dashed=1;endArrow=open;" target="i5ljmg9dI6bBn7e4KHkD-38" value="secrets (MI)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="i5ljmg9dI6bBn7e4KHkD-55" edge="1" parent="1" source="i5ljmg9dI6bBn7e4KHkD-17" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;endArrow=block;endFill=1;strokeColor=#9333EA;fontSize=9;fontColor=#1F2937;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.7;entryX=0;entryY=0.4;dashed=1;endArrow=open;" target="i5ljmg9dI6bBn7e4KHkD-39" value="assumes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="i5ljmg9dI6bBn7e4KHkD-56" edge="1" parent="1" source="i5ljmg9dI6bBn7e4KHkD-28" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;endArrow=block;endFill=1;strokeColor=#94A3B8;fontSize=9;fontColor=#1F2937;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;entryX=0;entryY=0.4;dashed=1;endArrow=open;" target="i5ljmg9dI6bBn7e4KHkD-40" value="logs / metrics">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="i5ljmg9dI6bBn7e4KHkD-57" edge="1" parent="1" source="i5ljmg9dI6bBn7e4KHkD-8" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;endArrow=block;endFill=1;strokeColor=#1D4ED8;fontSize=9;fontColor=#1F2937;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.82;entryY=0;strokeWidth=2;" value="CI/CD deploy">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="i5ljmg9dI6bBn7e4KHkD-58" edge="1" parent="1" source="i5ljmg9dI6bBn7e4KHkD-7" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;endArrow=block;endFill=1;strokeColor=#9333EA;fontSize=9;fontColor=#1F2937;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.4;entryY=0;dashed=1;endArrow=open;" value="identity · policy · monitoring · defense">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="i5ljmg9dI6bBn7e4KHkD-62" parent="1" style="text;html=1;fontSize=10;fontColor=#475569;fontStyle=1;align=left;" value="Runtime data flow" vertex="1">
+          <mxGeometry height="20" width="190" x="345" y="852" as="geometry" />
+        </mxCell>
+        <mxCell id="i5ljmg9dI6bBn7e4KHkD-66" parent="1" style="rounded=1;html=1;fillColor=#FFFBEB;strokeColor=#F59E0B;fontColor=#78350F;fontSize=10;align=left;verticalAlign=top;spacingLeft=10;spacingTop=8;whiteSpace=wrap;" value="Notes:  App Services use public ingress + Regional VNet integration for outbound, egress is centralised via NAT Gateway.  SHIR VM gives Functions/Synapse private reach to on-prem &amp;amp; SaaS sources.No Private Endpoints in the Prod dataset (add PEs to fully privatise). No VNet peering / hub topology." vertex="1">
+          <mxGeometry height="58" width="1420" x="82" y="1010" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="Page-4" id="WRf42OsiPlQM4QBtFqRi">
+    <mxGraphModel dx="1496" dy="764" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="loOywHBBkaJOrTDQGSzQ-1" parent="1" style="rounded=1;arcSize=6;html=1;fillColor=#0B2447;strokeColor=#0B2447;fontColor=#FFFFFF;fontSize=17;fontStyle=1;align=left;verticalAlign=middle;spacingLeft=16;" value="Integration Services — PRODUCTION Networking Topology" vertex="1">
+          <mxGeometry height="52" width="1420" x="40" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="loOywHBBkaJOrTDQGSzQ-2" parent="1" style="text;html=1;fontSize=11;fontColor=#CBD5E1;align=right;verticalAlign=middle;" value="sub-starkuk-integration-services-prod (b2ef7b6e)  •  UK South  •  vnet-stuk-ais-prd-uks" vertex="1">
+          <mxGeometry height="28" width="844" x="640" y="38" as="geometry" />
+        </mxCell>
+        <mxCell id="loOywHBBkaJOrTDQGSzQ-3" parent="1" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#F3F4F6;strokeColor=#6B7280;fontColor=#111827;fontSize=10;fontStyle=1;spacing=2;" value="Internet API consumers / partners (inbound)  ·  partner API endpoints (outbound)" vertex="1">
+          <mxGeometry height="70" width="620" x="40" y="92" as="geometry" />
+        </mxCell>
+        <mxCell id="loOywHBBkaJOrTDQGSzQ-4" parent="1" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#F3F4F6;strokeColor=#6B7280;fontColor=#111827;fontSize=10;fontStyle=1;spacing=2;" value="On-premises / SaaS systems SAP · Columbus · TrueCommerce · EDI · BACS · SwissPost · Phocas" vertex="1">
+          <mxGeometry height="70" width="620" x="840" y="92" as="geometry" />
+        </mxCell>
+        <mxCell id="loOywHBBkaJOrTDQGSzQ-5" parent="1" style="rounded=1;arcSize=1;html=1;fillColor=#FFFFFF;strokeColor=#1E3A8A;strokeWidth=2.5;verticalAlign=top;" value="" vertex="1">
+          <mxGeometry height="700" width="1420" x="40" y="186" as="geometry" />
+        </mxCell>
+        <mxCell id="loOywHBBkaJOrTDQGSzQ-6" parent="1" style="rounded=1;arcSize=5;html=1;fillColor=#1E3A8A;strokeColor=#1E3A8A;fontColor=#FFFFFF;fontStyle=1;fontSize=11;align=left;verticalAlign=middle;spacingLeft=12;" value="PRODUCTION subscription   —   rg-stuk-ais-prd-uks  +  rg-stuk-ais-apps-prd-uks" vertex="1">
+          <mxGeometry height="36" width="1420" x="40" y="186" as="geometry" />
+        </mxCell>
+        <mxCell id="loOywHBBkaJOrTDQGSzQ-7" parent="1" style="rounded=1;arcSize=4;html=1;fillColor=#E6F6FA;strokeColor=#0891B2;strokeWidth=1.5;verticalAlign=top;align=left;fontStyle=1;fontSize=10;fontColor=#0E5563;spacingLeft=8;spacingTop=5;whiteSpace=wrap;" value="Azure App Service  (multi-tenant PaaS) — public inbound endpoints, TLS 443" vertex="1">
+          <mxGeometry height="84" width="1388" x="56" y="232" as="geometry" />
+        </mxCell>
+        <mxCell id="loOywHBBkaJOrTDQGSzQ-8" parent="1" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#E6F6FA;strokeColor=#0891B2;fontColor=#111827;fontSize=9;spacing=2;" value="API Gateway (…-gw)" vertex="1">
+          <mxGeometry height="34" width="128" x="68" y="266" as="geometry" />
+        </mxCell>
+        <mxCell id="loOywHBBkaJOrTDQGSzQ-9" parent="1" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#E6F6FA;strokeColor=#0891B2;fontColor=#111827;fontSize=9;spacing=2;" value="API-01…04" vertex="1">
+          <mxGeometry height="34" width="120" x="206" y="266" as="geometry" />
+        </mxCell>
+        <mxCell id="loOywHBBkaJOrTDQGSzQ-10" parent="1" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#E6F6FA;strokeColor=#0891B2;fontColor=#111827;fontSize=9;spacing=2;" value="Frontend / IDS / Solr / Private API" vertex="1">
+          <mxGeometry height="34" width="230" x="336" y="266" as="geometry" />
+        </mxCell>
+        <mxCell id="loOywHBBkaJOrTDQGSzQ-11" parent="1" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#E6F6FA;strokeColor=#0891B2;fontColor=#111827;fontSize=9;spacing=2;" value="Function Apps ×21" vertex="1">
+          <mxGeometry height="34" width="122" x="576" y="266" as="geometry" />
+        </mxCell>
+        <mxCell id="loOywHBBkaJOrTDQGSzQ-12" parent="1" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#E6F6FA;strokeColor=#0891B2;fontColor=#111827;fontSize=9;spacing=2;" value="SFTP adapter" vertex="1">
+          <mxGeometry height="34" width="120" x="708" y="266" as="geometry" />
+        </mxCell>
+        <mxCell id="loOywHBBkaJOrTDQGSzQ-13" parent="1" style="rounded=1;arcSize=3;html=1;fillColor=#F3F8FF;strokeColor=#2563EB;strokeWidth=2;verticalAlign=top;" value="" vertex="1">
+          <mxGeometry height="258" width="1388" x="56" y="332" as="geometry" />
+        </mxCell>
+        <mxCell id="loOywHBBkaJOrTDQGSzQ-14" parent="1" style="rounded=1;arcSize=6;html=1;fillColor=#2563EB;strokeColor=#2563EB;fontColor=#FFFFFF;fontStyle=1;fontSize=10;align=left;verticalAlign=middle;spacingLeft=10;whiteSpace=wrap;" value="Virtual Network   vnet-stuk-ais-prd-uks      (address space: not in dataset — run subnet KQL to populate CIDRs)" vertex="1">
+          <mxGeometry height="26" width="1388" x="56" y="332" as="geometry" />
+        </mxCell>
+        <mxCell id="loOywHBBkaJOrTDQGSzQ-15" parent="1" style="rounded=1;arcSize=4;html=1;fillColor=#EAF2FE;strokeColor=#3B82F6;strokeWidth=1.5;dashed=1;verticalAlign=top;align=left;fontSize=10;fontColor=#1E40AF;spacingLeft=8;spacingTop=5;whiteSpace=wrap;" value="Subnet  snet-stuk-ais-prd-appsvc-integration" vertex="1">
+          <mxGeometry height="150" width="670" x="72" y="366" as="geometry" />
+        </mxCell>
+        <mxCell id="loOywHBBkaJOrTDQGSzQ-16" parent="1" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#E6F6FA;strokeColor=#0891B2;fontColor=#111827;fontSize=9;fontStyle=1;spacing=2;" value="App Service outbound Regional VNet integration (delegated)" vertex="1">
+          <mxGeometry height="44" width="638" x="88" y="398" as="geometry" />
+        </mxCell>
+        <mxCell id="loOywHBBkaJOrTDQGSzQ-17" parent="1" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#EFF4FE;strokeColor=#2563EB;fontColor=#111827;fontSize=9;spacing=2;" value="Delegation: Microsoft.Web/serverFarms" vertex="1">
+          <mxGeometry height="24" width="638" x="88" y="450" as="geometry" />
+        </mxCell>
+        <mxCell id="loOywHBBkaJOrTDQGSzQ-18" parent="1" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#EFF4FE;strokeColor=#2563EB;fontColor=#111827;fontSize=8;spacing=2;" value="Service Endpoints → SQL · Storage (Microsoft.*)" vertex="1">
+          <mxGeometry height="24" width="638" x="88" y="478" as="geometry" />
+        </mxCell>
+        <mxCell id="loOywHBBkaJOrTDQGSzQ-19" parent="1" style="rounded=1;arcSize=4;html=1;fillColor=#EAF2FE;strokeColor=#3B82F6;strokeWidth=1.5;dashed=1;verticalAlign=top;align=left;fontSize=10;fontColor=#1E40AF;spacingLeft=8;spacingTop=5;whiteSpace=wrap;" value="Subnet  snet-stuk-ais-prd-SelfhostedIR-VM" vertex="1">
+          <mxGeometry height="150" width="670" x="758" y="366" as="geometry" />
+        </mxCell>
+        <mxCell id="loOywHBBkaJOrTDQGSzQ-20" parent="1" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#F4EFFE;strokeColor=#7C3AED;fontColor=#111827;fontSize=9;fontStyle=1;spacing=2;" value="SHIR VM NIC vm-stuk-shir-prd-uks-001 Self-hosted Integration Runtime" vertex="1">
+          <mxGeometry height="70" width="450" x="774" y="398" as="geometry" />
+        </mxCell>
+        <mxCell id="loOywHBBkaJOrTDQGSzQ-21" parent="1" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#E6F7F1;strokeColor=#059669;fontColor=#111827;fontSize=9;fontStyle=1;spacing=2;" value="NSG (subnet/NIC) vm-stuk-shir-prd- uks-001-nsg" vertex="1">
+          <mxGeometry height="70" width="180" x="1232" y="398" as="geometry" />
+        </mxCell>
+        <mxCell id="loOywHBBkaJOrTDQGSzQ-22" parent="1" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#EFF4FE;strokeColor=#2563EB;fontColor=#111827;fontSize=8;spacing=2;" value="Outbound → on-prem / SaaS via SHIR" vertex="1">
+          <mxGeometry height="24" width="638" x="774" y="478" as="geometry" />
+        </mxCell>
+        <mxCell id="loOywHBBkaJOrTDQGSzQ-23" parent="1" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#EFF4FE;strokeColor=#2563EB;fontColor=#111827;fontSize=9;fontStyle=1;spacing=2;" value="NAT Gateway ng-stuk-ais-prd-uks" vertex="1">
+          <mxGeometry height="36" width="200" x="550" y="524" as="geometry" />
+        </mxCell>
+        <mxCell id="loOywHBBkaJOrTDQGSzQ-24" parent="1" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#EFF4FE;strokeColor=#2563EB;fontColor=#111827;fontSize=9;fontStyle=1;spacing=2;" value="Public IP  pip-ng-… outbound SNAT → Internet" vertex="1">
+          <mxGeometry height="36" width="200" x="756" y="524" as="geometry" />
+        </mxCell>
+        <mxCell id="loOywHBBkaJOrTDQGSzQ-25" parent="1" style="rounded=1;arcSize=4;html=1;fillColor=#FDECEC;strokeColor=#DC2626;strokeWidth=1.5;verticalAlign=top;align=left;fontStyle=1;fontSize=10;fontColor=#7F1D1D;spacingLeft=8;spacingTop=5;whiteSpace=wrap;" value="Data plane — Azure PaaS   (public endpoint + resource firewall + VNet service endpoints)      NO Private Endpoint · NO Private DNS in PROD" vertex="1">
+          <mxGeometry height="120" width="1388" x="56" y="606" as="geometry" />
+        </mxCell>
+        <mxCell id="loOywHBBkaJOrTDQGSzQ-26" parent="1" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#FDECEC;strokeColor=#DC2626;fontColor=#111827;fontSize=9;fontStyle=1;spacing=2;" value="Azure SQL sql-stuk-ais-prd-uks sqldb-prd · sqldb-apis-prd" vertex="1">
+          <mxGeometry height="70" width="332" x="72" y="640" as="geometry" />
+        </mxCell>
+        <mxCell id="loOywHBBkaJOrTDQGSzQ-27" parent="1" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#FDECEC;strokeColor=#DC2626;fontColor=#111827;fontSize=9;fontStyle=1;spacing=2;" value="Synapse synw-stuk-ais-prd-uks-001" vertex="1">
+          <mxGeometry height="70" width="332" x="418" y="640" as="geometry" />
+        </mxCell>
+        <mxCell id="loOywHBBkaJOrTDQGSzQ-28" parent="1" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#FEF3E2;strokeColor=#D97706;fontColor=#111827;fontSize=9;fontStyle=1;spacing=2;" value="Storage ×4 (ADLS/blob) stapstukais001-004" vertex="1">
+          <mxGeometry height="70" width="332" x="765" y="640" as="geometry" />
+        </mxCell>
+        <mxCell id="loOywHBBkaJOrTDQGSzQ-29" parent="1" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#E6F7F1;strokeColor=#059669;fontColor=#111827;fontSize=9;fontStyle=1;spacing=2;" value="Key Vault kv-stuk-ais-prd-uks" vertex="1">
+          <mxGeometry height="70" width="332" x="1111" y="640" as="geometry" />
+        </mxCell>
+        <mxCell id="loOywHBBkaJOrTDQGSzQ-30" parent="1" style="rounded=1;html=1;fillColor=#FFFBEB;strokeColor=#F59E0B;fontColor=#78350F;fontSize=10;align=left;verticalAlign=top;spacingLeft=10;spacingTop=8;whiteSpace=wrap;" value="PROD has NO Private DNS zones / Private Endpoints ,PaaS services resolves to PUBLIC IPs, secured by firewalls + service endpoints. Private Link exists only in the legacy sub (privatelink.azurewebsites.net · database.windows.net · redis.cache.windows.net). No Subnet CIDRs" vertex="1">
+          <mxGeometry height="70" width="1388" x="56" y="740" as="geometry" />
+        </mxCell>
+        <mxCell id="loOywHBBkaJOrTDQGSzQ-31" edge="1" parent="1" source="loOywHBBkaJOrTDQGSzQ-3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;endArrow=block;endFill=1;strokeColor=#059669;fontSize=9;fontColor=#1F2937;labelBackgroundColor=#FFFFFF;exitX=0.3;exitY=1;entryX=0.3;entryY=0;" target="loOywHBBkaJOrTDQGSzQ-7" value="HTTPS 443  (inbound)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="loOywHBBkaJOrTDQGSzQ-32" edge="1" parent="1" source="loOywHBBkaJOrTDQGSzQ-7" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;endArrow=block;endFill=1;strokeColor=#0891B2;fontSize=9;fontColor=#1F2937;labelBackgroundColor=#FFFFFF;exitX=0.3;exitY=1;entryX=0.5;entryY=0;" target="loOywHBBkaJOrTDQGSzQ-16" value="VNet integration (outbound)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="loOywHBBkaJOrTDQGSzQ-33" edge="1" parent="1" source="loOywHBBkaJOrTDQGSzQ-4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;endArrow=block;endFill=1;strokeColor=#059669;fontSize=9;fontColor=#1F2937;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.5;entryY=0;dashed=1;" target="loOywHBBkaJOrTDQGSzQ-20" value="private / SFTP">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="loOywHBBkaJOrTDQGSzQ-34" edge="1" parent="1" source="loOywHBBkaJOrTDQGSzQ-16" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;endArrow=block;endFill=1;strokeColor=#94A3B8;fontSize=9;fontColor=#1F2937;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.3;entryY=0;" target="loOywHBBkaJOrTDQGSzQ-23" value="SNAT">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="loOywHBBkaJOrTDQGSzQ-35" edge="1" parent="1" source="loOywHBBkaJOrTDQGSzQ-20" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;endArrow=block;endFill=1;strokeColor=#94A3B8;fontSize=9;fontColor=#1F2937;labelBackgroundColor=#FFFFFF;exitX=0.3;exitY=1;entryX=0.7;entryY=0;" target="loOywHBBkaJOrTDQGSzQ-23" value="SNAT">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="loOywHBBkaJOrTDQGSzQ-36" edge="1" parent="1" source="loOywHBBkaJOrTDQGSzQ-16" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;endArrow=block;endFill=1;strokeColor=#DC2626;fontSize=9;fontColor=#1F2937;labelBackgroundColor=#FFFFFF;exitX=0.15;exitY=1;entryX=0.3;entryY=0;dashed=1;endArrow=open;" target="loOywHBBkaJOrTDQGSzQ-26" value="service endpoint / firewall">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="loOywHBBkaJOrTDQGSzQ-37" edge="1" parent="1" source="loOywHBBkaJOrTDQGSzQ-20" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;endArrow=block;endFill=1;strokeColor=#DC2626;fontSize=9;fontColor=#1F2937;labelBackgroundColor=#FFFFFF;exitX=0.15;exitY=1;entryX=0.6;entryY=0;dashed=1;endArrow=open;" target="loOywHBBkaJOrTDQGSzQ-27" value="load">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="loOywHBBkaJOrTDQGSzQ-38" parent="1" style="rounded=1;html=1;fillColor=#F8FAFC;strokeColor=#CBD5E1;" value="" vertex="1">
+          <mxGeometry height="30" width="1420" x="40" y="910" as="geometry" />
+        </mxCell>
+        <mxCell id="loOywHBBkaJOrTDQGSzQ-39" parent="1" style="text;html=1;fontSize=11;fontStyle=1;fontColor=#111827;" value="Legend" vertex="1">
+          <mxGeometry height="20" width="90" x="50" y="916" as="geometry" />
+        </mxCell>
+        <mxCell id="loOywHBBkaJOrTDQGSzQ-40" parent="1" style="text;html=1;fontSize=10;fontColor=#059669;fontStyle=1;align=left;" value="Inbound HTTPS" vertex="1">
+          <mxGeometry height="20" width="230" x="140" y="916" as="geometry" />
+        </mxCell>
+        <mxCell id="loOywHBBkaJOrTDQGSzQ-41" parent="1" style="text;html=1;fontSize=10;fontColor=#0891B2;fontStyle=1;align=left;" value="App Svc VNet integration" vertex="1">
+          <mxGeometry height="20" width="230" x="375" y="916" as="geometry" />
+        </mxCell>
+        <mxCell id="loOywHBBkaJOrTDQGSzQ-42" parent="1" style="text;html=1;fontSize=10;fontColor=#94A3B8;fontStyle=1;align=left;" value="Outbound SNAT (egress)" vertex="1">
+          <mxGeometry height="20" width="230" x="610" y="916" as="geometry" />
+        </mxCell>
+        <mxCell id="loOywHBBkaJOrTDQGSzQ-43" parent="1" style="text;html=1;fontSize=10;fontColor=#DC2626;fontStyle=1;align=left;" value="PaaS data access (public+firewall)" vertex="1">
+          <mxGeometry height="20" width="230" x="845" y="916" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="eAVmscI-y_ac6vv2gIow" name="Page-9">
+    <mxGraphModel dx="2580" dy="1318" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="PqFC7cIY7Orn0tjI5nnC-1" parent="1" style="rounded=1;arcSize=6;html=1;fillColor=#0B2447;strokeColor=#0B2447;fontColor=#FFFFFF;fontSize=17;fontStyle=1;align=left;verticalAlign=middle;spacingLeft=16;" value="Integration Services - PRODUCTION Networking&amp;nbsp;" vertex="1">
+          <mxGeometry height="52" width="1440" x="40" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="PqFC7cIY7Orn0tjI5nnC-2" parent="1" style="text;html=1;fontSize=11;fontColor=#CBD5E1;align=right;verticalAlign=middle;" value="sub-starkuk-integration-services-prod&amp;nbsp; •  UK South  •  vnet-stuk-ais-prd-uks" vertex="1">
+          <mxGeometry height="28" width="864" x="570" y="38" as="geometry" />
+        </mxCell>
+        <mxCell id="PqFC7cIY7Orn0tjI5nnC-3" parent="1" style="shape=image;html=1;verticalLabelPosition=bottom;verticalAlign=top;labelPosition=center;align=center;fontSize=9;fontStyle=1;fontColor=#1F2937;spacingTop=1;image=data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2018%2018%22%3E%3Ccircle%20cx%3D%229%22%20cy%3D%229%22%20r%3D%227.3%22%20fill%3D%22%230078D4%22%2F%3E%3Cpath%20d%3D%22M1.7%209h14.6M9%201.7v14.6M3.7%204.8c3.2%202.1%207.4%202.1%2010.6%200M3.7%2013.2c3.2-2.1%207.4-2.1%2010.6%200%22%20stroke%3D%22%23fff%22%20stroke-width%3D%22.8%22%20fill%3D%22none%22%2F%3E%3C%2Fsvg%3E" value="Internet API consumers · partner APIs" vertex="1">
+          <mxGeometry height="50" width="56" x="122" y="96" as="geometry" />
+        </mxCell>
+        <mxCell id="PqFC7cIY7Orn0tjI5nnC-4" parent="1" style="shape=image;html=1;verticalLabelPosition=bottom;verticalAlign=top;labelPosition=center;align=center;fontSize=9;fontStyle=1;fontColor=#1F2937;spacingTop=1;image=data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2018%2018%22%3E%3Crect%20x%3D%222.5%22%20y%3D%222.5%22%20width%3D%2213%22%20height%3D%224.2%22%20rx%3D%22.8%22%20fill%3D%22%235B6472%22%2F%3E%3Crect%20x%3D%222.5%22%20y%3D%227.6%22%20width%3D%2213%22%20height%3D%224.2%22%20rx%3D%22.8%22%20fill%3D%22%235B6472%22%2F%3E%3Crect%20x%3D%222.5%22%20y%3D%2212.7%22%20width%3D%2213%22%20height%3D%223.3%22%20rx%3D%22.8%22%20fill%3D%22%235B6472%22%2F%3E%3Ccircle%20cx%3D%224.6%22%20cy%3D%224.6%22%20r%3D%22.7%22%20fill%3D%22%2350E6FF%22%2F%3E%3Ccircle%20cx%3D%224.6%22%20cy%3D%229.7%22%20r%3D%22.7%22%20fill%3D%22%2350E6FF%22%2F%3E%3Ccircle%20cx%3D%224.6%22%20cy%3D%2214.3%22%20r%3D%22.7%22%20fill%3D%22%2350E6FF%22%2F%3E%3C%2Fsvg%3E" value="On-premises / SaaS SAP·Columbus·EDI·BACS·SwissPost·Phocas" vertex="1">
+          <mxGeometry height="50" width="56" x="1322" y="96" as="geometry" />
+        </mxCell>
+        <mxCell id="PqFC7cIY7Orn0tjI5nnC-5" parent="1" style="rounded=1;arcSize=1;html=1;fillColor=#FFFFFF;strokeColor=#1E3A8A;strokeWidth=2.5;verticalAlign=top;" value="" vertex="1">
+          <mxGeometry height="726" width="1440" x="40" y="188" as="geometry" />
+        </mxCell>
+        <mxCell id="PqFC7cIY7Orn0tjI5nnC-6" parent="1" style="rounded=1;arcSize=5;html=1;fillColor=#1E3A8A;strokeColor=#1E3A8A;fontColor=#FFFFFF;fontStyle=1;fontSize=11;align=left;verticalAlign=middle;spacingLeft=30;" value="      PRODUCTION subscription&amp;nbsp; &amp;nbsp;- RG ( rg-stuk-ais-prd-uks and rg-stuk-ais-apps-prd-uks)" vertex="1">
+          <mxGeometry height="36" width="1440" x="40" y="188" as="geometry" />
+        </mxCell>
+        <mxCell id="PqFC7cIY7Orn0tjI5nnC-7" parent="1" style="shape=image;html=1;image=data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2018%2018%22%3E%3Crect%20x%3D%222%22%20y%3D%223.5%22%20width%3D%2214%22%20height%3D%2211%22%20rx%3D%221.5%22%20fill%3D%22%23fff%22%2F%3E%3Cpath%20d%3D%22M2%206.5h14%22%20stroke%3D%22%231E3A8A%22%20stroke-width%3D%221%22%2F%3E%3Ccircle%20cx%3D%224.2%22%20cy%3D%225%22%20r%3D%22.6%22%20fill%3D%22%231E3A8A%22%2F%3E%3Cpath%20d%3D%22M5%2010.5l2.2%202.2%204-4.2%22%20stroke%3D%22%231E3A8A%22%20stroke-width%3D%221.2%22%20fill%3D%22none%22%2F%3E%3C%2Fsvg%3E" value="" vertex="1">
+          <mxGeometry height="20" width="20" x="48" y="196" as="geometry" />
+        </mxCell>
+        <mxCell id="PqFC7cIY7Orn0tjI5nnC-8" parent="1" style="rounded=1;arcSize=4;html=1;fillColor=#E6F6FA;strokeColor=#0891B2;strokeWidth=1.5;verticalAlign=top;align=left;fontStyle=1;fontSize=10;fontColor=#0E5563;spacingLeft=8;spacingTop=5;whiteSpace=wrap;" value="Azure App Service  (PaaS) - public inbound endpoints, TLS 443" vertex="1">
+          <mxGeometry height="118" width="1408" x="56" y="230" as="geometry" />
+        </mxCell>
+        <mxCell id="PqFC7cIY7Orn0tjI5nnC-9" parent="1" style="shape=image;html=1;verticalLabelPosition=bottom;verticalAlign=top;labelPosition=center;align=center;fontSize=9;fontStyle=1;fontColor=#1F2937;spacingTop=1;image=data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2018%2018%22%3E%3Crect%20x%3D%222%22%20y%3D%222%22%20width%3D%2214%22%20height%3D%2214%22%20rx%3D%222%22%20fill%3D%22%230078D4%22%2F%3E%3Cpath%20d%3D%22M4.5%209h9%22%20stroke%3D%22%23fff%22%20stroke-width%3D%221%22%2F%3E%3Cpath%20d%3D%22M6%206.2%203.2%209%206%2011.8M12%206.2%2014.8%209%2012%2011.8%22%20stroke%3D%22%23fff%22%20stroke-width%3D%221%22%20fill%3D%22none%22%2F%3E%3C%2Fsvg%3E" value="App Gateway" vertex="1">
+          <mxGeometry height="42" width="48" x="200" y="268" as="geometry" />
+        </mxCell>
+        <mxCell id="PqFC7cIY7Orn0tjI5nnC-10" parent="1" style="shape=image;html=1;verticalLabelPosition=bottom;verticalAlign=top;labelPosition=center;align=center;fontSize=9;fontStyle=1;fontColor=#1F2937;spacingTop=1;image=data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2018%2018%22%3E%3Ccircle%20cx%3D%229%22%20cy%3D%229%22%20r%3D%227.3%22%20fill%3D%22%230078D4%22%2F%3E%3Cpath%20d%3D%22M1.7%209h14.6M9%201.7v14.6M4%205.5c3%202%207%202%2010%200M4%2012.5c3-2%207-2%2010%200%22%20stroke%3D%22%23fff%22%20stroke-width%3D%22.7%22%20fill%3D%22none%22%2F%3E%3Cpath%20d%3D%22M6.4%207.2%204.8%209l1.6%201.8M11.6%207.2%2013.2%209l-1.6%201.8%22%20stroke%3D%22%23fff%22%20stroke-width%3D%22.9%22%20fill%3D%22none%22%2F%3E%3C%2Fsvg%3E" value="Backend APIs / Web api" vertex="1">
+          <mxGeometry height="42" width="48" x="552" y="268" as="geometry" />
+        </mxCell>
+        <mxCell id="PqFC7cIY7Orn0tjI5nnC-11" parent="1" style="shape=image;html=1;verticalLabelPosition=bottom;verticalAlign=top;labelPosition=center;align=center;fontSize=9;fontStyle=1;fontColor=#1F2937;spacingTop=1;image=data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2018%2018%22%3E%3Crect%20x%3D%222%22%20y%3D%222%22%20width%3D%2214%22%20height%3D%2214%22%20rx%3D%222.5%22%20fill%3D%22%23FFF3D6%22%2F%3E%3Cpath%20d%3D%22M10.7%202.6%204.4%2010h3.5l-1%205.4L13%207.9H9.4z%22%20fill%3D%22%23FFB900%22%20stroke%3D%22%23C77700%22%20stroke-width%3D%22.3%22%2F%3E%3C%2Fsvg%3E" value="21 - Function Apps&amp;nbsp;" vertex="1">
+          <mxGeometry height="42" width="48" x="904" y="268" as="geometry" />
+        </mxCell>
+        <mxCell id="PqFC7cIY7Orn0tjI5nnC-12" parent="1" style="shape=image;html=1;verticalLabelPosition=bottom;verticalAlign=top;labelPosition=center;align=center;fontSize=9;fontStyle=1;fontColor=#1F2937;spacingTop=1;image=data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2018%2018%22%3E%3Ccircle%20cx%3D%229%22%20cy%3D%229%22%20r%3D%227.3%22%20fill%3D%22%230078D4%22%2F%3E%3Cpath%20d%3D%22M1.7%209h14.6M9%201.7v14.6M4%205.5c3%202%207%202%2010%200M4%2012.5c3-2%207-2%2010%200%22%20stroke%3D%22%23fff%22%20stroke-width%3D%22.7%22%20fill%3D%22none%22%2F%3E%3Cpath%20d%3D%22M6.4%207.2%204.8%209l1.6%201.8M11.6%207.2%2013.2%209l-1.6%201.8%22%20stroke%3D%22%23fff%22%20stroke-width%3D%22.9%22%20fill%3D%22none%22%2F%3E%3C%2Fsvg%3E" value="SFTP adapter webapp" vertex="1">
+          <mxGeometry height="42" width="48" x="1228" y="268" as="geometry" />
+        </mxCell>
+        <mxCell id="PqFC7cIY7Orn0tjI5nnC-13" parent="1" style="rounded=1;arcSize=3;html=1;fillColor=#F3F8FF;strokeColor=#2563EB;strokeWidth=2;verticalAlign=top;" value="" vertex="1">
+          <mxGeometry height="322" width="1408" x="56" y="368" as="geometry" />
+        </mxCell>
+        <mxCell id="PqFC7cIY7Orn0tjI5nnC-14" parent="1" style="rounded=1;arcSize=6;html=1;fillColor=#2563EB;strokeColor=#2563EB;fontColor=#FFFFFF;fontStyle=1;fontSize=10;align=left;verticalAlign=middle;spacingLeft=28;whiteSpace=wrap;" value="      Virtual Network   vnet-stuk-ais-prd-uks&amp;nbsp;" vertex="1">
+          <mxGeometry height="26" width="1408" x="56" y="368" as="geometry" />
+        </mxCell>
+        <mxCell id="PqFC7cIY7Orn0tjI5nnC-15" parent="1" style="shape=image;html=1;image=data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2018%2018%22%3E%3Crect%20x%3D%221.3%22%20y%3D%226.6%22%20width%3D%224.8%22%20height%3D%224.8%22%20rx%3D%221%22%20fill%3D%22%23fff%22%2F%3E%3Crect%20x%3D%2211.9%22%20y%3D%222%22%20width%3D%224.8%22%20height%3D%224.8%22%20rx%3D%221%22%20fill%3D%22%23fff%22%2F%3E%3Crect%20x%3D%2211.9%22%20y%3D%2211.2%22%20width%3D%224.8%22%20height%3D%224.8%22%20rx%3D%221%22%20fill%3D%22%23fff%22%2F%3E%3Cpath%20d%3D%22M6.1%209h3.6V4.4h2.2M9.7%209v4.6h2.2%22%20stroke%3D%22%23fff%22%20stroke-width%3D%221%22%20fill%3D%22none%22%2F%3E%3C%2Fsvg%3E" value="" vertex="1">
+          <mxGeometry height="18" width="18" x="62" y="372" as="geometry" />
+        </mxCell>
+        <mxCell id="PqFC7cIY7Orn0tjI5nnC-16" parent="1" style="rounded=1;arcSize=4;html=1;fillColor=#EAF2FE;strokeColor=#3B82F6;strokeWidth=1.5;dashed=1;verticalAlign=top;align=left;fontSize=10;fontColor=#1E40AF;spacingLeft=8;spacingTop=5;whiteSpace=wrap;" value="Subnet  snet-stuk-ais-prd-appsvc-integration" vertex="1">
+          <mxGeometry height="184" width="680" x="72" y="404" as="geometry" />
+        </mxCell>
+        <mxCell id="PqFC7cIY7Orn0tjI5nnC-17" parent="1" style="shape=image;html=1;verticalLabelPosition=bottom;verticalAlign=top;labelPosition=center;align=center;fontSize=9;fontStyle=1;fontColor=#1F2937;spacingTop=1;image=data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2018%2018%22%3E%3Ccircle%20cx%3D%229%22%20cy%3D%229%22%20r%3D%227.3%22%20fill%3D%22%230078D4%22%2F%3E%3Cpath%20d%3D%22M1.7%209h14.6M9%201.7v14.6M4%205.5c3%202%207%202%2010%200M4%2012.5c3-2%207-2%2010%200%22%20stroke%3D%22%23fff%22%20stroke-width%3D%22.7%22%20fill%3D%22none%22%2F%3E%3Cpath%20d%3D%22M6.4%207.2%204.8%209l1.6%201.8M11.6%207.2%2013.2%209l-1.6%201.8%22%20stroke%3D%22%23fff%22%20stroke-width%3D%22.9%22%20fill%3D%22none%22%2F%3E%3C%2Fsvg%3E" value="App Service VNet integration (outbound)" vertex="1">
+          <mxGeometry height="42" width="48" x="388" y="438" as="geometry" />
+        </mxCell>
+        <mxCell id="PqFC7cIY7Orn0tjI5nnC-18" parent="1" style="text;html=1;fontSize=9;fontColor=#1E40AF;align=center;" value="Delegation: Microsoft.Web/serverFarms" vertex="1">
+          <mxGeometry height="24" width="648" x="88" y="522" as="geometry" />
+        </mxCell>
+        <mxCell id="PqFC7cIY7Orn0tjI5nnC-19" parent="1" style="text;html=1;fontSize=9;fontColor=#1E40AF;align=center;" value="Service endpoints → SQL · Storage" vertex="1">
+          <mxGeometry height="24" width="648" x="88" y="546" as="geometry" />
+        </mxCell>
+        <mxCell id="PqFC7cIY7Orn0tjI5nnC-20" parent="1" style="rounded=1;arcSize=4;html=1;fillColor=#EAF2FE;strokeColor=#3B82F6;strokeWidth=1.5;dashed=1;verticalAlign=top;align=left;fontSize=10;fontColor=#1E40AF;spacingLeft=8;spacingTop=5;whiteSpace=wrap;" value="Subnet  snet-stuk-ais-prd-SelfhostedIR-VM" vertex="1">
+          <mxGeometry height="184" width="680" x="768" y="404" as="geometry" />
+        </mxCell>
+        <mxCell id="PqFC7cIY7Orn0tjI5nnC-21" parent="1" style="shape=image;html=1;verticalLabelPosition=bottom;verticalAlign=top;labelPosition=center;align=center;fontSize=9;fontStyle=1;fontColor=#1F2937;spacingTop=1;image=data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2018%2018%22%3E%3Crect%20x%3D%221.8%22%20y%3D%223%22%20width%3D%2214.4%22%20height%3D%229.2%22%20rx%3D%221%22%20fill%3D%22%230078D4%22%2F%3E%3Crect%20x%3D%223%22%20y%3D%224.2%22%20width%3D%2212%22%20height%3D%226.8%22%20fill%3D%22%23fff%22%2F%3E%3Cpath%20d%3D%22M4.4%206h4M4.4%207.8h3%22%20stroke%3D%22%230078D4%22%20stroke-width%3D%22.7%22%2F%3E%3Crect%20x%3D%227.4%22%20y%3D%2212.2%22%20width%3D%223.2%22%20height%3D%221.8%22%20fill%3D%22%230078D4%22%2F%3E%3Crect%20x%3D%225.5%22%20y%3D%2214%22%20width%3D%227%22%20height%3D%221.3%22%20rx%3D%22.5%22%20fill%3D%22%230078D4%22%2F%3E%3C%2Fsvg%3E" value="SHIR VM vm-stuk-shir-prd-uks-001" vertex="1">
+          <mxGeometry height="42" width="48" x="948" y="438" as="geometry" />
+        </mxCell>
+        <mxCell id="PqFC7cIY7Orn0tjI5nnC-22" parent="1" style="shape=image;html=1;verticalLabelPosition=bottom;verticalAlign=top;labelPosition=center;align=center;fontSize=9;fontStyle=1;fontColor=#1F2937;spacingTop=1;image=data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2018%2018%22%3E%3Cpath%20d%3D%22M9%201.4%2015.2%204v4.6c0%204-2.9%206.6-6.2%207.6C5.7%2015.2%202.8%2012.6%202.8%208.6V4z%22%20fill%3D%22%230078D4%22%2F%3E%3Cpath%20d%3D%22M6.2%209%208.1%2010.9%2012%206.7%22%20stroke%3D%22%23fff%22%20stroke-width%3D%221.3%22%20fill%3D%22none%22%2F%3E%3C%2Fsvg%3E" value="NSG vm-…-shir-…-nsg" vertex="1">
+          <mxGeometry height="42" width="48" x="1233" y="438" as="geometry" />
+        </mxCell>
+        <mxCell id="PqFC7cIY7Orn0tjI5nnC-23" parent="1" style="text;html=1;fontSize=9;fontColor=#1E40AF;align=center;" value="Outbound → on-prem / SaaS via SHIR" vertex="1">
+          <mxGeometry height="24" width="648" x="784" y="534" as="geometry" />
+        </mxCell>
+        <mxCell id="PqFC7cIY7Orn0tjI5nnC-24" parent="1" style="shape=image;html=1;verticalLabelPosition=bottom;verticalAlign=top;labelPosition=center;align=center;fontSize=9;fontStyle=1;fontColor=#1F2937;spacingTop=1;image=data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2018%2018%22%3E%3Crect%20x%3D%222%22%20y%3D%222%22%20width%3D%2214%22%20height%3D%2214%22%20rx%3D%222%22%20fill%3D%22%230078D4%22%2F%3E%3Ccircle%20cx%3D%226%22%20cy%3D%229%22%20r%3D%221.4%22%20fill%3D%22%23fff%22%2F%3E%3Cpath%20d%3D%22M7.4%209h5.4M11%206.6%2013.4%209%2011%2011.4%22%20stroke%3D%22%23fff%22%20stroke-width%3D%221%22%20fill%3D%22none%22%2F%3E%3C%2Fsvg%3E" value="NAT Gateway ng-stuk-ais-prd-uks" vertex="1">
+          <mxGeometry height="42" width="48" x="623" y="596" as="geometry" />
+        </mxCell>
+        <mxCell id="PqFC7cIY7Orn0tjI5nnC-25" parent="1" style="shape=image;html=1;verticalLabelPosition=bottom;verticalAlign=top;labelPosition=center;align=center;fontSize=9;fontStyle=1;fontColor=#1F2937;spacingTop=1;image=data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2018%2018%22%3E%3Crect%20x%3D%222%22%20y%3D%224.5%22%20width%3D%2214%22%20height%3D%229%22%20rx%3D%222.5%22%20fill%3D%22%2350B0E6%22%2F%3E%3Ccircle%20cx%3D%226%22%20cy%3D%229%22%20r%3D%222.3%22%20fill%3D%22%23fff%22%2F%3E%3Cpath%20d%3D%22M10%207h4M10%209h4M10%2011h3%22%20stroke%3D%22%23fff%22%20stroke-width%3D%221%22%2F%3E%3C%2Fsvg%3E" value="Public IP  pip-ng-… outbound SNAT → Internet" vertex="1">
+          <mxGeometry height="42" width="48" x="848" y="596" as="geometry" />
+        </mxCell>
+        <mxCell id="PqFC7cIY7Orn0tjI5nnC-26" parent="1" style="rounded=1;arcSize=4;html=1;fillColor=#FDECEC;strokeColor=#DC2626;strokeWidth=1.5;verticalAlign=top;align=left;fontStyle=1;fontSize=10;fontColor=#7F1D1D;spacingLeft=8;spacingTop=5;whiteSpace=wrap;" value="Data plane :&amp;nbsp; Azure PaaS  (public endpoint + resource firewall + VNet service endpoints)     NO Private Endpoint · NO Private DNS in PROD" vertex="1">
+          <mxGeometry height="130" width="1408" x="56" y="706" as="geometry" />
+        </mxCell>
+        <mxCell id="PqFC7cIY7Orn0tjI5nnC-27" parent="1" style="shape=image;html=1;verticalLabelPosition=bottom;verticalAlign=top;labelPosition=center;align=center;fontSize=9;fontStyle=1;fontColor=#1F2937;spacingTop=1;image=data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2018%2018%22%3E%3Cpath%20d%3D%22M3.6%204.6c0-1.5%202.4-2.6%205.4-2.6s5.4%201.1%205.4%202.6v8.8c0%201.5-2.4%202.6-5.4%202.6s-5.4-1.1-5.4-2.6z%22%20fill%3D%22%230078D4%22%2F%3E%3Cellipse%20cx%3D%229%22%20cy%3D%224.6%22%20rx%3D%225.4%22%20ry%3D%222.5%22%20fill%3D%22%2350E6FF%22%2F%3E%3Cpath%20d%3D%22M3.6%209c0%201.4%202.4%202.5%205.4%202.5S14.4%2010.4%2014.4%209%22%20stroke%3D%22%23fff%22%20stroke-width%3D%22.7%22%20fill%3D%22none%22%2F%3E%3C%2Fsvg%3E" value="Azure SQL sql-stuk-ais-prd-uks" vertex="1">
+          <mxGeometry height="42" width="48" x="208" y="742" as="geometry" />
+        </mxCell>
+        <mxCell id="PqFC7cIY7Orn0tjI5nnC-28" parent="1" style="shape=image;html=1;verticalLabelPosition=bottom;verticalAlign=top;labelPosition=center;align=center;fontSize=9;fontStyle=1;fontColor=#1F2937;spacingTop=1;image=data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2018%2018%22%3E%3Cpath%20d%3D%22M9%201.3%2016.2%205v8L9%2016.7%201.8%2013V5z%22%20fill%3D%22%230078D4%22%2F%3E%3Crect%20x%3D%225.6%22%20y%3D%229%22%20width%3D%221.7%22%20height%3D%224%22%20rx%3D%22.3%22%20fill%3D%22%23fff%22%2F%3E%3Crect%20x%3D%228.15%22%20y%3D%226.5%22%20width%3D%221.7%22%20height%3D%226.5%22%20rx%3D%22.3%22%20fill%3D%22%23fff%22%2F%3E%3Crect%20x%3D%2210.7%22%20y%3D%2210.2%22%20width%3D%221.7%22%20height%3D%222.8%22%20rx%3D%22.3%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fsvg%3E" value="Synapse synw-stuk-ais-prd-uks-001" vertex="1">
+          <mxGeometry height="42" width="48" x="560" y="742" as="geometry" />
+        </mxCell>
+        <mxCell id="PqFC7cIY7Orn0tjI5nnC-29" parent="1" style="shape=image;html=1;verticalLabelPosition=bottom;verticalAlign=top;labelPosition=center;align=center;fontSize=9;fontStyle=1;fontColor=#1F2937;spacingTop=1;image=data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2018%2018%22%3E%3Crect%20x%3D%221.8%22%20y%3D%223.6%22%20width%3D%2214.4%22%20height%3D%2210.8%22%20rx%3D%221%22%20fill%3D%22%230078D4%22%2F%3E%3Crect%20x%3D%221.8%22%20y%3D%223.6%22%20width%3D%2214.4%22%20height%3D%222.6%22%20rx%3D%221%22%20fill%3D%22%2350E6FF%22%2F%3E%3Cpath%20d%3D%22M1.8%209.1h14.4M1.8%2011.8h14.4M6.6%206.2v8.2M11.4%206.2v8.2%22%20stroke%3D%22%23fff%22%20stroke-width%3D%22.6%22%2F%3E%3C%2Fsvg%3E" value="Storage ×4 stapstukais001-004" vertex="1">
+          <mxGeometry height="42" width="48" x="912" y="742" as="geometry" />
+        </mxCell>
+        <mxCell id="PqFC7cIY7Orn0tjI5nnC-30" parent="1" style="shape=image;html=1;verticalLabelPosition=bottom;verticalAlign=top;labelPosition=center;align=center;fontSize=9;fontStyle=1;fontColor=#1F2937;spacingTop=1;image=data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2018%2018%22%3E%3Crect%20x%3D%222%22%20y%3D%222%22%20width%3D%2214%22%20height%3D%2214%22%20rx%3D%222.5%22%20fill%3D%22%23E6F6FA%22%2F%3E%3Ccircle%20cx%3D%227%22%20cy%3D%227.2%22%20r%3D%222.8%22%20fill%3D%22none%22%20stroke%3D%22%230E7CC0%22%20stroke-width%3D%221.5%22%2F%3E%3Cpath%20d%3D%22M8.9%209.1%2014%2014.2M12.4%2012.6l1.1-1.1M14%2014.2l-1.1%201.1%22%20stroke%3D%22%230E7CC0%22%20stroke-width%3D%221.5%22%20fill%3D%22none%22%2F%3E%3C%2Fsvg%3E" value="Key Vault kv-stuk-ais-prd-uks" vertex="1">
+          <mxGeometry height="42" width="48" x="1264" y="742" as="geometry" />
+        </mxCell>
+        <mxCell id="PqFC7cIY7Orn0tjI5nnC-31" parent="1" style="rounded=1;html=1;fillColor=#FFFBEB;strokeColor=#F59E0B;fontColor=#78350F;fontSize=10;align=left;verticalAlign=top;spacingLeft=10;spacingTop=6;whiteSpace=wrap;" value="PROD has NO Private DNS zones / Private Endpoints ,PaaS services resolves to PUBLIC IPs, secured by firewalls + service endpoints.   Private Link exists only in the legacy sub (privatelink.azurewebsites.net · database.windows.net · redis.cache.windows.net). No Subnet CIDRs" vertex="1">
+          <mxGeometry height="52" width="1408" x="56" y="850" as="geometry" />
+        </mxCell>
+        <mxCell id="PqFC7cIY7Orn0tjI5nnC-32" edge="1" parent="1" source="PqFC7cIY7Orn0tjI5nnC-3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;endArrow=block;endFill=1;strokeColor=#059669;fontSize=9;fontColor=#1F2937;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" target="PqFC7cIY7Orn0tjI5nnC-9" value="HTTPS 443 (inbound)">
+          <mxGeometry relative="1" x="-0.7551" y="10" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PqFC7cIY7Orn0tjI5nnC-33" edge="1" parent="1" source="PqFC7cIY7Orn0tjI5nnC-8" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;endArrow=block;endFill=1;strokeColor=#0891B2;fontSize=9;fontColor=#1F2937;labelBackgroundColor=#FFFFFF;exitX=0.12;exitY=1;entryX=0.5;entryY=0;" target="PqFC7cIY7Orn0tjI5nnC-17" value="VNet integration">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="PqFC7cIY7Orn0tjI5nnC-34" edge="1" parent="1" source="PqFC7cIY7Orn0tjI5nnC-4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;endArrow=block;endFill=1;strokeColor=#059669;fontSize=9;fontColor=#1F2937;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.5;entryY=0;dashed=1;" target="PqFC7cIY7Orn0tjI5nnC-21" value="private / SFTP">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="PqFC7cIY7Orn0tjI5nnC-35" edge="1" parent="1" source="PqFC7cIY7Orn0tjI5nnC-17" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;endArrow=block;endFill=1;strokeColor=#94A3B8;fontSize=9;fontColor=#1F2937;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.4;entryY=0;" target="PqFC7cIY7Orn0tjI5nnC-24" value="SNAT">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="PqFC7cIY7Orn0tjI5nnC-36" edge="1" parent="1" source="PqFC7cIY7Orn0tjI5nnC-21" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;endArrow=block;endFill=1;strokeColor=#94A3B8;fontSize=9;fontColor=#1F2937;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.6;entryY=0;" target="PqFC7cIY7Orn0tjI5nnC-24" value="SNAT">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="PqFC7cIY7Orn0tjI5nnC-37" edge="1" parent="1" source="PqFC7cIY7Orn0tjI5nnC-17" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;endArrow=block;endFill=1;strokeColor=#DC2626;fontSize=9;fontColor=#1F2937;labelBackgroundColor=#FFFFFF;exitX=0.2;exitY=1;entryX=0.5;entryY=0;dashed=1;endArrow=open;" target="PqFC7cIY7Orn0tjI5nnC-27" value="service endpoint / firewall">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="PqFC7cIY7Orn0tjI5nnC-38" edge="1" parent="1" source="PqFC7cIY7Orn0tjI5nnC-21" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;endArrow=block;endFill=1;strokeColor=#DC2626;fontSize=9;fontColor=#1F2937;labelBackgroundColor=#FFFFFF;exitX=0.3;exitY=1;entryX=0.5;entryY=0;dashed=1;endArrow=open;" target="PqFC7cIY7Orn0tjI5nnC-28" value="load">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="PqFC7cIY7Orn0tjI5nnC-39" parent="1" style="rounded=1;html=1;fillColor=#F8FAFC;strokeColor=#CBD5E1;" value="" vertex="1">
+          <mxGeometry height="30" width="1440" x="40" y="936" as="geometry" />
+        </mxCell>
+        <mxCell id="PqFC7cIY7Orn0tjI5nnC-40" parent="1" style="text;html=1;fontSize=11;fontStyle=1;fontColor=#111827;" value="Legend" vertex="1">
+          <mxGeometry height="20" width="90" x="50" y="942" as="geometry" />
+        </mxCell>
+        <mxCell id="PqFC7cIY7Orn0tjI5nnC-41" parent="1" style="text;html=1;fontSize=10;fontColor=#059669;fontStyle=1;align=left;" value="Inbound HTTPS" vertex="1">
+          <mxGeometry height="20" width="240" x="140" y="942" as="geometry" />
+        </mxCell>
+        <mxCell id="PqFC7cIY7Orn0tjI5nnC-42" parent="1" style="text;html=1;fontSize=10;fontColor=#0891B2;fontStyle=1;align=left;" value="App Service VNet integration" vertex="1">
+          <mxGeometry height="20" width="240" x="385" y="942" as="geometry" />
+        </mxCell>
+        <mxCell id="PqFC7cIY7Orn0tjI5nnC-43" parent="1" style="text;html=1;fontSize=10;fontColor=#94A3B8;fontStyle=1;align=left;" value="Outbound SNAT (egress)" vertex="1">
+          <mxGeometry height="20" width="240" x="630" y="942" as="geometry" />
+        </mxCell>
+        <mxCell id="PqFC7cIY7Orn0tjI5nnC-44" parent="1" style="text;html=1;fontSize=10;fontColor=#DC2626;fontStyle=1;align=left;" value="PaaS access (public + firewall)" vertex="1">
+          <mxGeometry height="20" width="240" x="875" y="942" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
