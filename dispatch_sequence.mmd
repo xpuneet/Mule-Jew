@@ -1,0 +1,42 @@
+sequenceDiagram
+    autonumber
+    participant P as Producer
+    participant F as Dispatcher Function
+    participant EV as EVENT live
+    participant AU as EVENTAUDIT
+    participant NS as Notification Service
+
+    Note over F,NS: Scenario 1 - Success (2xx)
+    F->>EV: claim Pending (READPAST)
+    F->>NS: POST event (idempotency key)
+    NS-->>F: 202 Accepted
+    F->>AU: move row to EVENTAUDIT
+
+    Note over F,NS: Scenario 2 - Notification Service down
+    F->>NS: POST event
+    NS--xF: error (repeated failures)
+    Note over F: breaker OPENS, leave row Pending, drains later
+
+    Note over F,EV: Scenario 3 - Database (SQL) down
+    F->>EV: claim Pending
+    EV--xF: connection error or timeout
+    Note over F,EV: abort run, rows stay Pending, next trigger retries
+
+    Note over F,NS: Scenario 4 - Transient failure, then retry
+    F->>NS: POST event
+    NS--xF: timeout / 5xx / 429
+    F->>EV: Status Retry, RetryCount + 1, backoff delay
+
+    Note over F,NS: Scenario 5 - Permanent failure (4xx), then Failed
+    F->>NS: POST event
+    NS--xF: 4xx error
+    F->>EV: mark row Failed (Status 9) in place
+
+    Note over P,EV: Scenario 6 - Duplicate event (idempotent)
+    P->>EV: INSERT duplicate (same DedupeKey)
+    EV--xP: blocked by unique index
+    Note over F,NS: or after a crash, re-POST is suppressed, one delivery
+
+    Note over F,EV: Scenario 7 - Failed-row replay (operator)
+    EV->>EV: operator resets Failed row to Pending in place
+    Note over F,EV: next run re-claims and re-sends, idempotency key prevents double delivery
