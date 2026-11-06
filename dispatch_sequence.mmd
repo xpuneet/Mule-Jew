@@ -1,6 +1,5 @@
 sequenceDiagram
     autonumber
-    participant P as Producer
     participant F as Dispatcher Function
     participant EV as EVENTS live
     participant AU as EVENTSAUDIT
@@ -32,11 +31,6 @@ sequenceDiagram
     NS--xF: 4xx error
     F->>EV: mark row Failed (Status 9) in place
 
-    Note over P,NS: Scenario 6 - Duplicate suppressed (idempotent)
-    P->>EV: INSERT event (no business-key index, so producers avoid logical dupes)
-    F->>NS: re-POST same row after a crash (same EventId)
-    NS-->>F: suppressed before delivery, one message
-
-    Note over F,EV: Scenario 7 - Failed-row replay (operator)
+    Note over F,EV: Scenario 6 - Failed-row replay (operator)
     EV->>EV: operator resets Failed row to Pending in place
     Note over F,EV: next run re-claims and re-sends, idempotency key prevents double delivery
