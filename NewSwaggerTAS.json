@@ -1,0 +1,3233 @@
+{
+  "openapi": "3.0.4",
+  "info": {
+    "title": "STUK.TradeAccountService.WebApi",
+    "description": "Demonstrates API endpoints for STUK.TradeAccountService.WebApi.\r\n\r\n- 🌐 External (consumer-facing / session-based)\r\n- 🔒 Internal (server-to-server / private)",
+    "version": "1.0"
+  },
+  "paths": {
+    "/api/v1/accounts/{accountCode}": {
+      "get": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "🌐🔒 Get account details by account code.",
+        "description": "Returns full account details including contacts, addresses, and payment profile for the given account code.",
+        "operationId": "GetAccount",
+        "parameters": [
+          {
+            "name": "accountCode",
+            "in": "path",
+            "description": "Must contain at least one letter or number. Length of accountCode must be 1-25",
+            "required": true,
+            "schema": {
+              "maxLength": 25,
+              "minLength": 1,
+              "pattern": "^(?=.*[a-zA-Z0-9]).+$",
+              "type": "string"
+            },
+            "example": "BORP050"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.TradeAccountService.Common.Contracts.Models.AccountResponse"
+                },
+                "example": {
+                  "account": {
+                    "accountCode": "HXTR267",
+                    "name": "Kerridge CS",
+                    "parentAccountCode": "A0001",
+                    "accountType": "Credit",
+                    "accountLevel": "L",
+                    "owningBranch": "4050",
+                    "owningBrand": "JCV",
+                    "contacts": [
+                      {
+                        "type": "Primary",
+                        "name": "Fred Jones",
+                        "phone": "+44 1488 662000",
+                        "email": "sales@kerridgecs.com"
+                      }
+                    ],
+                    "addresses": [
+                      {
+                        "type": "primary",
+                        "lines": [
+                          "Unit 5",
+                          "Hungerford Trading Estate"
+                        ],
+                        "town": "Hungerford",
+                        "postCode": "RG17 0YU"
+                      }
+                    ],
+                    "paymentProfile": {
+                      "paymentOnCredit": true,
+                      "paymentOnCard": false,
+                      "accountOnStop": false,
+                      "creditAttributes": [
+                        {
+                          "name": "invoiceMethod",
+                          "code": "N",
+                          "description": "Normal"
+                        }
+                      ],
+                      "creditStatus": [
+                        {
+                          "name": "creditLimit",
+                          "amount": 5000,
+                          "lastUpdatedDate": "2021-03-31T00:00:00"
+                        }
+                      ]
+                    },
+                    "extensionAttributes": [
+                      {
+                        "Status": "Active",
+                        "Amount": 100.5
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request is invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.APIs.Common.Models.ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication is required.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.APIs.Common.Models.UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.APIs.Common.Models.NotFoundResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server error occurred.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.APIs.Common.Models.InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          },
+          {
+            "SessionId": []
+          }
+        ]
+      }
+    },
+    "/api/v1/accounts": {
+      "get": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "🌐 Search accounts linked to the authenticated user's session.",
+        "description": "Returns paginated list of accounts for a user.",
+        "operationId": "SearchAccount",
+        "parameters": [
+          {
+            "name": "X-Session-Id",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "description": "The number of page",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            },
+            "example": 1
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Number of items per page. Allowed range 1-50",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            },
+            "example": 10
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.TradeAccountService.Common.Contracts.Models.AccountSearchResponse"
+                },
+                "example": {
+                  "pages": {
+                    "pageNumber": 1,
+                    "lastPage": false,
+                    "pageSize": 10
+                  },
+                  "accounts": [
+                    {
+                      "accountCode": "HXTR267",
+                      "name": "Kerridge CS",
+                      "parentAccountCode": "A0001",
+                      "accountType": "Credit",
+                      "accountLevel": "L",
+                      "owningBranch": "4050",
+                      "owningBrand": "JCV",
+                      "contacts": [
+                        {
+                          "type": "Primary",
+                          "name": "Fred Jones",
+                          "phone": "+44 1488 662000",
+                          "email": "sales@kerridgecs.com"
+                        }
+                      ],
+                      "addresses": [
+                        {
+                          "type": "primary",
+                          "lines": [
+                            "Unit 5",
+                            "Hungerford Trading Estate"
+                          ],
+                          "town": "Hungerford",
+                          "postCode": "RG17 0YU"
+                        }
+                      ],
+                      "paymentProfile": {
+                        "paymentOnCredit": true,
+                        "paymentOnCard": false,
+                        "accountOnStop": false,
+                        "creditAttributes": [],
+                        "creditStatus": []
+                      },
+                      "extensionAttributes": [
+                        {
+                          "Status": "Active",
+                          "Amount": 100.5
+                        }
+                      ]
+                    },
+                    {
+                      "accountCode": "BXTR100",
+                      "name": "Builder Supplies Ltd",
+                      "parentAccountCode": "A0001",
+                      "accountType": "Cash",
+                      "accountLevel": "S",
+                      "owningBranch": "3020",
+                      "owningBrand": "PTS",
+                      "contacts": [],
+                      "addresses": [
+                        {
+                          "type": "primary",
+                          "lines": [
+                            "10 High Street"
+                          ],
+                          "town": "Manchester",
+                          "postCode": "M1 1AA"
+                        }
+                      ],
+                      "paymentProfile": {
+                        "paymentOnCredit": false,
+                        "paymentOnCard": true,
+                        "accountOnStop": false,
+                        "creditAttributes": [],
+                        "creditStatus": []
+                      },
+                      "extensionAttributes": [
+                        {
+                          "Status": "Active",
+                          "Amount": 100.5
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request is invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.APIs.Common.Models.ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication is required.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.APIs.Common.Models.UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.APIs.Common.Models.NotFoundResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server error occurred.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.APIs.Common.Models.InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "SessionId": []
+          }
+        ]
+      }
+    },
+    "/api/v1/accounts/{accountCode}/creditlimit": {
+      "get": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "🌐 Get credit limit details by account code.",
+        "description": "Returns credit limit details for an account code.",
+        "operationId": "CreditLimit",
+        "parameters": [
+          {
+            "name": "accountCode",
+            "in": "path",
+            "description": "Must contain at least one letter or number. Length of accountCode must be 1-25",
+            "required": true,
+            "schema": {
+              "maxLength": 25,
+              "minLength": 1,
+              "pattern": "^(?=.*[a-zA-Z0-9]).+$",
+              "type": "string"
+            },
+            "example": "BORP050"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.TradeAccountService.Common.Contracts.Models.CreditLimitResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request is invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.APIs.Common.Models.ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication is required.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.APIs.Common.Models.UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.APIs.Common.Models.NotFoundResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server error occurred.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.APIs.Common.Models.InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "SessionId": []
+          }
+        ]
+      }
+    },
+    "/api/v1/accounts/{accountCode}/overview": {
+      "get": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "🌐 Get high-level account details by account code.",
+        "description": "Returns account, invoice, creditnote, statement, preferred branch and creditLimit details for an account code.",
+        "operationId": "Overview",
+        "parameters": [
+          {
+            "name": "accountCode",
+            "in": "path",
+            "description": "Must contain at least one letter or number. Length of accountCode must be 1-25",
+            "required": true,
+            "schema": {
+              "maxLength": 25,
+              "minLength": 1,
+              "pattern": "^(?=.*[a-zA-Z0-9]).+$",
+              "type": "string"
+            },
+            "example": "BORP050"
+          },
+          {
+            "name": "recentInvoicesLimit",
+            "in": "query",
+            "description": "Number of recent invoices returned. Allowed range 1-10",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 5
+            },
+            "example": 5
+          },
+          {
+            "name": "recentCreditNotesLimit",
+            "in": "query",
+            "description": "Number of recent creditnotes returned. Allowed range 1-10",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 5
+            },
+            "example": 5
+          },
+          {
+            "name": "recentStatementsLimit",
+            "in": "query",
+            "description": "Number of recent statements returned. Allowed range 1-12",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 3
+            },
+            "example": 3
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Account, invoice, creditnote, statement, preferred branch and creditLimit details for an account code retrived."
+          },
+          "400": {
+            "description": "The request is invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.APIs.Common.Models.ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication is required.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.APIs.Common.Models.UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.APIs.Common.Models.NotFoundResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server error occurred.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.APIs.Common.Models.InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "SessionId": []
+          }
+        ]
+      }
+    },
+    "/api/v1/accounts/validate": {
+      "get": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "🔒 Validate account by account code, postcode, and brand. (Backward compatibility)",
+        "description": "Returns account validation result including postcode and brand validity.",
+        "operationId": "ValidateAccount",
+        "parameters": [
+          {
+            "name": "accountCode",
+            "in": "query",
+            "description": "Must contain at least one letter or number. allowed range 1-50",
+            "schema": {
+              "type": "string"
+            },
+            "example": "HXTR267"
+          },
+          {
+            "name": "postCode",
+            "in": "query",
+            "description": "Unique post code is required, allowed range 1-10",
+            "schema": {
+              "type": "string"
+            },
+            "example": "M1 1AA"
+          },
+          {
+            "name": "brand",
+            "in": "query",
+            "description": "Unique brand code is required, allowed range 1-50",
+            "schema": {
+              "type": "string"
+            },
+            "example": "Jew"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.TradeAccountService.Common.Contracts.Models.AccountValidateResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request is invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.APIs.Common.Models.ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication is required.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.APIs.Common.Models.UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.APIs.Common.Models.NotFoundResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server error occurred.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.APIs.Common.Models.InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/accounts/creditlimit/{accountCode}": {
+      "get": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "🔒 Get credit limit by account code. (Backward compatibility)",
+        "description": "Returns credit limit details for an account code.",
+        "operationId": "CreditLimit_Server",
+        "parameters": [
+          {
+            "name": "accountCode",
+            "in": "path",
+            "description": "Must contain at least one letter or number. Length of accountCode must be 1-25",
+            "required": true,
+            "schema": {
+              "maxLength": 25,
+              "minLength": 1,
+              "pattern": "^(?=.*[a-zA-Z0-9]).+$",
+              "type": "string"
+            },
+            "example": "BORP050"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.TradeAccountService.Common.Contracts.Models.CreditLimitResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request is invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.APIs.Common.Models.ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication is required.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.APIs.Common.Models.UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.APIs.Common.Models.NotFoundResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server error occurred.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.APIs.Common.Models.InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/accounts/documents/download-request": {
+      "post": {
+        "tags": [
+          "Documents"
+        ],
+        "summary": "Request a download token for a statement or transaction document.",
+        "description": "Generates a time-limited download token for the given document. Set documentType to 'Statement' or 'Transaction' and provide the corresponding documentId.",
+        "operationId": "RequestDocumentDownload",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/STUK.TradeAccountService.WebApi.RequestParams.DocumentDownloadRequestBody"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/STUK.TradeAccountService.WebApi.RequestParams.DocumentDownloadRequestBody"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/STUK.TradeAccountService.WebApi.RequestParams.DocumentDownloadRequestBody"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.TradeAccountService.Common.Contracts.Models.DocumentDownloadRequestResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication is required.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.APIs.Common.Models.UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.APIs.Common.Models.NotFoundResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server error occurred.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.APIs.Common.Models.InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          },
+          {
+            "SessionId": []
+          }
+        ]
+      }
+    },
+    "/api/v1/accounts/documents/download/{token}": {
+      "get": {
+        "tags": [
+          "Documents"
+        ],
+        "summary": "Download a document file using a token.",
+        "description": "Returns the document file (statement or transaction) as a binary download. Token is obtained from the download-request endpoint and expires after a configured period.",
+        "operationId": "DownloadDocument",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "path",
+            "description": "A token must be a GUID",
+            "required": true,
+            "schema": {
+              "pattern": "^\\S+$",
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.TradeAccountService.Common.Contracts.Models.DocumentDownloadResponse"
+                },
+                "examples": {
+                  "PDF document": {
+                    "summary": "The document is ready and returned as binary content (application/pdf).",
+                    "value": {
+                      "fileName": "1234-XYZ-ABC.pdf",
+                      "contentType": "application/pdf"
+                    }
+                  },
+                  "File not ready": {
+                    "summary": "The document is still being prepared for download.",
+                    "value": {
+                      "message": "The file is not ready for download yet. Please try again later."
+                    }
+                  },
+                  "File not found": {
+                    "summary": "The download token has expired or the document does not exist.",
+                    "value": {
+                      "message": "The token has expired. Please create a new request for token."
+                    }
+                  }
+                }
+              },
+              "application/pdf": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.TradeAccountService.Common.Contracts.Models.DocumentDownloadResponse"
+                },
+                "examples": {
+                  "PDF document": {
+                    "summary": "The document is ready and returned as binary content (application/pdf).",
+                    "value": {
+                      "fileName": "1234-XYZ-ABC.pdf",
+                      "contentType": "application/pdf"
+                    }
+                  },
+                  "File not ready": {
+                    "summary": "The document is still being prepared for download.",
+                    "value": {
+                      "message": "The file is not ready for download yet. Please try again later."
+                    }
+                  },
+                  "File not found": {
+                    "summary": "The download token has expired or the document does not exist.",
+                    "value": {
+                      "message": "The token has expired. Please create a new request for token."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request is invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.APIs.Common.Models.ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication is required.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.APIs.Common.Models.UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.APIs.Common.Models.NotFoundResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server error occurred.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.APIs.Common.Models.InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          },
+          {
+            "SessionId": []
+          }
+        ]
+      }
+    },
+    "/api/v1/accounts/paymentreference/{paymentReference}": {
+      "get": {
+        "tags": [
+          "Payments"
+        ],
+        "summary": "🌐🔒 Get payment reference details by reference ID",
+        "description": "Returns payment details including account, amount, and status for the given reference.",
+        "operationId": "GetPaymentReference",
+        "parameters": [
+          {
+            "name": "paymentReference",
+            "in": "path",
+            "description": "A paymentReference must be a GUID",
+            "required": true,
+            "schema": {
+              "pattern": "^\\S+$",
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "1E1944CF-18CC-452B-8028-E007E2F5A2B7"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.TradeAccountService.Common.Contracts.Models.PaymentResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request is invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.APIs.Common.Models.ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication is required.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.APIs.Common.Models.UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.APIs.Common.Models.NotFoundResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server error occurred.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.APIs.Common.Models.InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          },
+          {
+            "SessionId": []
+          }
+        ]
+      }
+    },
+    "/api/v1/accounts/paymentreference": {
+      "post": {
+        "tags": [
+          "Payments"
+        ],
+        "summary": "🌐🔒 Create a payment reference for an account.",
+        "description": "Creates a payment reference linking an account, branch, and payment amount.",
+        "operationId": "CreatePaymentReference",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/STUK.TradeAccountService.Common.Contracts.Models.CreatePaymentRequest"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/STUK.TradeAccountService.Common.Contracts.Models.CreatePaymentRequest"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/STUK.TradeAccountService.Common.Contracts.Models.CreatePaymentRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.TradeAccountService.Common.Contracts.Models.CreatePaymentReferenceResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request is invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.APIs.Common.Models.ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication is required.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.APIs.Common.Models.UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.APIs.Common.Models.NotFoundResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server error occurred.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.APIs.Common.Models.InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          },
+          {
+            "SessionId": []
+          }
+        ]
+      }
+    },
+    "/api/v1/accounts-paymentreference": {
+      "post": {
+        "tags": [
+          "Payments"
+        ],
+        "summary": "🔒 Create payment reference for SAPCC integration. (Backward compatibility)",
+        "description": "Accepts SAPCC-format payment requests and creates one or more payment references.",
+        "operationId": "CreatePaymentReference_Server_SAPCC",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/STUK.TradeAccountService.Common.Contracts.Models.CreatePaymentRequestSAPCC"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/STUK.TradeAccountService.Common.Contracts.Models.CreatePaymentRequestSAPCC"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/STUK.TradeAccountService.Common.Contracts.Models.CreatePaymentRequestSAPCC"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/System.StringApiResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request is invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.APIs.Common.Models.ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication is required.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.APIs.Common.Models.UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.APIs.Common.Models.NotFoundResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server error occurred.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.APIs.Common.Models.InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/accounts/{accountCode}/preferred-branch": {
+      "get": {
+        "tags": [
+          "PreferredBranch"
+        ],
+        "summary": "🌐 Get preferred branch by account code.",
+        "description": "Returns the preferred branch for an account code.",
+        "operationId": "GetPreferredBranch",
+        "parameters": [
+          {
+            "name": "accountCode",
+            "in": "path",
+            "description": "Must contain at least one letter or number. Length of accountCode must be 1-25",
+            "required": true,
+            "schema": {
+              "maxLength": 25,
+              "minLength": 1,
+              "pattern": "^(?=.*[a-zA-Z0-9]).+$",
+              "type": "string"
+            },
+            "example": "BORP050"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.TradeAccountService.Common.Contracts.Models.PreferredBranchResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request is invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.APIs.Common.Models.ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication is required.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.APIs.Common.Models.UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.APIs.Common.Models.NotFoundResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server error occurred.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.APIs.Common.Models.InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "SessionId": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "PreferredBranch"
+        ],
+        "summary": "🌐 Update preferred branch by account code.",
+        "description": "Updates the preferred branch for the given account. BranchNumber is required in the request body.",
+        "operationId": "UpdatePreferredBranch",
+        "parameters": [
+          {
+            "name": "accountCode",
+            "in": "path",
+            "description": "Must contain at least one letter or number. Length of accountCode must be 1-25",
+            "required": true,
+            "schema": {
+              "maxLength": 25,
+              "minLength": 1,
+              "pattern": "^(?=.*[a-zA-Z0-9]).+$",
+              "type": "string"
+            },
+            "example": "BORP050"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/STUK.TradeAccountService.Common.Contracts.Models.PreferredBranchRequest"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/STUK.TradeAccountService.Common.Contracts.Models.PreferredBranchRequest"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/STUK.TradeAccountService.Common.Contracts.Models.PreferredBranchRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "It means preferred branch has been updated"
+          },
+          "400": {
+            "description": "The request is invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.APIs.Common.Models.ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication is required.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.APIs.Common.Models.UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.APIs.Common.Models.NotFoundResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server error occurred.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.APIs.Common.Models.InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "SessionId": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "PreferredBranch"
+        ],
+        "summary": "🌐 Delete preferred branch by account code.",
+        "description": "Removes the preferred branch association for the given account.",
+        "operationId": "DeletePreferredBranch",
+        "parameters": [
+          {
+            "name": "accountCode",
+            "in": "path",
+            "description": "Must contain at least one letter or number. Length of accountCode must be 1-25",
+            "required": true,
+            "schema": {
+              "maxLength": 25,
+              "minLength": 1,
+              "pattern": "^(?=.*[a-zA-Z0-9]).+$",
+              "type": "string"
+            },
+            "example": "BORP050"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "It means preferred branch has been removed"
+          },
+          "400": {
+            "description": "The request is invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.APIs.Common.Models.ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication is required.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.APIs.Common.Models.UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.APIs.Common.Models.NotFoundResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server error occurred.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.APIs.Common.Models.InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "SessionId": []
+          }
+        ]
+      }
+    },
+    "/api/v1/accounts/{accountCode}/statements": {
+      "get": {
+        "tags": [
+          "Statements"
+        ],
+        "summary": "🌐🔒 Search statements by account code",
+        "description": "Returns a paginated list of statements for an account code.",
+        "operationId": "SearchStatement",
+        "parameters": [
+          {
+            "name": "accountCode",
+            "in": "path",
+            "description": "Must contain at least one letter or number. Length of accountCode must be 1-25",
+            "required": true,
+            "schema": {
+              "maxLength": 25,
+              "minLength": 1,
+              "pattern": "^(?=.*[a-zA-Z0-9]).+$",
+              "type": "string"
+            },
+            "example": "BORP050"
+          },
+          {
+            "name": "statementDateFrom",
+            "in": "query",
+            "description": "StatementDateFrom date must be before or equal to StatementDateTo",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "example": "12/28/2022"
+          },
+          {
+            "name": "statementDateTo",
+            "in": "query",
+            "description": "A valid date for StatementDateTo",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "example": "12/28/2022"
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "description": "The number of page",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            },
+            "example": 1
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Number of items per page. Allowed range 1-50",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            },
+            "example": 10
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.TradeAccountService.Common.Contracts.Models.StatementSearchResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request is invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.APIs.Common.Models.ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication is required.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.APIs.Common.Models.UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.APIs.Common.Models.NotFoundResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server error occurred.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.APIs.Common.Models.InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          },
+          {
+            "SessionId": []
+          }
+        ]
+      }
+    },
+    "/api/v1/accounts/transactions/{transactionId}": {
+      "get": {
+        "tags": [
+          "Transactions"
+        ],
+        "summary": "🌐🔒 Get transaction details by transaction id.",
+        "description": "Returns full transaction details including metadata.",
+        "operationId": "GetTransactionDetails",
+        "parameters": [
+          {
+            "name": "transactionId",
+            "in": "path",
+            "description": "Transaction Id must be a Guid.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "A4F4DA58-BD72-4D3E-90CD-0C955C7EE996"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.TradeAccountService.Common.Contracts.Models.TransactionResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request is invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.APIs.Common.Models.ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication is required.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.APIs.Common.Models.UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.APIs.Common.Models.NotFoundResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server error occurred.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.APIs.Common.Models.InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          },
+          {
+            "SessionId": []
+          }
+        ]
+      }
+    },
+    "/api/v1/accounts/{accountCode}/transactions": {
+      "get": {
+        "tags": [
+          "Transactions"
+        ],
+        "summary": "🌐🔒 Search transactions by account code and document type.",
+        "description": "Returns a paginated list of transactions. Document type: I (Invoice), C (Credit Note), A (Adjustment), P (Payment).",
+        "operationId": "SearchTransactions",
+        "parameters": [
+          {
+            "name": "accountCode",
+            "in": "path",
+            "description": "Must contain at least one letter or number. Length of accountCode must be 1-25",
+            "required": true,
+            "schema": {
+              "maxLength": 25,
+              "minLength": 1,
+              "pattern": "^(?=.*[a-zA-Z0-9]).+$",
+              "type": "string"
+            },
+            "example": "BORP050"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "Allowed document types are 'I','C','A','P'. Invoice: I, CreditNote: C, Adjustments: A, Payemnts: P",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "I"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "Comma separated value, no space in between. Invoice-\u003E PAID, INQUERY, OVERDUE, DUE, NOT-DUE. Others-\u003E USED, NOT-USED",
+            "schema": {
+              "type": "string"
+            },
+            "example": "PAID,DUE"
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "description": "It is compared with outstanding amount, customerReferenceNo and standard invoice no. Minimum length 3.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "REF-006B"
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "description": "Allowed values are dueDate, issueDate, amount",
+            "schema": {
+              "type": "string"
+            },
+            "example": "dueDate"
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "description": "Allowed values are ASC, DESC",
+            "schema": {
+              "type": "string"
+            },
+            "example": "DESC"
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "description": "The number of page",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            },
+            "example": 1
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Number of items per page. Allowed range 1-50",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            },
+            "example": 10
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.TradeAccountService.Common.Contracts.Models.TransactionSearchResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request is invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.APIs.Common.Models.ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication is required.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.APIs.Common.Models.UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.APIs.Common.Models.NotFoundResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server error occurred.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/STUK.APIs.Common.Models.InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          },
+          {
+            "SessionId": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Microsoft.AspNetCore.Mvc.ProblemDetails": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "detail": {
+            "type": "string",
+            "nullable": true
+          },
+          "instance": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": {
+
+        }
+      },
+      "STUK.APIs.Common.Exceptions.ApiError": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "Machine-readable error code."
+          },
+          "message": {
+            "type": "string",
+            "description": "Human-readable error description."
+          }
+        },
+        "additionalProperties": false,
+        "description": "A single API error entry with code and message."
+      },
+      "STUK.APIs.Common.Models.ApiErrorResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "Indicates whether the request succeeded; always false for error responses.",
+            "default": false
+          },
+          "trackingId": {
+            "type": "string",
+            "description": "Correlation or trace identifier for support and diagnostics."
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/STUK.APIs.Common.Exceptions.ApiError"
+            },
+            "description": "Collection of error details returned to the caller."
+          }
+        },
+        "additionalProperties": false,
+        "description": "Standard API error payload with one or more STUK.APIs.Common.Exceptions.ApiError entries."
+      },
+      "STUK.APIs.Common.Models.InternalServerErrorResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "Indicates whether the request succeeded; always false.",
+            "default": false
+          },
+          "trackingId": {
+            "type": "string",
+            "description": "Correlation or trace identifier for support and diagnostics.",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "description": "Human-readable error description.",
+            "default": "An unexpected error occurred.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "HTTP 500-style API response with a single error message."
+      },
+      "STUK.APIs.Common.Models.NotFoundResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "Indicates whether the request succeeded; always false.",
+            "default": false
+          },
+          "trackingId": {
+            "type": "string",
+            "description": "Correlation or trace identifier for support and diagnostics."
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/STUK.APIs.Common.Exceptions.ApiError"
+            },
+            "description": "Collection of error details returned to the caller."
+          }
+        },
+        "additionalProperties": false,
+        "description": "HTTP 404-style API response with structured error entries."
+      },
+      "STUK.APIs.Common.Models.UnauthorizedResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "Indicates whether the request succeeded; always false.",
+            "default": false
+          },
+          "trackingId": {
+            "type": "string",
+            "description": "Correlation or trace identifier for support and diagnostics.",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "description": "Human-readable unauthorized-access message.",
+            "default": "Unauthorized access",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "HTTP 401-style API response for unauthorized requests."
+      },
+      "STUK.TradeAccountService.Common.Contracts.Models.AccountDetail": {
+        "required": [
+          "accountCode",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "accountCode": {
+            "type": "string",
+            "example": "HXTR267"
+          },
+          "name": {
+            "type": "string",
+            "example": "Kerridge CS"
+          },
+          "parentAccountCode": {
+            "type": "string",
+            "nullable": true,
+            "example": "A0001"
+          },
+          "accountType": {
+            "type": "string",
+            "nullable": true,
+            "example": "Credit"
+          },
+          "accountLevel": {
+            "type": "string",
+            "nullable": true,
+            "example": "L"
+          },
+          "owningBranch": {
+            "type": "string",
+            "nullable": true,
+            "example": "4050"
+          },
+          "owningBrand": {
+            "type": "string",
+            "nullable": true,
+            "example": "JCV"
+          },
+          "contacts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/STUK.TradeAccountService.Common.Contracts.Models.Contact"
+            }
+          },
+          "addresses": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/STUK.TradeAccountService.Common.Contracts.Models.Address"
+            }
+          },
+          "paymentProfile": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/STUK.TradeAccountService.Common.Contracts.Models.PaymentProfile"
+              }
+            ]
+          },
+          "extensionAttributes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/System.Text.Json.Nodes.JsonNode"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "STUK.TradeAccountService.Common.Contracts.Models.AccountResponse": {
+        "type": "object",
+        "properties": {
+          "account": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/STUK.TradeAccountService.Common.Contracts.Models.AccountDetail"
+              }
+            ],
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "STUK.TradeAccountService.Common.Contracts.Models.AccountSearchResponse": {
+        "type": "object",
+        "properties": {
+          "pages": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/STUK.TradeAccountService.Common.Contracts.Models.PaginationInfo"
+              }
+            ]
+          },
+          "accounts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/STUK.TradeAccountService.Common.Contracts.Models.AccountDetail"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "STUK.TradeAccountService.Common.Contracts.Models.AccountValidateResponse": {
+        "required": [
+          "accountCode"
+        ],
+        "type": "object",
+        "properties": {
+          "accountCode": {
+            "type": "string",
+            "example": "HXTR267"
+          },
+          "postcodeIsValid": {
+            "type": "boolean",
+            "example": "true"
+          },
+          "brandIsValid": {
+            "type": "boolean",
+            "example": "true"
+          },
+          "onStop": {
+            "type": "boolean",
+            "nullable": true,
+            "example": "true"
+          },
+          "email": {
+            "type": "string",
+            "nullable": true,
+            "example": "jack@xyz.com"
+          }
+        },
+        "additionalProperties": false
+      },
+      "STUK.TradeAccountService.Common.Contracts.Models.Address": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true,
+            "example": "primary"
+          },
+          "lines": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "town": {
+            "type": "string",
+            "nullable": true,
+            "example": "kerridge ps"
+          },
+          "postCode": {
+            "type": "string",
+            "nullable": true,
+            "example": "RG17 0YU"
+          }
+        },
+        "additionalProperties": false
+      },
+      "STUK.TradeAccountService.Common.Contracts.Models.Contact": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true,
+            "example": "Primary"
+          },
+          "name": {
+            "type": "string",
+            "example": "Fred Jones"
+          },
+          "phone": {
+            "type": "string",
+            "nullable": true,
+            "example": "+44 1488 662000"
+          },
+          "email": {
+            "type": "string",
+            "nullable": true,
+            "example": "sales@kerridgecs.com"
+          }
+        },
+        "additionalProperties": false
+      },
+      "STUK.TradeAccountService.Common.Contracts.Models.CreatePaymentReferenceResponse": {
+        "required": [
+          "message"
+        ],
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "example": "true"
+          },
+          "message": {
+            "type": "string",
+            "example": "Payment information created successfully"
+          },
+          "reference": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true,
+            "example": "1E1944CF-18CC-452B-8028-E007E2F5A2B7"
+          }
+        },
+        "additionalProperties": false
+      },
+      "STUK.TradeAccountService.Common.Contracts.Models.CreatePaymentRequest": {
+        "type": "object",
+        "properties": {
+          "accountCode": {
+            "type": "string",
+            "example": "A0001"
+          },
+          "branchId": {
+            "type": "string",
+            "example": "670"
+          },
+          "source": {
+            "type": "string",
+            "example": "Avail"
+          },
+          "description": {
+            "type": "string",
+            "example": "Payment against invoice INV-2025-0001"
+          },
+          "paymentType": {
+            "type": "string",
+            "example": "C"
+          },
+          "paymentAmount": {
+            "type": "number",
+            "format": "double",
+            "nullable": true,
+            "example": "100.25"
+          },
+          "userId": {
+            "type": "string",
+            "nullable": true,
+            "example": "user11"
+          },
+          "orderReference": {
+            "type": "string",
+            "nullable": true,
+            "example": "1234-3456"
+          },
+          "orderNumber": {
+            "type": "string",
+            "nullable": true,
+            "example": "86740"
+          },
+          "creditCardReference": {
+            "type": "string",
+            "nullable": true,
+            "example": "CARD-1234"
+          },
+          "customerPaymentReference": {
+            "type": "string",
+            "nullable": true,
+            "example": "8000469664"
+          }
+        },
+        "additionalProperties": false
+      },
+      "STUK.TradeAccountService.Common.Contracts.Models.CreatePaymentRequestSAPCC": {
+        "type": "object",
+        "properties": {
+          "account": {
+            "type": "string",
+            "example": "A0001"
+          },
+          "branch": {
+            "type": "string",
+            "example": "670"
+          },
+          "payments": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/STUK.TradeAccountService.Common.Contracts.Models.PaymentsWrapper"
+              }
+            ]
+          }
+        },
+        "additionalProperties": false
+      },
+      "STUK.TradeAccountService.Common.Contracts.Models.CreditAttribute": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "invoiceMethod"
+          },
+          "code": {
+            "type": "string",
+            "nullable": true,
+            "example": "N"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true,
+            "example": "Normal"
+          }
+        },
+        "additionalProperties": false
+      },
+      "STUK.TradeAccountService.Common.Contracts.Models.CreditLimitResponse": {
+        "required": [
+          "account"
+        ],
+        "type": "object",
+        "properties": {
+          "account": {
+            "type": "string",
+            "example": "HXTR267"
+          },
+          "creditLimit": {
+            "type": "number",
+            "format": "double",
+            "nullable": true,
+            "example": "100.78"
+          },
+          "creditBalance": {
+            "type": "number",
+            "format": "double",
+            "nullable": true,
+            "example": "50.75"
+          },
+          "outstandingBalance": {
+            "type": "number",
+            "format": "double",
+            "nullable": true,
+            "example": "60.57"
+          },
+          "usedCredit": {
+            "type": "number",
+            "format": "double",
+            "nullable": true,
+            "example": "55.75"
+          },
+          "pendingOrders": {
+            "type": "number",
+            "format": "double",
+            "nullable": true,
+            "example": "25.55"
+          },
+          "inQuery": {
+            "type": "number",
+            "format": "double",
+            "nullable": true,
+            "example": "30.15"
+          },
+          "balanceUpdatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "example": "2026-08-04 09:46:34.8165254 +00:00"
+          },
+          "errorCode": {
+            "type": "string",
+            "nullable": true,
+            "example": ""
+          }
+        },
+        "additionalProperties": false
+      },
+      "STUK.TradeAccountService.Common.Contracts.Models.CreditStatus": {
+        "required": [
+          "amount",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "creditLimit"
+          },
+          "amount": {
+            "type": "number",
+            "format": "double",
+            "example": "5000.00"
+          },
+          "lastUpdatedDate": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2021-03-31"
+          }
+        },
+        "additionalProperties": false
+      },
+      "STUK.TradeAccountService.Common.Contracts.Models.DocumentDownloadRequestResponse": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "format": "uuid",
+            "example": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+          },
+          "message": {
+            "type": "string",
+            "example": "The file is ready for download"
+          },
+          "expiresAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2026-09-26 09:06:13.6851085 +00:00"
+          }
+        },
+        "additionalProperties": false
+      },
+      "STUK.TradeAccountService.Common.Contracts.Models.DocumentDownloadResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "fileName": {
+            "type": "string",
+            "nullable": true
+          },
+          "contentType": {
+            "type": "string",
+            "nullable": true
+          },
+          "fileContent": {
+            "type": "string",
+            "format": "binary",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "STUK.TradeAccountService.Common.Contracts.Models.FacetsInfo": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "nullable": true,
+            "example": "PAID"
+          },
+          "count": {
+            "type": "integer",
+            "format": "int32",
+            "example": "3"
+          }
+        },
+        "additionalProperties": false
+      },
+      "STUK.TradeAccountService.Common.Contracts.Models.PaginationInfo": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32",
+            "example": "1"
+          },
+          "lastPage": {
+            "type": "boolean",
+            "example": "true"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32",
+            "example": "10"
+          }
+        },
+        "additionalProperties": false
+      },
+      "STUK.TradeAccountService.Common.Contracts.Models.Payment": {
+        "type": "object",
+        "properties": {
+          "accountCode": {
+            "type": "string",
+            "example": "A0001"
+          },
+          "userId": {
+            "type": "string",
+            "nullable": true,
+            "example": "user11"
+          },
+          "branchId": {
+            "type": "string",
+            "example": "690"
+          },
+          "source": {
+            "type": "string",
+            "example": "Avail"
+          },
+          "orderReference": {
+            "type": "string",
+            "nullable": true,
+            "example": "1234-3456"
+          },
+          "orderNumber": {
+            "type": "string",
+            "nullable": true,
+            "example": "3456"
+          },
+          "description": {
+            "type": "string",
+            "example": "Payment against invoice INV-2025-0001"
+          },
+          "customerPaymentReference": {
+            "type": "string",
+            "nullable": true,
+            "example": "8000469664"
+          },
+          "creditCardReference": {
+            "type": "string",
+            "nullable": true,
+            "example": "CARD-1234"
+          },
+          "paymentType": {
+            "type": "string",
+            "example": "C"
+          },
+          "paymentAmount": {
+            "type": "number",
+            "format": "double",
+            "example": "119.00"
+          },
+          "apiPaymentReference": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true,
+            "example": "1E1944CF-18CC-452B-8028-E007E2F5A2B7"
+          },
+          "erpPaymentReference": {
+            "type": "string",
+            "nullable": true,
+            "example": "1E1944CF-18CC-452B-8028-E007E2F5A2G8"
+          }
+        },
+        "additionalProperties": false
+      },
+      "STUK.TradeAccountService.Common.Contracts.Models.PaymentDetails": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "number",
+            "format": "double",
+            "example": "20.45"
+          },
+          "reference": {
+            "type": "string",
+            "example": "12345-4567"
+          }
+        },
+        "additionalProperties": false
+      },
+      "STUK.TradeAccountService.Common.Contracts.Models.PaymentProfile": {
+        "type": "object",
+        "properties": {
+          "paymentOnCredit": {
+            "type": "boolean",
+            "nullable": true,
+            "example": "false"
+          },
+          "paymentOnCard": {
+            "type": "boolean",
+            "nullable": true,
+            "example": "false"
+          },
+          "accountOnStop": {
+            "type": "boolean",
+            "nullable": true,
+            "example": "false"
+          },
+          "creditAttributes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/STUK.TradeAccountService.Common.Contracts.Models.CreditAttribute"
+            }
+          },
+          "creditStatus": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/STUK.TradeAccountService.Common.Contracts.Models.CreditStatus"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "STUK.TradeAccountService.Common.Contracts.Models.PaymentResponse": {
+        "type": "object",
+        "properties": {
+          "payment": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/STUK.TradeAccountService.Common.Contracts.Models.Payment"
+              }
+            ],
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "STUK.TradeAccountService.Common.Contracts.Models.PaymentsWrapper": {
+        "type": "object",
+        "properties": {
+          "payment": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/STUK.TradeAccountService.Common.Contracts.Models.PaymentDetails"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "STUK.TradeAccountService.Common.Contracts.Models.PreferredBranchRequest": {
+        "required": [
+          "branchNumber"
+        ],
+        "type": "object",
+        "properties": {
+          "branchNumber": {
+            "type": "string",
+            "example": "670"
+          }
+        },
+        "additionalProperties": false
+      },
+      "STUK.TradeAccountService.Common.Contracts.Models.PreferredBranchResponse": {
+        "required": [
+          "branchNumber"
+        ],
+        "type": "object",
+        "properties": {
+          "branchNumber": {
+            "type": "string",
+            "example": "670"
+          }
+        },
+        "additionalProperties": false
+      },
+      "STUK.TradeAccountService.Common.Contracts.Models.Statement": {
+        "required": [
+          "header"
+        ],
+        "type": "object",
+        "properties": {
+          "header": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/STUK.TradeAccountService.Common.Contracts.Models.StatementHeader"
+              }
+            ]
+          }
+        },
+        "additionalProperties": false
+      },
+      "STUK.TradeAccountService.Common.Contracts.Models.StatementHeader": {
+        "required": [
+          "accountCode",
+          "currencyCode",
+          "statementDate"
+        ],
+        "type": "object",
+        "properties": {
+          "metadata": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/STUK.TradeAccountService.Common.Contracts.Models.StatementMetadata"
+              }
+            ],
+            "nullable": true
+          },
+          "ID": {
+            "type": "integer",
+            "format": "int64",
+            "example": "8944"
+          },
+          "accountCode": {
+            "type": "string",
+            "example": "CSH4012"
+          },
+          "statementDate": {
+            "type": "string",
+            "example": "2025-06-30"
+          },
+          "statementMonth": {
+            "type": "string",
+            "nullable": true,
+            "example": "June"
+          },
+          "endOfNextMonth": {
+            "type": "string",
+            "nullable": true,
+            "example": "2025-08-31"
+          },
+          "currencyCode": {
+            "type": "string",
+            "example": "GBP"
+          },
+          "lineCount": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true,
+            "example": "3"
+          },
+          "totalVAT": {
+            "type": "number",
+            "format": "double",
+            "nullable": true,
+            "example": "7.70"
+          },
+          "settDiscountTotal": {
+            "type": "number",
+            "format": "double",
+            "nullable": true,
+            "example": "0"
+          },
+          "statementTotal": {
+            "type": "number",
+            "format": "double",
+            "nullable": true,
+            "example": "38.50"
+          },
+          "statementDiscountTotal": {
+            "type": "number",
+            "format": "double",
+            "nullable": true,
+            "example": "0"
+          },
+          "queriedBalance": {
+            "type": "number",
+            "format": "double",
+            "nullable": true,
+            "example": "0"
+          },
+          "balanceAfterQueries": {
+            "type": "number",
+            "format": "double",
+            "nullable": true,
+            "example": "46.20"
+          },
+          "vatThisPeriod": {
+            "type": "number",
+            "format": "double",
+            "nullable": true,
+            "example": "0"
+          }
+        },
+        "additionalProperties": false
+      },
+      "STUK.TradeAccountService.Common.Contracts.Models.StatementMetadata": {
+        "type": "object",
+        "properties": {
+          "originalFileName": {
+            "type": "string",
+            "nullable": true,
+            "example": "1640-4134-a14d-2abdae1af28C.pdf"
+          },
+          "extension": {
+            "type": "string",
+            "nullable": true,
+            "example": ".pdf"
+          },
+          "calculatedFileName": {
+            "type": "string",
+            "nullable": true,
+            "example": "BC73790_4517_31052026.pdf"
+          },
+          "contentMd5": {
+            "type": "string",
+            "nullable": true,
+            "example": "Qje9JwqGb2iWkcJRBMM6lQ=="
+          },
+          "contentLength": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true,
+            "example": "325252"
+          },
+          "blobUri": {
+            "type": "string",
+            "nullable": true,
+            "example": "2026/07/08/BC73790_31052026.pdf"
+          },
+          "createdOn": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2026-06-04 06:07:57 +00:00"
+          },
+          "createdBy": {
+            "type": "string",
+            "nullable": true,
+            "example": "user11"
+          },
+          "lastDownloaded": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "example": "2026-06-04 06:07:57 +00:00"
+          },
+          "downloadedBy": {
+            "type": "string",
+            "nullable": true,
+            "example": "user11"
+          }
+        },
+        "additionalProperties": false
+      },
+      "STUK.TradeAccountService.Common.Contracts.Models.StatementSearchResponse": {
+        "type": "object",
+        "properties": {
+          "pages": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/STUK.TradeAccountService.Common.Contracts.Models.PaginationInfo"
+              }
+            ]
+          },
+          "statements": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/STUK.TradeAccountService.Common.Contracts.Models.StatemetRoot"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "STUK.TradeAccountService.Common.Contracts.Models.StatemetRoot": {
+        "type": "object",
+        "properties": {
+          "statement": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/STUK.TradeAccountService.Common.Contracts.Models.Statement"
+              }
+            ]
+          }
+        },
+        "additionalProperties": false
+      },
+      "STUK.TradeAccountService.Common.Contracts.Models.Transaction": {
+        "type": "object",
+        "properties": {
+          "header": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/STUK.TradeAccountService.Common.Contracts.Models.TransactionHeader"
+              }
+            ]
+          }
+        },
+        "additionalProperties": false
+      },
+      "STUK.TradeAccountService.Common.Contracts.Models.TransactionFull": {
+        "type": "object",
+        "properties": {
+          "header": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/STUK.TradeAccountService.Common.Contracts.Models.TransactionHeaderFull"
+              }
+            ]
+          }
+        },
+        "additionalProperties": false
+      },
+      "STUK.TradeAccountService.Common.Contracts.Models.TransactionHeader": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "01E51392-C46F-488F-95B8-00010013E38Z"
+          },
+          "branchCode": {
+            "type": "string",
+            "example": "690"
+          },
+          "customerAccount": {
+            "type": "string",
+            "example": "CCDE016"
+          },
+          "searchBrand": {
+            "type": "string",
+            "nullable": true,
+            "example": "J"
+          },
+          "invoiceBrand": {
+            "type": "string",
+            "nullable": true,
+            "example": "I"
+          },
+          "standardInvoiceNo": {
+            "type": "string",
+            "example": "00206828"
+          },
+          "consolidatedInvoiceNo": {
+            "type": "string",
+            "nullable": true,
+            "example": "123456"
+          },
+          "consolidatedInvoiceDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "example": "INV-002001"
+          },
+          "issueDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "example": "2026-02-01 12:09:33.0000000 +00:00"
+          },
+          "dueDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "example": "2026-09-26 09:06:13.6851085 +00:00"
+          },
+          "documentType": {
+            "type": "string",
+            "nullable": true,
+            "example": "S"
+          },
+          "originalAmount": {
+            "type": "number",
+            "format": "double",
+            "example": "1000.7500"
+          },
+          "outstandingAmount": {
+            "type": "number",
+            "format": "double",
+            "example": "0"
+          },
+          "status": {
+            "type": "string",
+            "example": "PAID"
+          },
+          "createdOn": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2026-06-04 09:46:34.8165254 +00:00"
+          },
+          "customerReferenceNo": {
+            "type": "string",
+            "example": "FS2637"
+          }
+        },
+        "additionalProperties": false
+      },
+      "STUK.TradeAccountService.Common.Contracts.Models.TransactionHeaderFull": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "01E51392-C46F-488F-95B8-00010013E38Z"
+          },
+          "branchCode": {
+            "type": "string",
+            "example": "690"
+          },
+          "customerAccount": {
+            "type": "string",
+            "example": "CCDE016"
+          },
+          "searchBrand": {
+            "type": "string",
+            "nullable": true,
+            "example": "J"
+          },
+          "invoiceBrand": {
+            "type": "string",
+            "nullable": true,
+            "example": "I"
+          },
+          "standardInvoiceNo": {
+            "type": "string",
+            "example": "00206828"
+          },
+          "consolidatedInvoiceNo": {
+            "type": "string",
+            "nullable": true,
+            "example": "123456"
+          },
+          "consolidatedInvoiceDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "example": "INV-002001"
+          },
+          "issueDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "example": "2026-02-01 12:09:33.0000000 +00:00"
+          },
+          "dueDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "example": "2026-09-26 09:06:13.6851085 +00:00"
+          },
+          "documentType": {
+            "type": "string",
+            "nullable": true,
+            "example": "S"
+          },
+          "originalAmount": {
+            "type": "number",
+            "format": "double",
+            "example": "1000.7500"
+          },
+          "outstandingAmount": {
+            "type": "number",
+            "format": "double",
+            "example": "0"
+          },
+          "status": {
+            "type": "string",
+            "example": "PAID"
+          },
+          "createdOn": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2026-06-04 09:46:34.8165254 +00:00"
+          },
+          "customerReferenceNo": {
+            "type": "string",
+            "example": "FS2637"
+          },
+          "metadata": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/STUK.TradeAccountService.Common.Contracts.Models.TransactionMetadata"
+              }
+            ]
+          },
+          "magicNumber": {
+            "type": "string",
+            "example": "473557114"
+          }
+        },
+        "additionalProperties": false
+      },
+      "STUK.TradeAccountService.Common.Contracts.Models.TransactionMetadata": {
+        "type": "object",
+        "properties": {
+          "originalFileName": {
+            "type": "string",
+            "nullable": true,
+            "example": "00a75116-e367-4cea-a691-eceeede158c0.pdf"
+          },
+          "extension": {
+            "type": "string",
+            "nullable": true,
+            "example": ".pdf"
+          },
+          "calculatedFileName": {
+            "type": "string",
+            "nullable": true,
+            "example": "MEAR053_0103_00190877_24042026.pdf"
+          },
+          "contentMd5": {
+            "type": "string",
+            "nullable": true,
+            "example": "IWlYoHtUYS1MEi1TfFr+lw=="
+          },
+          "contentLength": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true,
+            "example": "297404"
+          },
+          "blobUri": {
+            "type": "string",
+            "nullable": true,
+            "example": "2026/07/02/MEA_24042026.pdf"
+          },
+          "createdBy": {
+            "type": "string",
+            "nullable": true,
+            "example": "user11"
+          },
+          "lastDownloaded": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "example": "2026-08-04 09:46:34.8165254 +00:00"
+          },
+          "downloadedBy": {
+            "type": "string",
+            "nullable": true,
+            "example": "user11"
+          }
+        },
+        "additionalProperties": false
+      },
+      "STUK.TradeAccountService.Common.Contracts.Models.TransactionResponse": {
+        "type": "object",
+        "properties": {
+          "transaction": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/STUK.TradeAccountService.Common.Contracts.Models.TransactionFull"
+              }
+            ]
+          }
+        },
+        "additionalProperties": false
+      },
+      "STUK.TradeAccountService.Common.Contracts.Models.TransactionSearchResponse": {
+        "type": "object",
+        "properties": {
+          "transactions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/STUK.TradeAccountService.Common.Contracts.Models.Transaction"
+            }
+          },
+          "facets": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/STUK.TradeAccountService.Common.Contracts.Models.FacetsInfo"
+            }
+          },
+          "pages": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/STUK.TradeAccountService.Common.Contracts.Models.PaginationInfo"
+              }
+            ]
+          }
+        },
+        "additionalProperties": false
+      },
+      "STUK.TradeAccountService.WebApi.RequestParams.DocumentDownloadRequestBody": {
+        "required": [
+          "documentId",
+          "documentType"
+        ],
+        "type": "object",
+        "properties": {
+          "documentType": {
+            "minLength": 1,
+            "pattern": "^(Statement|Transaction)$",
+            "type": "string",
+            "example": "Transaction"
+          },
+          "documentId": {
+            "minLength": 1,
+            "type": "string",
+            "example": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+          }
+        },
+        "additionalProperties": false
+      },
+      "System.StringApiResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "Indicates whether the request succeeded."
+          },
+          "trackingId": {
+            "type": "string",
+            "description": "Correlation or trace identifier for support and diagnostics.",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "description": "Optional human-readable status message."
+          }
+        },
+        "additionalProperties": false,
+        "description": "Generic success response wrapper with tracking metadata."
+      },
+      "System.Text.Json.Nodes.JsonNode": {
+        "type": "object",
+        "properties": {
+          "options": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/System.Text.Json.Nodes.JsonNodeOptions"
+              }
+            ],
+            "nullable": true,
+            "readOnly": true
+          },
+          "parent": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/System.Text.Json.Nodes.JsonNode"
+              }
+            ],
+            "nullable": true,
+            "readOnly": true
+          },
+          "root": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/System.Text.Json.Nodes.JsonNode"
+              }
+            ],
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "System.Text.Json.Nodes.JsonNodeOptions": {
+        "type": "object",
+        "properties": {
+          "propertyNameCaseInsensitive": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "description": "Enter JWT Bearer token",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      },
+      "SessionId": {
+        "type": "apiKey",
+        "description": "Enter Session ID",
+        "name": "X-Session-Id",
+        "in": "header"
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Accounts",
+      "description": "Manages trade account related operations"
+    },
+    {
+      "name": "Documents",
+      "description": "Manages document download operations"
+    },
+    {
+      "name": "Payments",
+      "description": "Manages payment reference operations"
+    },
+    {
+      "name": "PreferredBranch",
+      "description": "Manages preferred branch related operations"
+    },
+    {
+      "name": "Statements",
+      "description": "Manages statements related operations"
+    },
+    {
+      "name": "Transactions",
+      "description": "Manages transaction types invoice, credit-notes, payments, adjustment"
+    }
+  ]
+}
