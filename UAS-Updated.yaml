@@ -1,0 +1,1385 @@
+openapi: 3.0.4
+info:
+  title: STUK.UserAccountService.WebApi
+  description: "Demonstrates API endpoints for STUK.UserAccountService.WebApi.\r\n\r\n- 🌐 External (consumer-facing / session-based)\r\n- 🔒 Internal (server-to-server / private)"
+  version: '1.0'
+paths:
+  /auth/v1/interactive-login:
+    post:
+      tags:
+        - Auth
+      parameters:
+        - name: sourceName
+          in: header
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/STUK.UserAccountService.Common.Contracts.Models.LoginRequest'
+          text/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/STUK.UserAccountService.Common.Contracts.Models.LoginRequest'
+          application/*+json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/STUK.UserAccountService.Common.Contracts.Models.LoginRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.UserAccountService.Common.Contracts.Models.InteractiveLoginResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.ApiErrorResponse'
+        '401':
+          description: Authentication is required.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.UnauthorizedResponse'
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.NotFoundResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.InternalServerErrorResponse'
+  /auth/v1/logout:
+    post:
+      tags:
+        - Auth
+      parameters:
+        - name: X-Session-Id
+          in: header
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/System.StringApiResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.ApiErrorResponse'
+        '401':
+          description: Authentication is required.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.UnauthorizedResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.ApiErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.InternalServerErrorResponse'
+  /auth/v1/session-validator:
+    post:
+      tags:
+        - Auth
+      parameters:
+        - name: X-Session-Id
+          in: header
+          schema:
+            type: string
+        - name: ApiName
+          in: header
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/System.StringApiResponse'
+        '400':
+          description: The request is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.ApiErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.UnauthorizedResponse'
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.NotFoundResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.InternalServerErrorResponse'
+  /v1/accounts/{accountCode}/payments/{settlementId}/submit:
+    post:
+      tags:
+        - Payment
+      summary: 🌐 Submit a settlement for payment
+      description: ''
+      operationId: SubmitSettlement
+      parameters:
+        - name: X-Session-Id
+          in: header
+          schema:
+            type: string
+        - name: accountCode
+          in: path
+          description: Must contain at least one letter or number. Length of accountCode must be 1-25
+          required: true
+          schema:
+            type: string
+          example: HXTR267
+        - name: settlementId
+          in: path
+          description: Settlement Id must be GUID
+          required: true
+          schema:
+            type: string
+          example: BDA0B711-D215-45BD-AFDD-06F79089EADD
+        - name: ifMatch
+          in: query
+          description: ETag of the settlement version being modified. The operation fails with 412 if the settlement has changed since this ETag was obtained.
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/STUK.UserAccountService.Common.Contracts.Models.SettlementSubmitRequest'
+            examples:
+              Payment with new card but not saving it:
+                value:
+                  paymentMethodId: 112ed2a5-750e-47dc-a09e-855e60f22aff
+                  card:
+                    type: NEW
+                    saveForFutureUse: false
+              Payment with new card and save it:
+                value:
+                  paymentMethodId: 11c39af2-8ab6-41ec-a3e5-d90d8866de03
+                  card:
+                    type: NEW
+                    saveForFutureUse: true
+              Payment with existing card:
+                value:
+                  paymentMethodId: 1cbcbd2e-a30c-4ba9-bbe7-ac958ca8d5eb
+                  card:
+                    type: STORED
+                    cardId: 96fbe3da-0147-4e2d-a147-05c45c56ff08
+              Payment with Apple Pay:
+                value:
+                  paymentMethodId: 183e2e52-41a5-4c20-b4fb-56d78335f043
+                  applePayToken:
+                    paymentData: null
+                    paymentMethod: null
+                    transactionIdentifier: null
+          text/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/STUK.UserAccountService.Common.Contracts.Models.SettlementSubmitRequest'
+            examples:
+              Payment with new card but not saving it:
+                value:
+                  paymentMethodId: 112ed2a5-750e-47dc-a09e-855e60f22aff
+                  card:
+                    type: NEW
+                    saveForFutureUse: false
+              Payment with new card and save it:
+                value:
+                  paymentMethodId: 11c39af2-8ab6-41ec-a3e5-d90d8866de03
+                  card:
+                    type: NEW
+                    saveForFutureUse: true
+              Payment with existing card:
+                value:
+                  paymentMethodId: 1cbcbd2e-a30c-4ba9-bbe7-ac958ca8d5eb
+                  card:
+                    type: STORED
+                    cardId: 96fbe3da-0147-4e2d-a147-05c45c56ff08
+              Payment with Apple Pay:
+                value:
+                  paymentMethodId: 183e2e52-41a5-4c20-b4fb-56d78335f043
+                  applePayToken:
+                    paymentData: null
+                    paymentMethod: null
+                    transactionIdentifier: null
+          application/*+json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/STUK.UserAccountService.Common.Contracts.Models.SettlementSubmitRequest'
+            examples:
+              Payment with new card but not saving it:
+                value:
+                  paymentMethodId: 112ed2a5-750e-47dc-a09e-855e60f22aff
+                  card:
+                    type: NEW
+                    saveForFutureUse: false
+              Payment with new card and save it:
+                value:
+                  paymentMethodId: 11c39af2-8ab6-41ec-a3e5-d90d8866de03
+                  card:
+                    type: NEW
+                    saveForFutureUse: true
+              Payment with existing card:
+                value:
+                  paymentMethodId: 1cbcbd2e-a30c-4ba9-bbe7-ac958ca8d5eb
+                  card:
+                    type: STORED
+                    cardId: 96fbe3da-0147-4e2d-a147-05c45c56ff08
+              Payment with Apple Pay:
+                value:
+                  paymentMethodId: 183e2e52-41a5-4c20-b4fb-56d78335f043
+                  applePayToken:
+                    paymentData: null
+                    paymentMethod: null
+                    transactionIdentifier: null
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.UserAccountService.Common.Contracts.Models.SubmitSettlementResponse'
+              examples:
+                Payment with card:
+                  value:
+                    paymentId: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+                    status: REQUIRES_ACTION
+                    nextAction:
+                      type: REDIRECT
+                      url: https://smartpay/...
+                Payment with apple_pay:
+                  value:
+                    paymentId: 0a0f3038-8cae-4c24-b7a5-2d06a0b2916f
+                    status: Processing
+                    nextAction: null
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.ApiErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.UnauthorizedResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.ApiErrorResponse'
+        '412':
+          description: Precondition Failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.ApiErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.InternalServerErrorResponse'
+  /v1/payments/return/{opaqueState}:
+    get:
+      tags:
+        - Payment
+      parameters:
+        - name: opaqueState
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.ApiErrorResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.ApiErrorResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.ApiErrorResponse'
+        '401':
+          description: Authentication is required.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.UnauthorizedResponse'
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.NotFoundResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.InternalServerErrorResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.InternalServerErrorResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.InternalServerErrorResponse'
+  /v1/payments/methods:
+    get:
+      tags:
+        - Payment
+      summary: 🌐 List payment options for a settlement
+      description: Returns the payment options available to the customer for settling the specified settlement, composed from saved cards and the supported payment methods.
+      operationId: GetPaymentMethods
+      parameters:
+        - name: X-Session-Id
+          in: header
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/STUK.UserAccountService.Common.Contracts.Models.PaymentMethodsResponse'
+              example:
+                - paymentMethodId: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+                  methodName: CARD
+                  methodType: CARD
+                  displayOrder: 1
+                - paymentMethodId: 7fa85f64-5717-4562-b3fc-2c963f66afa7
+                  methodName: Apple Pay
+                  methodType: Apple Pay
+                  displayOrder: 2
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.ApiErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.UnauthorizedResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.ApiErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.InternalServerErrorResponse'
+  /v1/Payments/{paymentId}:
+    get:
+      tags:
+        - Payment
+      summary: 🌐 Get a payment status
+      description: Returns the current state of a payment.
+      operationId: GetPayment
+      parameters:
+        - name: paymentId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.UserAccountService.Common.Contracts.Models.PaymentStatusResponse'
+              example:
+                id: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+                paymentStatus: PAID
+                totalAmount: 150
+                currencyCode: GBP
+                paymentPurpose: SETTLEMENT
+                creationDatetime: '2026-10-16T09:37:23.252Z'
+                updationDatetime: '2026-10-16T09:40:23.252Z'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.ApiErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.UnauthorizedResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.ApiErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.InternalServerErrorResponse'
+  /v1/payments/cards:
+    get:
+      tags:
+        - Payment
+      summary: 🌐 List saved cards
+      description: Returns the customer's saved cards. Cards are vaulted as a side-effect of successful NEW_CARD payments and customer allowed to save cards for future.
+      operationId: GetSavedCards
+      parameters:
+        - name: X-Session-Id
+          in: header
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/STUK.UserAccountService.Common.Contracts.Models.PaymentMethodsResponse'
+              example:
+                - paymentMethodId: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+                  methodName: CARD
+                  methodType: CARD
+                  displayOrder: 1
+                - paymentMethodId: 7fa85f64-5717-4562-b3fc-2c963f66afa7
+                  methodName: Apple Pay
+                  methodType: Apple Pay
+                  displayOrder: 2
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.ApiErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.UnauthorizedResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.ApiErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.InternalServerErrorResponse'
+  /v1/payments/card/{cardId}:
+    delete:
+      tags:
+        - Payment
+      summary: 🌐 Remove a saved card
+      description: Removes a saved card from the customer's vault. The card is unavailable for future payments once removed.
+      operationId: RemoveSavedCard
+      parameters:
+        - name: X-Session-Id
+          in: header
+          schema:
+            type: string
+        - name: cardId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.ApiErrorResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.ApiErrorResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.ApiErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.UnauthorizedResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.UnauthorizedResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.UnauthorizedResponse'
+        '404':
+          description: Not Found
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.ApiErrorResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.ApiErrorResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.ApiErrorResponse'
+        '409':
+          description: Conflict
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.ApiErrorResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.ApiErrorResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.ApiErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.InternalServerErrorResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.InternalServerErrorResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.InternalServerErrorResponse'
+  /v1/addresses:
+    post:
+      tags:
+        - Users
+      parameters:
+        - name: X-Session-Id
+          in: header
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/STUK.UserAccountService.Common.Contracts.Models.UserAddressRequest'
+          text/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/STUK.UserAccountService.Common.Contracts.Models.UserAddressRequest'
+          application/*+json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/STUK.UserAccountService.Common.Contracts.Models.UserAddressRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/System.StringApiResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.ApiErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.UnauthorizedResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.ApiErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.InternalServerErrorResponse'
+    put:
+      tags:
+        - Users
+      parameters:
+        - name: X-Session-Id
+          in: header
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/STUK.UserAccountService.Common.Contracts.Models.UserAddressRequest'
+          text/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/STUK.UserAccountService.Common.Contracts.Models.UserAddressRequest'
+          application/*+json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/STUK.UserAccountService.Common.Contracts.Models.UserAddressRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/System.StringApiResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.ApiErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.UnauthorizedResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.ApiErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.InternalServerErrorResponse'
+    get:
+      tags:
+        - Users
+      parameters:
+        - name: X-Session-Id
+          in: header
+          schema:
+            type: string
+        - name: userId
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/STUK.UserAccountService.Common.Contracts.Models.UserAddressesResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.ApiErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.UnauthorizedResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.ApiErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.InternalServerErrorResponse'
+    delete:
+      tags:
+        - Users
+      parameters:
+        - name: X-Session-Id
+          in: header
+          schema:
+            type: string
+        - name: addressId
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/System.StringApiResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.ApiErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.UnauthorizedResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.ApiErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.InternalServerErrorResponse'
+  /v1/device:
+    delete:
+      tags:
+        - Users
+      parameters:
+        - name: X-Session-Id
+          in: header
+          schema:
+            type: string
+        - name: deviceId
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/System.StringApiResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.ApiErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.UnauthorizedResponse'
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.NotFoundResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.InternalServerErrorResponse'
+  /v1/devices:
+    get:
+      tags:
+        - Users
+      parameters:
+        - name: X-Session-Id
+          in: header
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/STUK.UserAccountService.Common.Contracts.Models.GetDeviceDetailsResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.ApiErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.UnauthorizedResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.ApiErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.InternalServerErrorResponse'
+  /v1/accounts-summary:
+    get:
+      tags:
+        - Users
+      parameters:
+        - name: X-Session-Id
+          in: header
+          schema:
+            type: string
+        - name: view
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.UserAccountService.Common.Contracts.Models.UserAccountsSummary'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.ApiErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.UnauthorizedResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.ApiErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/STUK.APIs.Common.Models.InternalServerErrorResponse'
+components:
+  schemas:
+    STUK.APIs.Common.Exceptions.ApiError:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Machine-readable error code.
+        message:
+          type: string
+          description: Human-readable error description.
+      additionalProperties: false
+      description: A single API error entry with code and message.
+    STUK.APIs.Common.Models.ApiErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Indicates whether the request succeeded; always false for error responses.
+          default: false
+        trackingId:
+          type: string
+          description: Correlation or trace identifier for support and diagnostics.
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/STUK.APIs.Common.Exceptions.ApiError'
+          description: Collection of error details returned to the caller.
+      additionalProperties: false
+      description: Standard API error payload with one or more STUK.APIs.Common.Exceptions.ApiError entries.
+    STUK.APIs.Common.Models.InternalServerErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Indicates whether the request succeeded; always false.
+          default: false
+        trackingId:
+          type: string
+          description: Correlation or trace identifier for support and diagnostics.
+          nullable: true
+        message:
+          type: string
+          description: Human-readable error description.
+          default: An unexpected error occurred.
+          nullable: true
+      additionalProperties: false
+      description: HTTP 500-style API response with a single error message.
+    STUK.APIs.Common.Models.NotFoundResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Indicates whether the request succeeded; always false.
+          default: false
+        trackingId:
+          type: string
+          description: Correlation or trace identifier for support and diagnostics.
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/STUK.APIs.Common.Exceptions.ApiError'
+          description: Collection of error details returned to the caller.
+      additionalProperties: false
+      description: HTTP 404-style API response with structured error entries.
+    STUK.APIs.Common.Models.UnauthorizedResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Indicates whether the request succeeded; always false.
+          default: false
+        trackingId:
+          type: string
+          description: Correlation or trace identifier for support and diagnostics.
+          nullable: true
+        message:
+          type: string
+          description: Human-readable unauthorized-access message.
+          default: Unauthorized access
+          nullable: true
+      additionalProperties: false
+      description: HTTP 401-style API response for unauthorized requests.
+    STUK.UserAccountService.Common.Contracts.Models.Accounts:
+      type: object
+      properties:
+        accountCode:
+          type: string
+        name:
+          type: string
+        parentAccountCode:
+          type: string
+          nullable: true
+        accountLevel:
+          type: string
+          nullable: true
+        owningBranch:
+          type: string
+          nullable: true
+        accountType:
+          type: string
+          nullable: true
+        owningBrand:
+          type: string
+          nullable: true
+        billingAddressLine1:
+          type: string
+          nullable: true
+        billingAddressLine2:
+          type: string
+          nullable: true
+        billingAddressLine3:
+          type: string
+          nullable: true
+        billingAddressTown:
+          type: string
+          nullable: true
+        billingAddresspostCode:
+          type: string
+          nullable: true
+        extensionAttributes:
+          type: string
+          nullable: true
+        factorFlag:
+          type: boolean
+        paymentProfiles_paymentOnCredit:
+          type: boolean
+        paymentProfiles_paymentOnCard:
+          type: boolean
+        paymentProfiles_accountOnStop:
+          type: boolean
+      additionalProperties: false
+    STUK.UserAccountService.Common.Contracts.Models.ApplePayToken:
+      type: object
+      properties:
+        paymentData:
+          nullable: true
+        paymentMethod:
+          nullable: true
+        transactionIdentifier:
+          type: string
+          nullable: true
+      additionalProperties: false
+    STUK.UserAccountService.Common.Contracts.Models.CardPaymentRequest:
+      type: object
+      properties:
+        type:
+          type: string
+        cardId:
+          type: string
+          format: uuid
+          nullable: true
+        saveForFutureUse:
+          type: boolean
+          nullable: true
+      additionalProperties: false
+    STUK.UserAccountService.Common.Contracts.Models.DeviceInfo:
+      type: object
+      properties:
+        deviceId:
+          type: string
+          nullable: true
+        deviceType:
+          type: string
+          nullable: true
+        deviceMake:
+          type: string
+          nullable: true
+        deviceModel:
+          type: string
+          nullable: true
+        deviceOS:
+          type: string
+          nullable: true
+        browserInfo:
+          type: string
+          nullable: true
+        ipAddress:
+          type: string
+          nullable: true
+        latitude:
+          type: number
+          format: double
+          nullable: true
+        longitude:
+          type: number
+          format: double
+          nullable: true
+      additionalProperties: false
+    STUK.UserAccountService.Common.Contracts.Models.GetDeviceDetailsResponse:
+      type: object
+      properties:
+        deviceId:
+          type: string
+        deviceType:
+          type: string
+          nullable: true
+        deviceMake:
+          type: string
+          nullable: true
+        deviceModel:
+          type: string
+          nullable: true
+        deviceOS:
+          type: string
+          nullable: true
+        browserInfo:
+          type: string
+          nullable: true
+        deviceStatus:
+          type: string
+          nullable: true
+        latitude:
+          type: number
+          format: double
+          nullable: true
+        longitude:
+          type: number
+          format: double
+          nullable: true
+        sessionRedirectUrl:
+          type: string
+          nullable: true
+        deviceLastAccessedTime:
+          type: string
+          format: date-time
+          nullable: true
+      additionalProperties: false
+    STUK.UserAccountService.Common.Contracts.Models.InteractiveLoginResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        trackingId:
+          type: string
+        redirectUrl:
+          type: string
+        message:
+          type: string
+      additionalProperties: false
+    STUK.UserAccountService.Common.Contracts.Models.LoginRequest:
+      type: object
+      properties:
+        userId:
+          type: string
+          nullable: true
+        sessionRedirectUrl:
+          type: string
+          nullable: true
+        device:
+          allOf:
+            - $ref: '#/components/schemas/STUK.UserAccountService.Common.Contracts.Models.DeviceInfo'
+          nullable: true
+      additionalProperties: false
+    STUK.UserAccountService.Common.Contracts.Models.PaymentMethodsResponse:
+      type: object
+      properties:
+        paymentMethodId:
+          type: string
+          format: uuid
+        methodName:
+          type: string
+        methodType:
+          type: string
+        displayOrder:
+          type: integer
+          format: int32
+      additionalProperties: false
+    STUK.UserAccountService.Common.Contracts.Models.PaymentStatusResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        paymentStatus:
+          type: string
+        totalAmount:
+          type: number
+          format: double
+        currencyCode:
+          type: string
+        paymentPurpose:
+          type: string
+          nullable: true
+        creationDatetime:
+          type: string
+          format: date-time
+        updationDatetime:
+          type: string
+          format: date-time
+          nullable: true
+      additionalProperties: false
+    STUK.UserAccountService.Common.Contracts.Models.SettlementSubmitRequest:
+      type: object
+      properties:
+        paymentMethodId:
+          type: string
+          format: uuid
+          nullable: true
+        card:
+          allOf:
+            - $ref: '#/components/schemas/STUK.UserAccountService.Common.Contracts.Models.CardPaymentRequest'
+          nullable: true
+        applePayToken:
+          allOf:
+            - $ref: '#/components/schemas/STUK.UserAccountService.Common.Contracts.Models.ApplePayToken'
+          nullable: true
+      additionalProperties: false
+    STUK.UserAccountService.Common.Contracts.Models.SubmitSettlementResponse:
+      type: object
+      properties:
+        paymentId:
+          type: string
+          format: uuid
+        status:
+          type: string
+          nullable: true
+        nextAction:
+          type: object
+          additionalProperties:
+            type: string
+          nullable: true
+      additionalProperties: false
+    STUK.UserAccountService.Common.Contracts.Models.UserAccountsSummary:
+      type: object
+      properties:
+        user:
+          allOf:
+            - $ref: '#/components/schemas/STUK.UserAccountService.Common.Contracts.Models.Users'
+          nullable: true
+        accounts:
+          type: array
+          items:
+            $ref: '#/components/schemas/STUK.UserAccountService.Common.Contracts.Models.Accounts'
+          nullable: true
+      additionalProperties: false
+    STUK.UserAccountService.Common.Contracts.Models.UserAddressRequest:
+      type: object
+      properties:
+        type:
+          type: string
+          nullable: true
+        line1:
+          type: string
+          nullable: true
+        line2:
+          type: string
+          nullable: true
+        line3:
+          type: string
+          nullable: true
+        town:
+          type: string
+          nullable: true
+        postCode:
+          type: string
+          nullable: true
+      additionalProperties: false
+    STUK.UserAccountService.Common.Contracts.Models.UserAddressesResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        type:
+          type: string
+          nullable: true
+        userId:
+          type: string
+          format: uuid
+          nullable: true
+        line1:
+          type: string
+          nullable: true
+        line2:
+          type: string
+          nullable: true
+        line3:
+          type: string
+          nullable: true
+        town:
+          type: string
+          nullable: true
+        postCode:
+          type: string
+          nullable: true
+        creationDateTime:
+          type: string
+          format: date-time
+          nullable: true
+        updationDateTime:
+          type: string
+          format: date-time
+          nullable: true
+      additionalProperties: false
+    STUK.UserAccountService.Common.Contracts.Models.Users:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          nullable: true
+        iamId:
+          type: string
+          nullable: true
+        email:
+          type: string
+        firstName:
+          type: string
+          nullable: true
+        lastName:
+          type: string
+          nullable: true
+        creationDatetime:
+          type: string
+          format: date-time
+          nullable: true
+        updationDatetime:
+          type: string
+          format: date-time
+          nullable: true
+      additionalProperties: false
+    System.StringApiResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Indicates whether the request succeeded.
+        trackingId:
+          type: string
+          description: Correlation or trace identifier for support and diagnostics.
+          nullable: true
+        message:
+          type: string
+          description: Optional human-readable status message.
+      additionalProperties: false
+      description: Generic success response wrapper with tracking metadata.
+  securitySchemes:
+    Bearer:
+      type: http
+      description: Enter JWT Bearer token
+      scheme: bearer
+      bearerFormat: JWT
+    SessionId:
+      type: apiKey
+      description: Enter Session ID
+      name: X-Session-Id
+      in: header
+tags:
+  - name: Auth
+  - name: Payment
+  - name: Users
