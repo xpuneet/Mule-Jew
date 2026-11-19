@@ -1,0 +1,5 @@
+accounts/transactions/{transactionId} -> transactions/{transactionId}
+accounts/paymentreference/ -> payment-references
+accounts/paymentreference/{paymentReference} -> payment-references/{paymentReference}
+accounts/documents/download-request -> /document-downloads
+accounts/documents/download/{token} -> /document-downloads/{token}
